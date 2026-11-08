@@ -7,10 +7,14 @@
 <meta name="description" content="面向 KPL、次级联赛与各类训练赛赛训组的本机数据分析平台。王者荣耀赛后截图、录屏、表格、营地链接统一入库，本机识别，数据不出本机，每个数字标明来源。">
 <meta name="keywords" content="KPL,王者荣耀,训练赛,赛训工具,复盘,数据分析,BP,选手数据">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="KPL 赛训工具">
 <meta property="og:title" content="KPL 赛训工具 — 王者荣耀训练赛数据分析与复盘">
 <meta property="og:description" content="截图 / 录屏 / 表格 / 营地链接 → 本机识别 → 入库 → 分析。数据留在本地，每个数字都标明来源。">
-<meta property="og:image" content="assets/img/01-overview.png">
+<meta property="og:image" content="https://hccccc01333.github.io/kpl-scrim-lab-site/assets/img/v3-hero.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="1000">
 <meta property="og:url" content="https://hccccc01333.github.io/kpl-scrim-lab-site/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://hccccc01333.github.io/kpl-scrim-lab-site/">
 <script type="application/ld+json">
 {
@@ -21,400 +25,247 @@
   "description": "面向 KPL、次级联赛与各类训练赛赛训组的本机数据分析平台，支持王者荣耀赛后截图、录屏、表格与营地链接导入。",
   "applicationCategory": "SportsApplication",
   "operatingSystem": "Windows 10, Windows 11",
-  "inLanguage": "zh-CN"
+  "inLanguage": "zh-CN",
+  "softwareVersion": "1.1.0",
+  "downloadUrl": "https://github.com/hccccc01333/kpl-scrim-lab/releases/latest",
+  "screenshot": "https://hccccc01333.github.io/kpl-scrim-lab-site/assets/img/v3-hero.png"
 }
 </script>
 <meta name="theme-color" content="#0a0a0a">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1c31'/%3E%3Crect x='6' y='13' width='5' height='12' rx='2' fill='%232a8f8b'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='2' fill='%23f08a6c'/%3E%3Crect x='21' y='15' width='5' height='10' rx='2' fill='%232a8f8b'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/v3-hero.webp" as="image">
 <link rel="stylesheet" href="assets/style.css">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-<header class="nav">
+<header class="nav nav-overlay">
   <div class="container nav-inner">
     <a class="brand" href="index.html" aria-label="KPL 赛训工具 首页">
       <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
       <span class="brand-name">KPL 赛训工具</span>
-      <span class="brand-sub">训练赛数据分析平台</span>
+      <span class="brand-tag">V3</span>
     </a>
     <nav class="nav-links" aria-label="主导航">
       <a href="#features">功能</a>
-      <a href="#security">数据安全</a>
-      <a href="#download">下载</a>
-      <a href="changelog.html">更新日志</a>
       <a href="guide.html">安装说明</a>
+      <a href="changelog.html">更新日志</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
     </nav>
-    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.0.0</a>
+    <a class="nav-mobile-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载</a>
   </div>
 </header>
 
 <main>
 
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true"><canvas id="hero-shader"></canvas></div>
+  <div class="hero-aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i><i class="a4"></i></div>
   <div class="container hero-inner">
-    <span class="eyebrow"><i class="dot"></i>面向 KPL · 次级联赛 · 各类训练赛赛训组</span>
-    <h1>把训练赛数据<br>变成<em>复盘结论</em></h1>
-    <p class="lede">
-      截图、录屏、表格、营地链接，统一进一条本地链路：识别、核对、入库、分析。
-      数据留在你自己的电脑里，每个数字都标明来源。
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 Windows 版<span class="pill">v1.0.0</span></a>
-      <a class="btn btn-ghost" href="guide.html">查看安装说明 →</a>
-    </div>
-    <p class="hero-meta">
-      <span>Windows 10 / 11</span>
-      <span>内置 Python 运行时</span>
-      <span>免安装 · 自动更新</span>
-      <span>2026-11-05 发布</span>
-    </p>
+    <span class="micro">V3 · 本机赛训工作台</span>
+    <h1>KPL 赛训工具<br>即装即用，数据不出本机。</h1>
+    <p class="hero-lede">截图、录屏、表格、营地链接进入同一条本机链路：识别、核对、入库、分析。复盘会上直接投屏，每个数字都标明来源。</p>
+    <a class="btn-download" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      下载 Windows 版
+      <span class="ver">v1.1.0</span>
+    </a>
   </div>
-  <div class="hero-shot">
-    <div class="frame">
-      <div class="frame-bar"><i></i><i></i><i></i><span class="url">127.0.0.1:8766</span></div>
-      <img src="assets/img/01-overview.png" alt="KPL 赛训工具 V3 总览页：最近一局比分、样本统计与入库状态" width="1440" height="900">
+  <div class="hero-window">
+    <div class="window">
+      <div class="window-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="win-title">KPL 赛训工具</span>
+        <span class="win-url">127.0.0.1:8766</span>
+      </div>
+      <img src="assets/img/v3-hero.webp" alt="KPL 赛训工具 V3 总览页：最近一局比分、对局统计与英雄出场，画面使用合成演示数据" width="1600" height="1000" fetchpriority="high">
     </div>
   </div>
 </section>
 
-<section class="stats">
-  <div class="container stats-grid">
-    <div class="stat"><b>4</b><span>类数据来源统一入库</span></div>
-    <div class="stat"><b>6</b><span>大分析板块</span></div>
-    <div class="stat"><b>0</b><span>云端依赖，识别在本机完成</span></div>
-    <div class="stat"><b>1</b><span>次安装，之后增量更新</span></div>
-  </div>
-</section>
-
-<section class="section" id="features">
+<section class="capabilities" id="features">
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">能力</span>
-      <h2>从原始材料到可复盘的事实</h2>
-      <p>训练赛的问题从来不是「没有数据」，而是数据散在截图、录屏、表格和营地链接里。这个平台把这条链路接起来。</p>
+    <div class="cap-head" data-reveal>
+      <h2>把每一局，<br>都变成可复盘的资产。</h2>
     </div>
-
     <div class="cap-grid">
-      <article class="cap-card">
-        <div class="cap-copy">
-          <h3>本局结论，一页看完</h3>
-          <p>比赛时间线、经济曲线、掉点定位与阵容对照集中在一个视图里，复盘会上直接投屏；结论可导出 PDF 进训练小结。</p>
-          <div class="cap-tags"><span>经济曲线</span><span>掉点定位</span><span>PDF 导出</span></div>
-        </div>
+      <article class="cap-card" data-reveal>
+        <h3>一页看完一局</h3>
+        <p>比赛时间线、经济曲线、掉点定位与阵容对照放在同一个视图里。复盘会直接投屏，结论可导出 PDF 进训练小结。</p>
         <div class="cap-media">
-          <img src="assets/img/09-match.png" alt="V3 比赛详情页：本局结论、经济曲线与关键事件时间线" loading="lazy" width="1440" height="900">
+          <div class="demo demo-match">
+            <div class="demo-top"><span>本局结论 · 训练赛</span><span class="tag">胜利</span></div>
+            <div class="demo-score">
+              <div class="team">示例战队<span>本队 · 左侧</span></div>
+              <div class="num">17<i>:</i>14</div>
+              <div class="team right">熔岩战队<span>对手 · 右侧</span></div>
+            </div>
+            <div class="demo-bars">
+              <div class="demo-row"><span>经济</span><div class="demo-track"><i class="l" style="width:52%"></i><i class="r" style="width:48%"></i></div><span class="val up">+3.1k</span></div>
+              <div class="demo-row"><span>输出</span><div class="demo-track"><i class="l" style="width:38%"></i><i class="r" style="width:62%"></i></div><span class="val down">-24.0k</span></div>
+              <div class="demo-row"><span>承伤</span><div class="demo-track"><i class="l" style="width:53%"></i><i class="r" style="width:47%"></i></div><span class="val up">+2.5k</span></div>
+            </div>
+          </div>
         </div>
       </article>
-
-      <article class="cap-card">
-        <div class="cap-copy">
-          <h3>跨局对照，趋势自己浮现</h3>
-          <p>多局数据按同分路、同口径聚合重算，不拿训练量和比赛量混着比；选手状态与英雄池的变化一眼可见。</p>
-          <div class="cap-tags"><span>同分路重算</span><span>近五局趋势</span><span>样本口径</span></div>
-        </div>
+      <article class="cap-card" data-reveal>
+        <h3>趋势自己浮现</h3>
+        <p>多局数据按同分路、同口径聚合重算，不拿训练量和比赛量混着比；选手状态与英雄池的变化一眼可见。</p>
         <div class="cap-media">
-          <img src="assets/img/11-cross.png" alt="V3 跨局对照页：多局数据按统一口径聚合的趋势对比" loading="lazy" width="1440" height="900">
+          <div class="demo demo-chart">
+            <div class="demo-top"><span>跨局对照 · 近五局</span><span class="tag">同分路重算</span></div>
+            <div class="demo-kpis">
+              <div class="demo-kpi"><b>50%</b><span>本队胜率</span></div>
+              <div class="demo-kpi"><b>26:00</b><span>场均时长</span></div>
+              <div class="demo-kpi"><b>-695</b><span>场均经济差</span></div>
+            </div>
+            <svg class="demo-line" viewBox="0 0 440 108" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="area-teal" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#83d5c6" stop-opacity=".22"/>
+                  <stop offset="100%" stop-color="#83d5c6" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,.06)" stroke-width="1">
+                <line x1="0" y1="24" x2="440" y2="24"/><line x1="0" y1="54" x2="440" y2="54"/><line x1="0" y1="84" x2="440" y2="84"/>
+              </g>
+              <path d="M0 74 L88 62 L176 70 L264 48 L352 54 L440 26 L440 108 L0 108 Z" fill="url(#area-teal)"/>
+              <path d="M0 74 L88 62 L176 70 L264 48 L352 54 L440 26" fill="none" stroke="#83d5c6" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              <path d="M0 36 L88 44 L176 34 L264 46 L352 30 L440 40" fill="none" stroke="rgba(238,137,107,.7)" stroke-width="1.4" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/>
+              <g fill="#83d5c6"><circle cx="0" cy="74" r="2.4"/><circle cx="88" cy="62" r="2.4"/><circle cx="176" cy="70" r="2.4"/><circle cx="264" cy="48" r="2.4"/><circle cx="352" cy="54" r="2.4"/><circle cx="440" cy="26" r="2.4"/></g>
+            </svg>
+            <div class="demo-axis"><span>12-02</span><span>12-03</span><span>12-04</span><span>12-05</span><span>12-06</span><span>12-08</span></div>
+          </div>
         </div>
       </article>
-
-      <article class="cap-card">
-        <div class="cap-copy">
-          <h3>选手档案，身份不再认错</h3>
-          <p>已入档的营地记录构成选手档案：场均值、趋势与稳健偏差标记异常局；身份绑定独立管理，认错人不会被静默覆盖。</p>
-          <div class="cap-tags"><span>身份绑定</span><span>异常局标记</span><span>英雄池</span></div>
-        </div>
+      <article class="cap-card" data-reveal>
+        <h3>一场都不丢</h3>
+        <p>已入库对局按日期、对手与阵容归档；重复导入自动合并，缺失项有明确标记，训练量可追溯。</p>
         <div class="cap-media">
-          <img src="assets/img/10-playerarchive.png" alt="V3 选手档案页：选手身份绑定、场均数据与近期趋势" loading="lazy" width="1440" height="900">
+          <div class="demo demo-list">
+            <div class="demo-top"><span>对局档案</span><span>12 局已入库</span></div>
+            <div class="row"><span class="date">12-08</span><span class="opp">星轨战队</span><span class="score">9 : 9</span><span class="tag flat">训练赛</span></div>
+            <div class="row"><span class="date">12-07</span><span class="opp">熔岩战队</span><span class="score">17 : 14</span><span class="tag">胜利</span></div>
+            <div class="row"><span class="date">12-06</span><span class="opp">潮汐战队</span><span class="score">8 : 12</span><span class="tag warm">失利</span></div>
+            <div class="row"><span class="date">12-05</span><span class="opp">星轨战队</span><span class="score">14 : 11</span><span class="tag">胜利</span></div>
+            <div class="demo-more">查看全部 12 局 →</div>
+          </div>
         </div>
       </article>
-
-      <article class="cap-card">
-        <div class="cap-copy">
-          <h3>对手战力，赛前心里有数</h3>
-          <p>对手战力榜与阵容、BP 手序、版本分布对照，约训练赛和赛前准备共用同一份事实，每个数字都标明来源。</p>
-          <div class="cap-tags"><span>战力榜</span><span>BP 手序</span><span>阵容对照</span></div>
-        </div>
+      <article class="cap-card" data-reveal>
+        <h3>四种来源，一条链路</h3>
+        <p>赛后截图、录屏、xlsx 表格、营地链接统一进入本地链路；本机识别先出候选值，再由你逐项确认。</p>
         <div class="cap-media">
-          <img src="assets/img/05-team.png" alt="V3 战队分析页：对手战力榜与阵容数据对照" loading="lazy" width="1440" height="900">
+          <div class="demo demo-sources">
+            <div class="demo-top"><span>采集通道</span><span class="tag">本机识别</span></div>
+            <div class="src-grid">
+              <div class="src">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                <div><b>赛后截图</b><span>面板 OCR · 双列五行</span></div>
+              </div>
+              <div class="src">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m10 9 5 3-5 3V9Z"/></svg>
+                <div><b>录屏</b><span>逐帧抽帧识别</span></div>
+              </div>
+              <div class="src">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10M15 10v10"/></svg>
+                <div><b>xlsx 表格</b><span>字段契约校验</span></div>
+              </div>
+              <div class="src">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>
+                <div><b>营地链接</b><span>对局详情同步</span></div>
+              </div>
+            </div>
+            <div class="demo-flow"><b>识别</b><i>→</i><b>核对</b><i>→</i><b>入库</b><i>→</i><b>分析</b></div>
+          </div>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<section class="band" id="security">
+<section class="dev" id="develop">
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">数据安全</span>
-      <h2>数据在你自己手里</h2>
-      <p class="band-lede">识别、入库、分析全部在这台电脑上完成。没有账号体系，没有云端存储，服务器只知道你在本机开了个网页。</p>
-    </div>
-    <div class="trust-grid">
-      <div class="trust">
-        <span class="num">01</span>
-        <h3>本机识别</h3>
-        <p>OCR 与数据解析在本机跑，截图和录屏不会离开这台机器。</p>
-      </div>
-      <div class="trust">
-        <span class="num">02</span>
-        <h3>可拷走的资产</h3>
-        <p>整个 data 目录拷走就是完整备份；换电脑放进新包即可延续全部数据。</p>
-      </div>
-      <div class="trust">
-        <span class="num">03</span>
-        <h3>更新不动数据</h3>
-        <p>增量更新只替换程序文件，data、授权与配置永远不在更新范围内，失败自动回滚。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">三步</span>
-      <h2>第一次用，十分钟能跑完一局</h2>
-    </div>
-    <div class="flow">
-      <div class="flow-step">
-        <h3>导入</h3>
-        <p>把赛后截图或营地链接拖进来，或者直接选一个 xlsx。识别结果全部是可改的候选值。</p>
-      </div>
-      <div class="flow-step">
-        <h3>核对</h3>
-        <p>逐项确认选手身份与数值。身份冲突不会被一次误识别静默覆盖，拿不准的交给你判断。</p>
-      </div>
-      <div class="flow-step">
-        <h3>复盘</h3>
-        <p>打开比赛时间线，看经济曲线、掉点与阵容；导出 PDF 直接进训练小结。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="deploy" style="padding-top:0">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">本地部署</span>
-      <h2>一条命令，跑在你自己的机器上</h2>
-      <p>不想用安装包？源码是公开的，Python 3.11+ 即可运行；也可以先灌一份合成演示数据看看效果。</p>
-    </div>
+    <h2 class="dev-title" data-reveal>开发者体验</h2>
     <div class="dev-grid">
-      <div class="dev-card">
-        <h3>源码运行</h3>
-        <p>克隆仓库、装依赖、启动，浏览器打开 <code>127.0.0.1:8766</code> 即是完整工作台。</p>
+      <article class="dev-card" data-reveal>
+        <h3>从一个命令开始</h3>
+        <p>安装 Python 3.11+，克隆仓库并启动。浏览器打开 127.0.0.1:8766，就是完整工作台。</p>
         <div class="codeblock">
-          <button class="code-copy" type="button">复制</button>
-          <code>git clone https://github.com/hccccc01333/kpl-scrim-lab.git
-cd kpl-scrim-lab
-pip install -r requirements.txt
-<span class="g">python server.py</span></code>
+          <div class="code-head"><span>bash</span><button class="code-copy" type="button" aria-label="复制命令">复制</button></div>
+          <code><span class="prompt">$</span> git clone https://github.com/hccccc01333/kpl-scrim-lab.git
+<span class="prompt">$</span> cd kpl-scrim-lab
+<span class="prompt">$</span> pip install -r requirements.txt
+<span class="prompt">$</span> python server.py</code>
         </div>
-      </div>
-      <div class="dev-card">
-        <h3>先看演示数据</h3>
-        <p>服务保持运行，另开一个终端灌入 12 场合成演示数据。队名、选手名、比分全部虚构，不含真实对局。</p>
+      </article>
+      <article class="dev-card" data-reveal>
+        <h3>先灌一份演示数据</h3>
+        <p>服务保持运行，另开一个终端导入 12 场合成对局。队名、选手名与比分全部虚构，适合先看效果。</p>
         <div class="codeblock">
-          <button class="code-copy" type="button">复制</button>
-          <code><span class="c"># 另开一个终端，服务保持运行</span>
-<span class="g">python scripts/seed_demo_data.py</span></code>
+          <div class="code-head"><span>bash</span><button class="code-copy" type="button" aria-label="复制命令">复制</button></div>
+          <code><span class="c"># 服务保持运行，另开一个终端</span>
+<span class="prompt">$</span> python scripts/seed_demo_data.py</code>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container changelog-preview">
-    <div class="cl-side">
-      <span class="kicker">更新</span>
-      <h2>v1.0.0</h2>
-      <p>2026-11-05 发布。工作台启动后会在右下角静默检查新版本，点「立即更新」即可完成替换与重启。</p>
-      <a class="btn btn-ghost" href="changelog.html">查看完整更新日志 →</a>
+<section class="cta" id="download">
+  <div class="container cta-inner" data-reveal>
+    <h2>装在你自己的电脑上。</h2>
+    <p>Windows 10 / 11。安装包内置 Python 运行时与全部依赖，不需要另装环境；数据只写本地 data 目录，增量更新不会覆盖比赛记录。</p>
+    <div class="cta-actions">
+      <a class="pill pill-primary" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        下载 v1.1.0
+      </a>
+      <a class="pill pill-ghost" href="guide.html">安装与升级</a>
+      <a class="pill pill-ghost" href="changelog.html">更新日志</a>
+      <a class="pill pill-ghost" href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub 仓库</a>
     </div>
-    <div class="cl-list">
-      <div class="cl-item"><div class="cl-top"><span class="ver">v1.0.0</span><span class="tag">首个公开版</span><span class="date">2026-11-05</span></div><ul><li>赛后结算截图导入，本地 OCR 识别双列五行面板，输出候选值供人工核对。</li><li>录屏导入与逐帧抽帧，复用同一套识别与核对流程。</li><li>表格（xlsx / csv）批量导入，对照字段契约校验缺失与异常值。</li><li>王者营地分享链接导入对局详情，回放包与位置数据同步入库。</li></ul></div>
-    </div>
-  </div>
-</section>
-
-<section class="download" id="download">
-  <div class="container">
-    <div class="dl-card">
-      <div>
-        <h2>现在就装</h2>
-        <p class="dl-lede">推荐安装包：按用户安装，不需要管理员权限，桌面和开始菜单都有入口。也可以下免安装包，解压即用。</p>
-        <div class="dl-actions">
-          <a class="btn btn-primary" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载安装包 · v1.0.0</a>
-          <a class="btn btn-ghost" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">免安装包</a>
-        </div>
-        <div class="dl-meta">
-          <span>Windows 10 / 11（64 位）</span>
-          <span>内置运行时</span>
-          <span>约 60–90 MB</span>
-        </div>
-        <p class="dl-note">
-          安装包与免安装包随版本发布在 GitHub Releases；国内网络不稳定时，直接在赛训群文件里获取。
-          没有代码签名，浏览器下载的 exe 可能提示「未知发布者」：点「更多信息 → 仍要运行」，
-          或右键安装包 → 属性 → 勾选「解除锁定」。经微信 / U 盘传过去的文件不会触发这个提示。
-        </p>
-      </div>
-      <aside class="dl-side">
-        <h3>包含什么</h3>
-        <ul>
-          <li>内置 Python 与全部依赖，不需要另装环境</li>
-          <li>双击启动，自动打开浏览器，无控制台窗口</li>
-          <li>数据保存在安装目录的 data 文件夹，卸载不删除</li>
-          <li>内置增量更新，失败自动回滚到上一版本</li>
-          <li>可选 OCR 组件，安装后重启生效</li>
-        </ul>
-      </aside>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="faq">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">FAQ</span>
-      <h2>常见问题</h2>
-    </div>
-    <div class="faq">
-      <details>
-        <summary>数据会上传到你们的服务器吗？</summary>
-        <p>不会。平台没有云端服务，识别、入库、分析都在本机完成，数据只写在本地 data 目录。唯一的外部请求是你主动发起的营地同步与更新检查。</p>
-      </details>
-      <details>
-        <summary>需要先装 Python 或者配置环境吗？</summary>
-        <p>不需要。安装包和免安装包都内置了 Python 运行时与依赖，解压或安装后直接双击即可。源码运行才需要 Python 3.11+。</p>
-      </details>
-      <details>
-        <summary>支持 macOS、平板或手机吗？</summary>
-        <p>目前只提供 Windows 10 / 11 桌面端。界面是自适应的，局域网内可以用平板浏览器访问同一台电脑上的服务（默认关闭，需要显式开启）。</p>
-      </details>
-      <details>
-        <summary>更新会覆盖我的比赛数据吗？</summary>
-        <p>不会。增量更新只替换程序文件，data、.env 与营地授权不在更新范围内；更新失败会自动回滚到上一版本。卸载程序也不会删除 data。</p>
-      </details>
-      <details>
-        <summary>安装时 Windows 提示「未知发布者」怎么办？</summary>
-        <p>项目没有购买代码签名证书。点「更多信息 → 仍要运行」即可，或右键安装包 → 属性 → 勾选「解除锁定」。经微信、U 盘传过去的文件通常不会触发提示。</p>
-      </details>
-      <details>
-        <summary>收费吗？俱乐部用需要授权吗？</summary>
-        <p>个人学习、学术研究与非营利组织可以免费使用。职业俱乐部、训练机构等商业场景需要单独授权，见 <a href="https://github.com/hccccc01333/kpl-scrim-lab/blob/main/LICENSE">LICENSE</a> 或直接联系作者。</p>
-      </details>
-    </div>
+    <p class="cta-note">截图均为合成演示数据。没有代码签名，Windows 可能提示「未知发布者」，点「更多信息 → 仍要运行」即可。</p>
   </div>
 </section>
 
 </main>
 
-<footer>
-  <div class="container">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
-        <strong>KPL 赛训工具</strong>
-      </div>
-      <nav class="foot-links" aria-label="页脚">
-        <a href="#features">功能</a>
-        <a href="#security">数据安全</a>
-        <a href="guide.html">安装说明</a>
-        <a href="changelog.html">更新日志</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
-      </nav>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
-      <span>与游戏开发商及任何赛事组织方无关联 · 当前版本 v1.0.0</span>
-    </div>
+<footer class="foot">
+  <div class="container foot-inner">
+    <a class="foot-brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
+      <span>KPL 赛训工具</span>
+    </a>
+    <span class="foot-copy">© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
+    <nav class="foot-links" aria-label="页脚">
+      <a href="changelog.html">更新日志</a>
+      <a href="guide.html">安装说明</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
+    </nav>
   </div>
 </footer>
 
 <script>
-/* 首屏动态纹理：低亮度 fbm 噪声流，青 / 珊瑚双色，WebGL 不可用时退化为 CSS 渐变。
-   尊重 prefers-reduced-motion；离屏与切后台时暂停。无外部依赖。 */
+/* 滚动渐显：与 DSH 一致的轻量上浮，尊重减少动效设置。 */
 (function () {
-  var canvas = document.getElementById('hero-shader');
-  if (!canvas) return;
-  var gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false });
-  if (!gl) { canvas.remove(); return; }
-
-  var VERT = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-  var FRAG = [
-    'precision mediump float;',
-    'uniform vec2 r;uniform float t;',
-    'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
-    'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
-    ' return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}',
-    'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
-    'void main(){',
-    ' vec2 uv=gl_FragCoord.xy/r;vec2 q=uv;q.x*=r.x/r.y;',
-    ' float tt=t*.045;',
-    ' float a=fbm(q*2.2+vec2(tt,-tt*.6));',
-    ' float b=fbm(q*3.1-vec2(tt*.7,tt*.4)+a);',
-    ' vec3 col=vec3(.039);',
-    ' col+=vec3(.09,.42,.41)*smoothstep(.45,.85,b)*.34;',
-    ' col+=vec3(.93,.54,.42)*smoothstep(.62,.95,a*b)*.10;',
-    ' col+=vec3(.09,.42,.41)*.05*(1.-uv.y);',
-    ' gl_FragColor=vec4(col,1.);}'
-  ].join('\n');
-
-  function shader(type, src) {
-    var s = gl.createShader(type);
-    gl.shaderSource(s, src); gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { gl.deleteShader(s); return null; }
-    return s;
+  var items = document.querySelectorAll('[data-reveal]');
+  if (!items.length) return;
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach(function (el) { el.classList.add('is-in'); });
+    return;
   }
-  var vs = shader(gl.VERTEX_SHADER, VERT), fs = shader(gl.FRAGMENT_SHADER, FRAG);
-  if (!vs || !fs) { canvas.remove(); return; }
-  var prog = gl.createProgram();
-  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.remove(); return; }
-  gl.useProgram(prog);
-  var buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-  var loc = gl.getAttribLocation(prog, 'p');
-  gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  var uRes = gl.getUniformLocation(prog, 'r'), uTime = gl.getUniformLocation(prog, 't');
-
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var visible = true, raf = 0, start = performance.now();
-
-  function resize() {
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    var w = Math.max(1, Math.floor(canvas.clientWidth * dpr));
-    var hgt = Math.max(1, Math.floor(canvas.clientHeight * dpr));
-    if (canvas.width !== w || canvas.height !== hgt) {
-      canvas.width = w; canvas.height = hgt;
-      gl.viewport(0, 0, w, hgt);
-    }
-  }
-  function frame(now) {
-    raf = 0;
-    resize();
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.uniform1f(uTime, (now - start) / 1000 + 10);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    if (!reduced && visible && !document.hidden) raf = requestAnimationFrame(frame);
-  }
-  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
-
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      visible = entries[0].isIntersecting;
-      if (visible) kick();
-    }, { threshold: 0 }).observe(canvas);
-  }
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) kick(); });
-  window.addEventListener('resize', kick);
-  kick();
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  items.forEach(function (el) { io.observe(el); });
 })();
 
 /* 代码卡片复制按钮 */

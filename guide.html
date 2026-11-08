@@ -17,16 +17,15 @@
     <a class="brand" href="index.html" aria-label="KPL 赛训工具 首页">
       <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
       <span class="brand-name">KPL 赛训工具</span>
-      <span class="brand-sub">训练赛数据分析平台</span>
+      <span class="brand-tag">V3</span>
     </a>
     <nav class="nav-links" aria-label="主导航">
       <a href="index.html#features">功能</a>
-      <a href="index.html#security">数据安全</a>
-      <a href="index.html#download">下载</a>
-      <a href="changelog.html">更新日志</a>
       <a class="active" href="guide.html">安装说明</a>
+      <a href="changelog.html">更新日志</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
     </nav>
-    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.0.0</a>
+    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.1.0</a>
   </div>
 </header>
 
@@ -42,12 +41,12 @@
     <tr>
       <td><strong>安装包</strong>（推荐）</td>
       <td>日常使用、给教练组部署</td>
-      <td>双击 <code>KPL-Scrim-Lab-1.0.0-setup.exe</code>，按提示装到当前用户目录（不需要管理员权限）</td>
+      <td>双击 <code>KPL-Scrim-Lab-1.1.0-setup.exe</code>，按提示装到当前用户目录（不需要管理员权限）</td>
     </tr>
     <tr>
       <td><strong>免安装包</strong></td>
       <td>不想写注册表、放 U 盘带走</td>
-      <td>解压 <code>KPL-Scrim-Lab-1.0.0-full.zip</code> 到固定目录，双击 <code>启动工作台.bat</code></td>
+      <td>解压 <code>KPL-Scrim-Lab-1.1.0-full.zip</code> 到固定目录，双击 <code>启动工作台.bat</code></td>
     </tr>
   </table>
 
@@ -114,26 +113,49 @@
     <strong>出了问题先看日志。</strong>安装版开始菜单里有「打开日志目录」，<code>launcher.log</code> 记录启动过程，
     <code>server.log</code> 记录服务输出。把这两个文件发给支持人员，比描述「打不开」有用得多。
   </div>
+
+  <h2 id="faq">常见问题</h2>
+  <div class="faq">
+    <details>
+      <summary>数据会上传到你们的服务器吗？</summary>
+      <p>不会。平台没有云端服务，识别、入库、分析都在本机完成，数据只写在本地 data 目录。唯一的外部请求是你主动发起的营地同步与更新检查。</p>
+    </details>
+    <details>
+      <summary>需要先装 Python 或者配置环境吗？</summary>
+      <p>不需要。安装包和免安装包都内置了 Python 运行时与依赖，解压或安装后直接双击即可。源码运行才需要 Python 3.11+。</p>
+    </details>
+    <details>
+      <summary>支持 macOS、平板或手机吗？</summary>
+      <p>目前只提供 Windows 10 / 11 桌面端。界面是自适应的，局域网内可以用平板浏览器访问同一台电脑上的服务（默认关闭，需要显式开启）。</p>
+    </details>
+    <details>
+      <summary>更新会覆盖我的比赛数据吗？</summary>
+      <p>不会。增量更新只替换程序文件，data、.env 与营地授权不在更新范围内；更新失败会自动回滚到上一版本。卸载程序也不会删除 data。</p>
+    </details>
+    <details>
+      <summary>安装时 Windows 提示「未知发布者」怎么办？</summary>
+      <p>项目没有购买代码签名证书。点「更多信息 → 仍要运行」即可，或右键安装包 → 属性 → 勾选「解除锁定」。经微信、U 盘传过去的文件通常不会触发提示。</p>
+    </details>
+    <details>
+      <summary>收费吗？俱乐部用需要授权吗？</summary>
+      <p>个人学习、学术研究与非营利组织可以免费使用。职业俱乐部、训练机构等商业场景需要单独授权，见 <a href="https://github.com/hccccc01333/kpl-scrim-lab/blob/main/LICENSE">LICENSE</a> 或直接联系作者。</p>
+    </details>
+  </div>
 </main>
 
-<footer>
-  <div class="container">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
-        <strong>KPL 赛训工具</strong>
-      </div>
-      <nav class="foot-links" aria-label="页脚">
-        <a href="index.html">首页</a>
-        <a href="changelog.html">更新日志</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
-      </nav>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
-      <span>当前版本 v1.0.0</span>
-    </div>
+<footer class="foot">
+  <div class="container foot-inner">
+    <a class="foot-brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
+      <span>KPL 赛训工具</span>
+    </a>
+    <span class="foot-copy">© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
+    <nav class="foot-links" aria-label="页脚">
+      <a href="index.html">首页</a>
+      <a href="changelog.html">更新日志</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
+    </nav>
   </div>
 </footer>
 

@@ -17,25 +17,128 @@
     <a class="brand" href="index.html" aria-label="KPL 赛训工具 首页">
       <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
       <span class="brand-name">KPL 赛训工具</span>
-      <span class="brand-sub">训练赛数据分析平台</span>
+      <span class="brand-tag">V3</span>
     </a>
     <nav class="nav-links" aria-label="主导航">
       <a href="index.html#features">功能</a>
-      <a href="index.html#security">数据安全</a>
-      <a href="index.html#download">下载</a>
-      <a class="active" href="changelog.html">更新日志</a>
       <a href="guide.html">安装说明</a>
+      <a class="active" href="changelog.html">更新日志</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
     </nav>
-    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.0.0</a>
+    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.1.0</a>
   </div>
 </header>
 
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.0.0，发布于 2026-11-05；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.1.0，发布于 2026-11-08；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
-<section class='cl-version'><div class='cl-head'><h2>v1.0.0</h2><span class='cl-date'>2026-11-05</span><span class='cl-tag'>首个公开版</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.1.0</h2><span class='cl-date'>2026-11-08</span><span class='cl-tag'>V3 单应用版</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li>平台收成 V3 单应用：根路径直接进入，旧链接自动跳转，采集 / 导入 / 分析 / 赛训在同一进程。</li>
+<li>新增赛训闭环：训练计划 → 训练课 → 目标判定 → 报告 / 周报，配套赛训看板与统一指标层。</li>
+<li>新增跨局分析：多局按统一口径重算，10 张结论卡、分路对位与逐局对照 CSV。</li>
+<li>新增选手档案：逐人档案卡，按认领状态 / 分路 / 关键词筛选，点卡片进入个人页。</li>
+<li>新增战队风格 / 阵容 / 训练：四项同池分位、五人组与轮换、按对手汇总训练课。</li>
+<li>营地授权失效检测；对局标签与分路统一；自动认领存疑局只交给教练。</li>
+<li>新增 Windows 安装包、无黑窗启动与优雅停服；官网升级为产品站。</li>
+<li>修复训练纪录页空数据崩溃；V3 写接口非法 JSON 返回 400。</li>
+</ul>
+<h3>一个入口：V3 单应用</h3>
+<ul>
+<li>根路径直接进入 V3；V2 的 40 条路由改成 <code>APIRouter</code> 并入 <code>server.py</code>，不再挂第二个 app。</li>
+<li>全站只保留 V3：27 条分析路由统一到规范前缀 <code>/api/v3/*</code>；旧版模块名、环境变量、目录与前端调用统一改名，旧前缀不再保留。</li>
+<li>旧版时间轴构建模块 → <code>replay_timeline_build.py</code>（出装时间轴，V3 仍需）；V3 未使用的时间轴 API、预览脚本与历史快照移出工作区。</li>
+<li>旧环境变量与目录 → <code>ANALYSIS_BUILDS</code> / <code>BUILDS_DIR</code> / <code>data/builds</code>；<code>web/capture-guide/</code> 因采集页与 <code>collection_contract.py</code> 依赖而保留。</li>
+<li>演示数据不再另起旧版只读的 <code>v3/serve.py</code>：8773 现在跑完整 <code>server.py</code> 单应用，采集 / 导入 / 分析链路与真实工作台一致，靠 <code>KPL_DATA_DIR</code> 隔离数据，采集页不再提示「采集接口未挂载」。</li>
+<li><code>/api/mode</code>、<code>/api/demo/start</code> 为唯一入口，演示标识为 <code>training-data-v3</code>。</li>
+<li><code>frontend-v2-rebuild/</code> 改名为 <code>v3/</code>；V1 <code>/studio</code>、V2 8771 独立入口和 <code>启动赛训数据V2.bat</code> 退役。</li>
+<li>写操作会通过 <code>server.py</code> 中间件刷新 V3 分析快照；<code>/v3</code>、<code>/studio</code>、<code>/analysis</code> 统一 302 到根路径。</li>
+<li>V3 写接口遇到非法 JSON 请求体时统一返回 400，不再抛 <code>JSONDecodeError</code> 变成 500。</li>
+<li>发布包与 Docker 镜像纳入 <code>v3/</code>；启动入口和文档同步改为 <code>http://127.0.0.1:8766/</code>。</li>
+</ul>
+<h3>赛训闭环</h3>
+<ul>
+<li>新增「训练计划」：按训练组、对手与日期排期，写训练目标；顶部赛训看板集中展示近 8 周训练负荷、目标达成环、训练节奏热力、目标绑定 / 复盘 / 对局关联覆盖率与最近训练课。</li>
+<li>新增「训练课」：按绑定关系、日期 + 对手、日期 + 训练组依次关联对局，也可手动挂局；带对手简报（最近交手 / 常用英雄 / 禁用习惯 / 关键选手）。</li>
+<li>训练课可写训练目标、勾选出勤、保存赛后复盘；标记已复盘后计划自动完成，出勤写入训练课报告。</li>
+<li>训练目标支持绑定指标 + 目标值 + 达成 / 部分达成 / 未达成状态；绑定已接入指标后，保存时自动判定，报告直接显示目标、实际值与达成表。</li>
+<li>报告导出：训练课生成 A4 报告，报告库生成训练周报（带上周对比），均可导出 PNG 或打印 / 保存 PDF。</li>
+<li>新增赛训指标层：<code>metrics_registry.py</code> 登记指标口径，<code>metric_service.py</code> 统一查询训练课 / 周指标；训练课页与周报读同一份结果，缺数据的指标返回原因而不是 0。训练过程为主，胜率与场均时长只作对局上下文。</li>
+<li>顶部「待处理」汇总待确认、战队待命名、旧名单未迁、训练课待复盘和历史对手 ID 未映射。</li>
+<li>历史 <code>enemy_team_id</code> 可在待处理收件箱映射到当前战队；映射后相关对局、训练课和周报一起生效。</li>
+</ul>
+<h3>跨局分析</h3>
+<ul>
+<li>新增「跨局分析」：默认纳入全部已确认对局，按当前筛选一次重算；结论基于总体分布、分层与效应量，不随分页或单局明细变化。</li>
+<li>固定 10 张结论卡：分层基准、波动来源、下限风险、训练效应、水平变点、打法体系、体系适配、优势归因、领先守成、复盘队列；每张卡先给问题，再给结论与样本口径。</li>
+<li>新增分路对位平均分差图与逐局对照 CSV；置信分级随样本量变化，小样本会降级计算方法或标注精度，不硬下结论。</li>
+</ul>
+<h3>选手档案</h3>
+<ul>
+<li>新增「选手档案」：逐人档案卡，头像、位置、局数、胜率、KDA、MVP 与参团一眼可比；点卡片进入个人页看同位置分位、关键局与搭档。</li>
+<li>支持按认领状态（已认领 / 待认领）、分路与关键词筛选；待认领昵称可直接从档案页命名，认领后名单、位置与对比按选手累计。</li>
+<li>「名单与状态」保留队伍视角；「选手认领」继续负责身份维护，档案页只做只读展示与入口。</li>
+</ul>
+<h3>分析与导航</h3>
+<ul>
+<li>战队聚焦训练组和全队节奏，选手聚焦个人状态与搭档，英雄聚焦分路和出装，BP 聚焦对手与阵容，对比按同分路重算双方样本。</li>
+<li>五个分析模块默认使用已入档营地记录，可手动纳入其他来源。营地原始面板和回放分析单列来源，并支持按开赛日期筛选。</li>
+<li>BP 优先读取营地禁选名单，核对一致的人工顺序可补充手序与先选方。</li>
+<li>主导航按模块收口：比赛只放比赛档案 / 精选对局 / 训练纪录，战队只放团队复盘 / 数据看板 / 全队过程，选手 / 英雄 / BP / 对比各自只放本层分析；「手工录入」与「分析报告」从导航移除。</li>
+<li>全队过程分析（训练节奏、经济差过程、事件密度、击杀节奏、推进与抱团）归入「战队」，并新增「对手战队」选择；个人 / 分路 / 团战 / 掉点分析（补刀转化、资源产出、团战贡献、掉点经济、掉点代价、走位热区、分路占位、死亡热区）归入「选手」，每条都带选手选择。</li>
+<li>对比维度新增「对位对比」：同分路双方经济差 / KDA 差、占优率、英雄对位与逐局明细；「同位置参照」改名为「同位置排行」，补上分路筛选、指标切换和读图说明。</li>
+<li>选手页新增快速选人、昵称搜索、分路筛选和深度分析入口；选手详情新增同位置参照、英雄拆分、同分路对位记录与继续下钻。</li>
+<li>英雄页新增搜索 / 分路 / 排序工具条；英雄详情新增分路分布、英雄对位、使用选手拆分与出装 / 波动等下钻入口。</li>
+<li>深度分析页统一 KPI 摘要、对局选择、分路 / 状态筛选和可折叠明细；经济差、事件密度、击杀节奏支持按单局查看。</li>
+</ul>
+<h3>战队模块</h3>
+<ul>
+<li>新增「战队风格」<code>#teamstyle</code>：节奏 / 团战 / 运营 / 后期四项同池分位，配四象限散点与风格榜；风格是相对值，样本不足 3 局只作参考。</li>
+<li>新增「战队阵容」<code>#teamroster</code>：本队与对手的五人组、位置池与轮换；同一局两人同位置标为「位置重复」，不计入轮换。</li>
+<li>新增「战队训练」<code>#teamtraining</code>：按对手汇总训练课（训练计划的排期、目标、复盘）与交手日（营地自动归集）；未指定对手的计划单独提示。</li>
+<li><code>studio/teams</code> 增加风格原始量（场均时长、分均击杀 / 助攻 / 控制、参团率、经济转化）与逐队阵容 <code>roster</code>；新增 <code>v3/team-training</code> 接口。</li>
+<li>「战队对比 / 交手记录 / 对手画像」从战队模块下线，二级导航只保留战队档案、战队风格、战队阵容、战队训练；旧链接回落到战队档案。</li>
+</ul>
+<h3>采集与授权</h3>
+<ul>
+<li>进入采集页时自动做一次轻量登录态探测（5 分钟内复用结果），拉取或入库遇到 <code>-30003</code> / <code>-30314</code> / 安全参数被拒时立即记录为失效。</li>
+<li>失效后「营地连接」顶部显示「营地授权已失效，爬取已暂停」，主按钮改为「补充授权」，首屏下一步卡同步提示；重新扫码后沿用原选手白名单，已入库数据不受影响。</li>
+<li>断网或接口异常只提示「暂时无法检测」，不会误判凭证失效；<code>python tools\camp_auth.py --status</code> 也会打印失效原因。</li>
+</ul>
+<h3>对局命名与自动认领</h3>
+<ul>
+<li>对局标签统一为「MM-DD HH:MM · vs 对手 / 训练赛」，缺少开赛时间时按顺序显示「第 N 局」，界面不再直接暴露长数字对局 ID。</li>
+<li>分路统一显示中文路名（对抗路 / 中路 / 发育路 / 打野 / 游走），去掉「位置为营地原始编码」等提示。</li>
+<li>营地昵称清洗零宽字符与变体选择符，列表页与深度分析使用同一套显示名，选手下钻链接可以互相对上。</li>
+<li>新增「自动认领」：用已存档的战队名单比对红蓝两侧十人昵称，一侧最多 1 个没见过的昵称就自动分边、认领与建档；阈值可在预览面板里调成 0 / 1 / 2。</li>
+<li>2 个及以上不同、分边与原始记录冲突、多支战队都能对上、名单已满 40 人的对局标为「存疑」，只交给教练，系统不猜。</li>
+<li>教练在预览面板指定「本队在哪边 + 对手是谁」即可整局建档；判断结果写进存档，下一次遇到同类对局自动匹配。</li>
+<li>4/5 命中且只缺一位时，新昵称按小号合并到该身份，并在结果里标注可改绑；其余新昵称自动新建身份。</li>
+<li>「对局分边」页去掉逐行的认领下拉与解绑按钮（与「录入」页重复），改为只读显示认领状态；逐条认领、改绑、解绑统一在「录入」页，批量仍走「自动认领」。保存分边不再回写认领表，避免两页同时打开时互相覆盖。</li>
+</ul>
+<h3>安装包与桌面交付</h3>
+<ul>
+<li>新增 Windows 安装包：桌面与开始菜单快捷方式、卸载项、可选开机后台启动；按用户安装到 <code>%LOCALAPPDATA%</code>，不弹 UAC。</li>
+<li>新增 <code>launcher.py</code>：用 <code>pythonw</code> 无黑窗启动，等 <code>/api/health</code> 就绪后打开浏览器；失败弹窗说明并写 <code>logs/launcher.log</code>。</li>
+<li>新增 <code>/api/shutdown</code>（仅接受本机请求）：停止工作台改为优雅退出，安装、卸载、升级前会自动停服。</li>
+<li>卸载保留 <code>data/</code>；升级沿用原安装目录，检测到工作台仍在运行会先停止再覆盖文件。</li>
+<li>发布包不再收录作者本机的 <code>.tmp_*.py</code> 与编辑器 <code>~RF*.TMP</code> 临时文件。</li>
+</ul>
+<h3>官网</h3>
+<ul>
+<li>官网升级为产品站：深色首屏、产品截图、功能长页、数据安全、下载与 FAQ，新增 404 页。</li>
+<li>模板不再写死版本与更新内容，<code>{{VERSION}}</code>、<code>{{LATEST_NOTES}}</code> 由 <code>scripts/build_website.py</code> 从 <code>version.py</code> 与 <code>CHANGELOG.md</code> 渲染。</li>
+<li>首页只使用真实可用的产品画面（采集、选手表现、英雄池），空状态与加载态不上站。</li>
+</ul>
+<h3>修复</h3>
+<ul>
+<li>训练纪录页在缺少本方数据（<code>own</code> 为空）的对局上崩溃，报 <code>Cannot read properties of null (reading &#x27;kills&#x27;)</code>。</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.0.0</h2><span class='cl-date'>2026-11-05</span></div>
 <h3>数据采集</h3>
 <ul>
 <li>赛后结算截图导入，本地 OCR 识别双列五行面板，输出候选值供人工核对。</li>
@@ -77,24 +180,19 @@
 </section>
 </main>
 
-<footer>
-  <div class="container">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
-        <strong>KPL 赛训工具</strong>
-      </div>
-      <nav class="foot-links" aria-label="页脚">
-        <a href="index.html">首页</a>
-        <a href="guide.html">安装说明</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
-        <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
-      </nav>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
-      <span>当前版本 v1.0.0</span>
-    </div>
+<footer class="foot">
+  <div class="container foot-inner">
+    <a class="foot-brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
+      <span>KPL 赛训工具</span>
+    </a>
+    <span class="foot-copy">© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
+    <nav class="foot-links" aria-label="页脚">
+      <a href="index.html">首页</a>
+      <a href="guide.html">安装说明</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
+      <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
+    </nav>
   </div>
 </footer>
 
