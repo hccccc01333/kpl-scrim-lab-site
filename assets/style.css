@@ -183,7 +183,7 @@ code, .mono {
 }
 .cap-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 .cap-card {
-  display: flex; flex-direction: column; min-height: 470px;
+  display: flex; flex-direction: column; min-height: 470px; min-width: 0;
   padding: 40px 40px 0; overflow: hidden;
   background: rgba(255, 255, 255, .02);
   border: 1px solid rgba(255, 255, 255, .06);
@@ -291,7 +291,7 @@ code, .mono {
 .dev-title { margin-bottom: 64px; }
 .dev-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 .dev-card {
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: column; min-width: 0;
   padding: 40px; border-radius: 16px;
   background: rgba(255, 255, 255, .02);
   border: 1px solid rgba(255, 255, 255, .06);
@@ -299,7 +299,7 @@ code, .mono {
 .dev-card h3 { font-size: 20px; line-height: 1.5; font-weight: 400; letter-spacing: .01em; }
 .dev-card p { margin: 12px 0 28px; font-size: 15.5px; line-height: 1.65; color: var(--ink-3); }
 .codeblock {
-  position: relative; margin-top: auto;
+  position: relative; margin-top: auto; max-width: 100%;
   padding: 13px 16px 15px;
   background: #0d0f0f; border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 10px; overflow-x: auto;
@@ -498,7 +498,7 @@ code, .mono {
   .dev-card { padding: 26px 22px; border-radius: 14px; }
   .dev-grid { gap: 20px; }
   .codeblock { padding: 12px 14px 14px; }
-  .codeblock code { font-size: 11.5px; }
+  .codeblock code { font-size: 11.5px; white-space: pre-wrap; overflow-wrap: anywhere; }
   .cta { padding: 96px 0 140px; }
   .cta-actions { grid-template-columns: 1fr; max-width: 320px; margin: 32px auto 0; }
   .pill { width: 100%; }

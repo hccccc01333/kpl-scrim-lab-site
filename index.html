@@ -248,24 +248,30 @@
 </footer>
 
 <script>
-/* 滚动渐显：与 DSH 一致的轻量上浮，尊重减少动效设置。 */
+/* 滚动渐显：与 DSH 一致的轻量上浮，尊重减少动效设置。
+   用 rAF 读取位置，快速跳转（PageDown / 锚点）也不会漏掉中间内容。 */
 (function () {
-  var items = document.querySelectorAll('[data-reveal]');
+  var items = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
   if (!items.length) return;
-  if (!('IntersectionObserver' in window) ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     items.forEach(function (el) { el.classList.add('is-in'); });
     return;
   }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-in');
-        io.unobserve(entry.target);
-      }
+  var ticking = false;
+  function reveal() {
+    ticking = false;
+    var vh = window.innerHeight;
+    items.forEach(function (el) {
+      if (el.classList.contains('is-in')) return;
+      if (el.getBoundingClientRect().top < vh * 0.96) el.classList.add('is-in');
     });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-  items.forEach(function (el) { io.observe(el); });
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(reveal); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  reveal();
 })();
 
 /* 代码卡片复制按钮 */
