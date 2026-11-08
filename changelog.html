@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>更新日志 — KPL 赛训工具</title>
+<meta name="description" content="KPL 赛训工具的版本更新记录，含每个版本的功能变化与修复。">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="canonical" href="https://hccccc01333.github.io/changelog.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1c31'/%3E%3Crect x='6' y='13' width='5' height='12' rx='2' fill='%232a8f8b'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='2' fill='%23f08a6c'/%3E%3Crect x='21' y='15' width='5' height='10' rx='2' fill='%232a8f8b'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html" aria-label="KPL 赛训工具 首页">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
+      <span class="brand-name">KPL 赛训工具</span>
+      <span class="brand-sub">训练赛数据分析平台</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html#features">功能</a>
+      <a href="index.html#security">数据安全</a>
+      <a href="index.html#download">下载</a>
+      <a class="active" href="changelog.html">更新日志</a>
+      <a href="guide.html">安装说明</a>
+    </nav>
+    <a class="nav-cta" href="https://github.com/hccccc01333/kpl-scrim-lab/releases/latest">下载 v1.0.0</a>
+  </div>
+</header>
+
+<main class="doc">
+  <header>
+    <h1>更新日志</h1>
+    <p>遵循语义化版本。当前最新 v1.0.0，发布于 2026-11-05；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+  </header>
+<section class='cl-version'><div class='cl-head'><h2>v1.0.0</h2><span class='cl-date'>2026-11-05</span><span class='cl-tag'>首个公开版</span></div>
+<h3>数据采集</h3>
+<ul>
+<li>赛后结算截图导入，本地 OCR 识别双列五行面板，输出候选值供人工核对。</li>
+<li>录屏导入与逐帧抽帧，复用同一套识别与核对流程。</li>
+<li>表格（xlsx / csv）批量导入，对照字段契约校验缺失与异常值。</li>
+<li>王者营地分享链接导入对局详情，回放包与位置数据同步入库。</li>
+<li>采集指引页内置面板区域示意图，说明每类截图需要覆盖的字段。</li>
+</ul>
+<h3>数据核对与入库</h3>
+<ul>
+<li>逐项候选对照界面：OCR 候选高亮，人工确认或改写后才写入记录。</li>
+<li>采集契约校验：字段缺失、类型不符、数值越界一律拦截并说明原因。</li>
+<li>未认领 / 已认领 / 冲突三态处理，选手身份不会因为一次误识别被静默覆盖。</li>
+<li>通道化管理：官方数据、营地数据、表格导入与本地录入互不覆盖，冲突留痕。</li>
+</ul>
+<h3>分析与统计</h3>
+<ul>
+<li>比赛复盘：时间线、关键节点、掉点与经济曲线。</li>
+<li>选手视角：分英雄、分位置的出场表现与趋势。</li>
+<li>团队视角：阵容构成、BP 阶段记录与版本对照。</li>
+<li>深度视角：对位分布、推进深度与十人热区，标注采样口径。</li>
+<li>关键词研究：前期领先转化、十分钟领先转化等专题统计。</li>
+</ul>
+<h3>回放解析</h3>
+<ul>
+<li><code>.abc</code> 回放文件结构解析，记录流与帧指令解码。</li>
+<li>输入时间轴与英雄指令序列提取，支持断点回放。</li>
+<li>经济、等级、KDA 检查点读取；坐标类字段标注为采样或插值来源。</li>
+</ul>
+<h3>工程</h3>
+<ul>
+<li>本机单机运行，数据全部落在本地 <code>data/</code> 目录，不依赖外部服务。</li>
+<li>环境变量配置监听地址、端口与数据目录，默认仅监听回环地址。</li>
+<li>备份与恢复入口，数据库、分析包、数据集与报告打包导出。</li>
+<li>内置更新检查、增量更新、启动健康检查与失败自动回滚；更新不触碰 <code>data/</code>。</li>
+<li>发布脚本按实际文件收集依赖并生成 <code>update.json</code>，完整包内置 Python 并做导入冒烟测试。</li>
+<li>单元测试与前端巡检脚本随仓库发布，CI 在每个提交上运行。</li>
+</ul>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0f1c31"/><rect x="6" y="13" width="5" height="12" rx="2" fill="#2a8f8b"/><rect x="13.5" y="7" width="5" height="18" rx="2" fill="#f08a6c"/><rect x="21" y="15" width="5" height="10" rx="2" fill="#2a8f8b"/></svg>
+        <strong>KPL 赛训工具</strong>
+      </div>
+      <nav class="foot-links" aria-label="页脚">
+        <a href="index.html">首页</a>
+        <a href="guide.html">安装说明</a>
+        <a href="https://github.com/hccccc01333/kpl-scrim-lab">GitHub</a>
+        <a href="https://github.com/hccccc01333/kpl-scrim-lab/issues">反馈问题</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 KPL 赛训工具 · PolyForm Noncommercial License 1.0.0</span>
+      <span>当前版本 v1.0.0</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
