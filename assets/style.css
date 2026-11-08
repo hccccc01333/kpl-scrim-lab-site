@@ -686,49 +686,6 @@ h1, h2, h3, blockquote {
 }
 .cl-version strong { color: var(--ink); }
 
-/* ---------- 赞助页 ---------- */
-.sponsor { position: relative; overflow: hidden; padding: 72px 0 100px; }
-.sponsor-wash {
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(closest-side, rgba(195, 230, 216, .9), transparent 72%) 88% 8% / 700px 560px no-repeat,
-    radial-gradient(closest-side, rgba(248, 223, 209, .85), transparent 72%) 2% 82% / 520px 440px no-repeat;
-}
-.sponsor-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr .82fr; gap: 80px; align-items: center; }
-.sponsor-copy h1 { margin: 18px 0 22px; font-size: clamp(40px, 4.6vw, 62px); line-height: 1.28; }
-.sponsor-copy > p { max-width: 520px; font-size: 15.5px; line-height: 1.85; color: var(--ink-2); }
-.sponsor-points { list-style: none; margin-top: 28px; border-top: 1px solid var(--line); }
-.sponsor-points li {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 0; border-bottom: 1px solid var(--line-soft);
-  font-size: 12.5px; line-height: 1.75; color: var(--ink-2);
-}
-.sponsor-points span { font-family: var(--mono); font-size: 9.5px; color: var(--coral); padding-top: 2px; }
-.sponsor-links { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 30px; }
-.sponsor-card {
-  padding: 22px; border-radius: 26px;
-  background: var(--surface); border: 1px solid var(--line);
-  box-shadow: 0 34px 70px -46px rgba(20, 33, 29, .55);
-  transform: rotate(-1deg);
-}
-.sponsor-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-.pay-pill { font-size: 8.5px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; white-space: nowrap; }
-.qr-reveal summary { list-style: none; cursor: pointer; display: block; }
-.qr-reveal summary::-webkit-details-marker { display: none; }
-.qr-placeholder {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-  height: 300px; padding: 24px; text-align: center;
-  border: 1px dashed var(--line); border-radius: 16px; background: var(--paper-2);
-  transition: background .2s, border-color .2s;
-}
-.qr-placeholder:hover { background: var(--mint); border-color: var(--mint-2); }
-.qr-placeholder svg { width: 24px; height: 24px; color: var(--teal); }
-.qr-placeholder strong { font-size: 14px; font-weight: 600; }
-.qr-placeholder small { max-width: 210px; font-size: 10.5px; line-height: 1.7; color: var(--muted); }
-.qr-reveal[open] summary { display: none; }
-.qr-reveal img { width: 100%; height: auto; border-radius: 16px; border: 1px solid var(--line); background: #fff; }
-.qr-note { margin-top: 12px; text-align: center; font-size: 9.5px; line-height: 1.7; color: var(--muted); }
-
 /* ---------- 下载页 ---------- */
 .download-page { position: relative; overflow: hidden; padding: 64px 0 96px; }
 .download-wash {
@@ -782,8 +739,6 @@ h1, h2, h3, blockquote {
   .cta-side { margin-left: 0; max-width: 420px; }
   .download-grid { grid-template-columns: 1fr; gap: 40px; }
   .support-card { max-width: 480px; }
-  .sponsor-grid { grid-template-columns: 1fr; gap: 40px; }
-  .sponsor-card { max-width: 380px; transform: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-meta { grid-column: span 2; text-align: left; flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
 }
@@ -853,10 +808,6 @@ h1, h2, h3, blockquote {
   .download-meta strong { font-size: 11.5px; }
   .support-card { padding: 24px; }
   .support-card h2 { font-size: 24px; }
-  .sponsor { padding: 48px 0 70px; }
-  .sponsor-copy h1 { font-size: 38px; }
-  .sponsor-points li { font-size: 12px; }
-  .qr-placeholder { height: 240px; }
   .cta { padding: 4px 0 68px; }
   .cta-panel { padding: 30px 22px; border-radius: 24px; }
   .cta h2 { font-size: 36px; }
