@@ -37,9 +37,27 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.2.0，发布于 2026-11-09；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.3.0，发布于 2026-11-09；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
-<section class='cl-version'><div class='cl-head'><h2>v1.2.0</h2><span class='cl-date'>2026-11-09</span><span class='cl-tag'>V3 采集增强版</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.3.0</h2><span class='cl-date'>2026-11-09</span><span class='cl-tag'>V3 识别升级版</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li><strong>识别引擎升级</strong>：<code>rapidocr-onnxruntime</code> 从 1.2.3 升到 1.4.4，压在半透明占比条上的小字号数字识别明显更稳。</li>
+<li><strong>修复 1.4.x 下「局部补读」整条失效</strong>：1.4 起 <code>read_line</code> 返回 <code>(text, score)</code> 二元组，</li>
+<li><strong>数值自洽性核对</strong>：修复后战绩页左 5 人击杀合计 14、右 5 人 26，与页面比分一致，逐行占比也对得上。</li>
+<li><strong>Python 支持范围调整为 3.11 / 3.12</strong>：1.4.x 只发布到 3.12，CI 矩阵同步去掉 3.13，</li>
+<li><strong>演示数据补上主教练</strong>：<code>seed_demo_data.py</code> 灌完数据后，教练档案页不再是一片空白。</li>
+<li><strong>路由审计脚本区分空态</strong>：正常空状态（<code>#content .empty</code>）不再被判为失败。</li>
+</ul>
+<h3>升级说明</h3>
+<ul>
+<li>安装包与免安装包<strong>不内置 OCR 组件</strong>（体积原因），首次使用仍在「识别引擎」条里点一键安装；</li>
+<li><strong>已经装过 OCR 组件的用户</strong>：增量更新只替换程序文件，不会动已装好的 <code>site-packages</code>，</li>
+<li>源码用户请重新执行 <code>pip install -r requirements.txt</code>（OCR 依赖从 1.2.3 升到 1.4.4）。</li>
+<li>仍在 Python 3.13 上跑源码的用户，需要降到 3.12 或改用安装包。</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.2.0</h2><span class='cl-date'>2026-11-09</span></div>
 <h3>新增：OCR 组件检测与一键安装（主 OCR / Mimo 精读 / ffmpeg）</h3>
 <ul>
 <li>截图与录屏两页顶部新增「识别引擎」条：主 OCR（rapidocr）、Mimo 精读、ffmpeg 三项独立检测，缺哪个就在哪一行给按钮和原因，不再只在上传时报错。</li>
