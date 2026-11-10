@@ -37,8 +37,39 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.5.30，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.5.31，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.31</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>身份主数据统一与 BP 口径补全</span></div>
+<h3>身份：游戏ID → 选手ID → 战队</h3>
+<ul>
+<li><strong>「赛训 → 数据准备 → 建档」顶部新增「身份对照」</strong>：一行一个游戏账号，列出游戏ID、</li>
+<li><strong>对手归属每名选手加「命名」</strong>：命名后直接显示真人名与战队，不再是营地昵称；</li>
+<li><strong>选手认领不再写昵称字符串</strong>：认领、命名并归队都写同一条账号映射，<code>settings.aliases</code></li>
+<li><strong>删除选手 = 选手 + 他的游戏账号映射一起删</strong>：那些游戏ID回到「待命名」。不做转会、</li>
+<li><strong>营地白名单的「改名」标注为本机备注</strong>，真正的游戏ID → 选手ID 在身份对照里统一改。</li>
+<li>修掉「选手认领」页直接打开提示「还没有选中选手认领」的路由判断（它是整页，不是详情页）。</li>
+</ul>
+<h3>回放解析链路</h3>
+<ul>
+<li><strong><code>scripts/replay_probe.py</code> 恢复可用</strong>：字段早已从 <code>gold</code> 改名为 <code>buyEcho</code>，</li>
+<li><strong>一次上传只解析一次</strong>（原来三次）：上传校验、导入、建出装时间轴各解一遍。</li>
+<li><strong>上传不再堵事件循环</strong>：<code>POST /api/replays/files</code> 的解析改走</li>
+<li><strong><code>inspect_frame_stream</code> 的 <code>lastSequence</code> 不再回绕</strong>：线上是 u8 序列号，</li>
+<li><strong>解析器不再改模块全局</strong>：版本档案的偏移量原来靠临时改写 12 个模块常量 +</li>
+</ul>
+<h3>时间基准（只收口，不改口径）</h3>
+<ul>
+<li>帧率常量原来散在 <code>tools/replay_frame_commands.py</code>（15）、</li>
+<li><strong>产品仍用 15 fps</strong>（<code>docs/replay_binary_format.md</code> §5.129），</li>
+<li>引擎 dump 实测 15.1515 fps（57 帧 / 3762 ms，已从 <code>unit_*.bin</code> 复现），</li>
+<li><code>tests/test_replay_time_base.py</code> 锁死「常量只能有一处」，并固定产品口径。</li>
+</ul>
+<h3>文档与测试</h3>
+<ul>
+<li>新增 <code>docs/replay_sources_matrix.md</code>：四个来源（文件 / 营地 / 录屏 / 截图）</li>
+<li>新增 <code>tests/test_replay_upload_parse_once.py</code>（上传+导入只解一次、坏文件仍被拒）、</li>
+</ul>
+</section>
 <section class='cl-version'><div class='cl-head'><h2>v1.5.0</h2><span class='cl-date'>2026-11-10</span></div>
 <h3>识别准确度</h3>
 <ul>
@@ -112,8 +143,13 @@
 <li><code>scripts/audit_v3_regression.py</code> 把 <code>.offline-card</code>（详情路由缺 ID 时的提示卡）</li>
 <li>新增 <code>tests/test_camp_archive.py</code>（13 条），全套 589 passed。</li>
 </ul>
+<h3>BP 复盘补全</h3>
+<ul>
+<li><strong>联动组合每张卡补一行 KPL</strong>：<code>KPL 10 场 · 胜率 70%（2026）</code>，没有的组合写「KPL 没出现过」。</li>
+<li><strong>对位压制没样本时说明原因</strong>：列出两个英雄在巅峰千强的使用率与 3% 门槛</li>
+</ul>
 </section>
-<section class='cl-version'><div class='cl-head'><h2>v1.5.30</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>BP 命中：大盘对位与 KPL 赛事命中</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.30</h2><span class='cl-date'>2026-11-10</span></div>
 <h3>对位压制：从「自家历史」换成「大盘 + 基准调整」</h3>
 <ul>
 <li><strong>数据</strong>：巅峰千强同分路对位表（样本 ≥200 局、双方使用率 ≥3%）+ 同分段英雄基准胜率（近 90 天窗口）</li>
