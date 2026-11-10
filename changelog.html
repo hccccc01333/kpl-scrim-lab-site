@@ -37,7 +37,7 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.5.29，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.5.30，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
 <section class='cl-version'><div class='cl-head'><h2>v1.5.0</h2><span class='cl-date'>2026-11-10</span></div>
 <h3>识别准确度</h3>
@@ -113,7 +113,21 @@
 <li>新增 <code>tests/test_camp_archive.py</code>（13 条），全套 589 passed。</li>
 </ul>
 </section>
-<section class='cl-version'><div class='cl-head'><h2>v1.5.29</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>跨局分析与选手位置按赛训组口径重排</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.30</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>BP 命中：大盘对位与 KPL 赛事命中</span></div>
+<h3>对位压制：从「自家历史」换成「大盘 + 基准调整」</h3>
+<ul>
+<li><strong>数据</strong>：巅峰千强同分路对位表（样本 ≥200 局、双方使用率 ≥3%）+ 同分段英雄基准胜率（近 90 天窗口）</li>
+<li><strong>算法</strong>：<code>超额胜率 = 实际对位胜率 − 按两个英雄各自基准胜率算出的期望胜率</code>（Bradley-Terry）。</li>
+<li><strong>判定</strong>：超额 ≥ +2 个点判「我方占优」，≤ −2 判「我方吃亏」，中间是「打平」；</li>
+<li>卡片同时保留两行参考：本局实际对位经济差（与大盘同向 / 相反）、自家训练赛的领先率。</li>
+</ul>
+<h3>赛事命中（新增）</h3>
+<ul>
+<li>数据：KPL 2024 年起的 picks（本机 4,586 局可判定），双人 3,386 组、三人 10,495 组</li>
+<li>展示：<code>本队 10 组双人里 3 组在 KPL 出现过</code>，下面列出命中的组合与场次 / 胜率</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.29</h2><span class='cl-date'>2026-11-10</span></div>
 <h3>跨局分析</h3>
 <ul>
 <li><strong>拆成四个页签</strong>：这段时间 / BP 与阵容 / 五路与人 / 对手。页签写进地址（<code>#cross/bp</code>），</li>
