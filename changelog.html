@@ -37,9 +37,19 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.5.31，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.5.32，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
-<section class='cl-version'><div class='cl-head'><h2>v1.5.31</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>身份主数据统一与 BP 口径补全</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.32</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>优势兑现与对手阵容</span></div>
+<li><strong>优势兑现</strong>（资源与团战）：先筛「10 分钟领先且分出胜负」的局，再看这些局里</li>
+<li><strong>对手阵容</strong>（对手）：按对手名分组，把他们每局五人两两配对，取出现次数最多的一组，</li>
+<li>向量新增 <code>heroesFoe</code>（对手五人阵容）。</li>
+<h3>巡检修复</h3>
+<ul>
+<li><strong><code>scripts/verify_identity_flow.py</code> 现在能在空实例上自跑</strong>：身份对照的账号来自</li>
+<li>对手账号命名补上「归队」这一步（产品口径要求命名时必须归队），并在保存没成功时</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.31</h2><span class='cl-date'>2026-11-10</span></div>
 <h3>身份：游戏ID → 选手ID → 战队</h3>
 <ul>
 <li><strong>「赛训 → 数据准备 → 建档」顶部新增「身份对照」</strong>：一行一个游戏账号，列出游戏ID、</li>
