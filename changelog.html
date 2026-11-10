@@ -37,9 +37,318 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.3.0，发布于 2026-11-09；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.5.29，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
-<section class='cl-version'><div class='cl-head'><h2>v1.3.0</h2><span class='cl-date'>2026-11-09</span><span class='cl-tag'>V3 识别升级版</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.0</h2><span class='cl-date'>2026-11-10</span></div>
+<h3>识别准确度</h3>
+<ul>
+<li><strong>截图不再压缩识别</strong>：去掉 OCR 前把宽度压到 1600px 的一刀切（横屏 2400×1080 截图</li>
+<li><strong>战绩页解析重写</strong>：行内干净 token 优先 + KDA 合理性门限（击杀/死亡 ≤40、</li>
+<li><strong>字形级救援读取</strong>：Otsu 自适应定位字形包围盒 → 回原图紧裁保留反锯齿 →</li>
+<li><strong>多候选投票</strong>：每个数值单元格收集常规直读与字形变体的全部候选按多数决，</li>
+<li><strong>KDA+经济合并 token 截尾拆分</strong>：压缩在尾部粘出幽灵数字时（<code>2/7/2+5828</code> →</li>
+<li><strong>占比自洽性修复</strong>：合并页时若识别值与自己的占比自相矛盾而摊算值自洽</li>
+</ul>
+<h3>评测基准（新增）</h3>
+<ul>
+<li><code>scripts/ocr_eval_piaoliu.json</code> + <code>scripts/eval_ocr_accuracy.py</code>：漂流网咖对局</li>
+<li>干净原图 rapid/hybrid 双引擎 220/220；压力变体捆绑级 5/6 组 100%，</li>
+</ul>
+<h3>升级说明</h3>
+<ul>
+<li>无需任何操作；已识别过的截图结果按原样保留，重新识别即可享受新精度。</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.1</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>回放面板工具入库</strong>：<code>replay_panels.py</code>——本地 <code>.abc</code> 回放 + 营地对局详情 →</li>
+<li><strong>压力变体生成并入评测脚本</strong>：<code>scripts/eval_ocr_accuracy.py --make-variants &lt;目录&gt;</code></li>
+<li>清理根目录探针脚本与 40MB 评测临时目录（其结论转正式修复，见后续版本）。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.2</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>首次全量拉取不再截断在 8 页</strong>：<code>tools/camp_sync.py</code> 无水位同步从固定 8 页</li>
+<li><strong>翻页到详情保留期边界即停</strong>：整页对局都超出营地 31 天详情保留期后，</li>
+<li><strong>同步汇总新增覆盖范围</strong>：summary 带 <code>oldest</code>（已覆盖到的最早对局时间），</li>
+<li><code>tools/camp_insights.py</code> 列表拉取默认页数 8 → 30（约 480 局）。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.3</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>识别时自动检测重压缩</strong>：从 JPEG 量化表估算有效画质（IJG 约定反推，实测</li>
+<li>PNG 截图与高画质原图不触发提示，无误报；检测只提示、不拒图，与既有</li>
+<li>新增单元测试覆盖低画质告警 / 高画质与 PNG 静默两类场景。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.4</h2><span class='cl-date'>2026-11-10</span></div>
+<li>「采集规范」页新增「传到电脑」行：推荐数据线或 QQ 发文件；微信发图必须勾</li>
+<li>采集页截图 OCR 窗口的说明同步加上传输提示，压缩图识别时会被提示重传。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.5</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>整型列字形互核</strong>：对整型数值的检测框做字形级紧框重读，所有高置信变体</li>
+<li><strong>经济精度回退显性化</strong>：战绩页精确经济没读出、只挂上数据/发育页 k 值时，</li>
+<li>压力变体捆绑级：5/6 组 100%，w1920 98.6%（仅剩带警告的精度回退）。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.6</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>整型字形互核加守卫</strong>：只对单位数 token 互核——多位数 token 被重读成</li>
+<li><strong>pyflakes 清零</strong>：清理 <code>postgame_ocr.py</code> 死变量、<code>server.py</code> 与</li>
+<li>审查结论：<code>_merge_player</code> 精度优先合并、<code>_merge_match</code> 冲突警告、</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.7</h2><span class='cl-date'>2026-11-10</span></div>
+<li>「昵称完全一致率」只会算出 3/10，无法反映教练的真实负担——识别差一个字</li>
+<li>漂流网咖基准实测：自动认领 3、一字之差 5、人工核对 2、漏读 0——</li>
+<h3>营地载荷全量归档（不做筛选先存下来）</h3>
+<ul>
+<li>新增 <code>camp_archive.py</code>：把每份载荷摊平成「路径 → 类型 / 出现次数 / 非空数 /</li>
+<li><code>scripts/archive_camp_fields.py</code> 落三份产物：</li>
+<li><code>GET /api/official/archive</code> 直接读这份档案；营地改版后可以 diff 出新增字段。</li>
+<li>实测：24 条回放 / 163 个字段路径 / 140 条中文文案；十人面板 365 个字段路径、</li>
+</ul>
+<h3>视觉统一（续）</h3>
+<ul>
+<li>资源控制从「一行文字 + 四个散格」改成主数字（控制率）+ 计数药丸 + BUFF 说明；</li>
+<li>联动组合与「对位压制」共用同一块浅底面板（虚线分隔），不再是一排各自带框的小盒；</li>
+<li>击杀账本汇总行改成药丸，切C 贴右对齐，表格不再挤在中段留空白；</li>
+<li>「对位压制」删掉重复的「样本不足 / 没有同分路对位样本」，改成实际局数；</li>
+<li>对局档案首次只铺 24 行，其余折叠：档案页 4,735px → 2,507px，搜索仍走同一套渲染。</li>
+</ul>
+<h3>巡检</h3>
+<ul>
+<li><code>scripts/audit_v3_regression.py</code> 把 <code>.offline-card</code>（详情路由缺 ID 时的提示卡）</li>
+<li>新增 <code>tests/test_camp_archive.py</code>（13 条），全套 589 passed。</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.29</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>跨局分析与选手位置按赛训组口径重排</span></div>
+<h3>跨局分析</h3>
+<ul>
+<li><strong>拆成四个页签</strong>：这段时间 / BP 与阵容 / 五路与人 / 对手。页签写进地址（<code>#cross/bp</code>），</li>
+<li><strong>删掉逐局对照台</strong>：一局一局的对照交回单局复盘；跨局页只留结论卡，页面不再上万像素。</li>
+<li><strong>「圈定」改成按钮展开</strong>：每张卡底部「看这 N 局」，点开在卡片里列出一行一局</li>
+<li><strong>新增两块分析</strong>：英雄账本（我方选过的英雄：局数、胜算，按出场 / 按胜率两视图）、</li>
+<li><strong>文案统一成教练口径</strong>：金 → 金币；「中位」→「典型」；卡片标题改成一句人话结论；</li>
+<li><strong>阶段口径修正</strong>：优势归因改回教练定义的三段——<strong>0–4 对线 / 4–10 发育 / 10 分钟后</strong>，</li>
+<li><strong>「这段时间」页换成五块</strong>：共性（一局一格、按时间排开）、赢的局和输的局差在哪、</li>
+<li><strong>共性改成散点</strong>：一局一个点、按开赛时间横向排开，纵轴是这一局的 10 分钟经济差；</li>
+<li><strong>新增「资源与团战」页签</strong>：控龙率与推塔（赢的局 / 输的局并排）、</li>
+<li><strong>切 C 与首杀</strong>：场均切 C（我方对抗路/打野击杀对方中路/发育路）与「先拿首杀」的比例，</li>
+<li><strong>英雄组合</strong>：每局我方五人两两配对，统计同一对英雄一起上场的局数与胜负</li>
+<li><strong>团战账本</strong>：按每波团双方参战人数分「多打少 / 人数相同 / 少打多」，</li>
+<li><strong>打野节奏</strong>：用 0–10 分钟的逐秒坐标（1 Hz）算「过河时间占比 / 首次过河 / 深入野区占比」，</li>
+<li><strong>选手榜</strong>：逐人场均死亡、参团率、分均经济；出场不足 3 局的先不进榜，</li>
+<li><strong>位置对位</strong>：每局把双方同分路的人配对，比分均经济差、分均输出差、场均死亡差。</li>
+<li><strong>团战伤害结构</strong>：从每波团的十人明细算我方各分路的伤害占比与承伤占比。</li>
+<li>向量新增 <code>pl</code>（逐人一行）与 <code>fs</code>（团战分路占比）；没有回放或没有时长的局对应字段留空。</li>
+<li><strong>新增数据字典</strong> <code>docs/camp_replay_payload.md</code>：24 局真实载荷逐字段核对（163 个字段），</li>
+</ul>
+<h3>选手与位置</h3>
+<ul>
+<li><strong>拆成两个页签</strong>：五路强弱（分路经济 / 胜率 / 同路对位 / 团战参与）、</li>
+<li><strong>新增「本队名单 / 全部出场」范围切换</strong>：本队名单只算已认领的选手，全部出场把未认领昵称</li>
+<li>文案同步改成金币口径（「五条路的钱加起来，每分钟比对手多 +73 金币」），</li>
+</ul>
+<h3>单局复盘：打野并线</h3>
+<ul>
+<li><strong>新增「打野并线」区块</strong>（十人数据页签）：兵线到来时本队 2～3 人在同一条路上一起吃这波线</li>
+<li><strong>组里必须有打野</strong>：教练次日补充「射手 + 辅助不算」——固定搭档同吃一波线不算并线；</li>
+<li><strong>三段按 KPL 口径切</strong>：0–4 对线 / 4–10 发育 / 10 分钟后到结束；卡片上每段一个数字加一条</li>
+<li><strong>时间轴</strong>：三条路各一条轨道，上线＝本队打野、下线＝对手；圆点＝双人并线、方块＝三人并线，</li>
+<li><strong>按路拆表</strong>：3 条路 × 3 段，每格「本队 / 对手」次数，底色深浅表示两队合计强度，末列合计。</li>
+<li><strong>三人并线单列</strong>：卡片上「三人 / 双人」分开计数，时间轴上三人并线用方块区分（恰好 3 人才算）。</li>
+<li><strong>只按兵线波次切窗口，不假定交汇点</strong>：第 n 波在 <code>10 + 33(n−1)</code> 秒出发</li>
+<li><strong>走廊用回放坐标反推</strong>：对抗路＝左侧竖段接上边横段、发育路＝下边接右侧、中路＝对角线，</li>
+<li><strong>不计入</strong>：己方基地 34 单位内、坐标 (0,0) 占位、阵亡冻结样本、5 人以上推挤（团战不是并线）。</li>
+<li>23 局实测（均值）：打野 10.7 次；同一批里和打野一起吃线最多的是中路 6.4、对抗路 4.1、</li>
+</ul>
+<h3>单局复盘</h3>
+<ul>
+<li><strong>10 分钟经济可在工作台直接填</strong>：营地与回放都没有逐人金币时间轴（回放只有团队经济，</li>
+<li><strong>cheat sheet 换统计</strong>：击杀账本改成「切C 与先手」五张统计卡（切C / 先手 / 击杀，</li>
+<li><strong>比赛脉搏点位可点</strong>：龙＝菱形、BUFF＝圆点、防御塔＝方块、水晶＝大方块，金青分阵营；</li>
+<li><strong>对位热区重做</strong>：径向渐变的糊状光斑换成离散分格（每格按停留时长分 5 档），</li>
+<li><strong>资源控制可视化</strong>：控制率做成主数字 + 进度条，四个目标各一条对向条，防御塔拆到</li>
+<li><strong>BP 复盘卡</strong>：一句结论 + 对位命中（历史同分路同英雄对战，本局是否兑现）+ 联动命中；</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.28</h2><span class='cl-date'>2026-11-10</span></div>
+<h3>营地卡片（dataBehaviorV2）</h3>
+<ul>
+<li>新增 <code>camp_tiles.py</code>：按 (阵营, 英雄) 对齐十人，只做单位归一（<code>%</code> / 秒 / 千 / 万）</li>
+<li>单局接口带回 <code>player.campTiles</code>。实测钟馗「勾中敌方英雄 16」、孙悟空</li>
+<li>十人面板每个位置先亮一张该位置最相关的卡片（游走=视野价值、</li>
+<li>口径纪律：营地没给分母，卡片只做同局参考，不进任何评级。</li>
+</ul>
+<h3>官方回放：一条链接都不用给</h3>
+<ul>
+<li><code>camp_replay.link_from_entry()</code>：战局清单（<code>morebattlelist</code>）自带</li>
+<li>营地同步完成后自动补拉官方回放并挂到通道（<code>_camp_auto_official</code>）。</li>
+<li>新增 <code>GET /api/official/coverage</code> 与 <code>POST /api/official/backfill</code>：</li>
+</ul>
+<h3>单局页拆成四个页签</h3>
+<ul>
+<li>原来一屏 8,042px。按「复盘 / 十人数据 / 事件 / 地图」拆开，地址带页签</li>
+<li>后到的区块（击杀账本、事件详情）插回各自页签，不再落到被隐藏的地图页。</li>
+</ul>
+<h3>视觉与口径修正</h3>
+<ul>
+<li>对位行的指标名改成单行（原来 32px 宽，<code>分均经济</code> 被折成三行）；</li>
+<li>雷达去掉轴标签：132px 里塞 5 个中文标签会被 viewBox 裁掉，看起来像乱码。</li>
+<li>事件详情去掉「框里框」，改成细分隔线；<code>hurtTotal</code> 在同一份回放里</li>
+<li>对位纵深里 <code>0 秒</code> 的格子退成虚线浅底，满屏灰块不再盖过真数据；</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.27</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>对位压制</strong>：单局 BP 区新增五路英雄对位卡。用历史同分路对位样本</li>
+<li><strong>打团存活</strong>（发育路）：每波团战从开始到本人阵亡（或团战结束）的平均秒数，</li>
+<li><strong>中单跑图</strong>：中路对位行新增「跑图」＝逐秒位置累计移动距离/分，</li>
+<li><strong>位置身份映射修复</strong>：<code>positions.json</code> 的 <code>playerId</code> 是营地短 ID，通道名单</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.26</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>比赛是一等实体</strong>：新增 <code>competitions</code> 表（赛事名 / 日期 / 对手 / 赛段 /</li>
+<li><strong>赛训首页改为「比赛与训练计划」</strong>：最上方是比赛列表与「添加比赛」；</li>
+<li><strong>新增比赛详情页</strong> <code>#competition/&lt;id&gt;</code>：赛事信息、负责教练、本队五路选手</li>
+<li>对局归集沿用训练课口径：手工关联 → 日期+对手 → 日期+训练组 → 日期。</li>
+<li>接口：<code>GET/POST /api/studio/workspace/competitions</code>、</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.25</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>此前误判纠正</strong>：回放 <code>battle.kills</code> 一直是空数组，真正的事件账本是</li>
+<li><strong>单局页新增「击杀账本」</strong>：按时间列出每一次击杀（击杀方 → 被击杀方 +</li>
+<li><strong>对位面板新增「切C」</strong>：对抗路/打野的分路指标里增加切C次数（击杀对方</li>
+<li>台账同步修正：切C 从「卡点」改为已解锁；先手/团战 KDA 数据也在同一载荷。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.24</h2><span class='cl-date'>2026-11-10</span></div>
+<li>单局 BP 区新增「我方组合 / 对手组合」：把双方阵容里的英雄双人/三人组合</li>
+<li>实测：钟馗+项羽 4 局 100%（协同 +6pp）、姜子牙+项羽 4 局 50%（协同 −19pp）、</li>
+<li>顺带确认：各英雄胜率已在英雄榜页（105 英雄含分档/组合协同）；</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.23</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>事件详情面板</strong>：每个关键事件（暴君/主宰/防御塔/水晶优先）列出参战者、</li>
+<li><strong>反野统计</strong>：资源控制面板新增 <code>BUFF：收己方野 X · 反野 Y 次 · 被反 Z 次</code></li>
+<li><strong>营地复盘叙述</strong>：reportData.adviceList 的中文团战评述（含「己方伤害不足」</li>
+<li>修正 <code>/api/replay</code> 的字段白名单：此前会把 buffEvents/narrations 过滤掉。</li>
+<li>修正回放到达后的分区重渲染：新增区块（事件详情）此前不会插入页面。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.22</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>dtID → 资源类型映射</strong>（从 <code>team-analyzev2</code> 前端包核实）：</li>
+<li><strong>单局页「资源控制」面板</strong>：暴君 / 暗影暴君 / 暗影主宰 / 防御塔的双方击杀数</li>
+<li><strong>回放事件补充每个参战者的伤害量（hurtTotal）</strong>：为下一步「团战伤害占比」准备。</li>
+<li>接口侦察结论写入台账：battleanalyze 还有 adviceList/emeryInfo/skillUsedInfo 等未用数据；</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.21</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>对位比较面板按分路取指标</strong>（基于营地终局字段，无需官方回放）：</li>
+<li><strong>数据卡点如实记录</strong>（台账新增「数据卡点」一节）：</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.20</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>分均经济评级</strong>：对位比较面板的「分均经济」按教练给的阈值直接分级</li>
+<li><strong>经济转输出</strong>：对位面板新增该列（判断中单/发育路是否「无效输出」的关键指标）。</li>
+<li><strong>死亡率预警</strong>：面板新增「死亡」列，超过 2 次标红加粗（对齐教练 Excel 的</li>
+<li>评分口径取自教练 2026-11-10 的 Excel「王者荣耀-对局数据总结」：</li>
+<li>台账更新：<code>docs/feedback-2026-11-10-coach.md</code> 追加第三波（打野控龙/反野、</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.19</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>阶段口径固定</strong>：对线期 0–4 分钟、发育期 4–10 分钟、其后为「后期」</li>
+<li><strong>对局详情 BP 置顶</strong>：本局 BP（双方阵容 + 五禁 + 选用顺序）移到本局</li>
+<li><strong>缺逐秒位置不再无限转圈</strong>：「对位热区 / 对位纵深 / 中野辅与入侵」在</li>
+<li>新增 <code>docs/feedback-2026-11-10-coach.md</code>：两波反馈的完整台账（含</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.18</h2><span class='cl-date'>2026-11-10</span></div>
+<h3>术语与措辞</h3>
+<ul>
+<li><strong>金差 → 经济差</strong>（全站 49 处）；「10 分钟中位金差」→「10 分钟经济差」；</li>
+<li><strong>「最差的一成」→「最差的 10% 对局」</strong>（20 处，含英雄对比页），不再让人</li>
+</ul>
+<h3>版面与交互</h3>
+<ul>
+<li><strong>首页/对局经济走势加时间轴刻度</strong>：每 5 分钟一个刻度（0:00 / 5:00 /</li>
+<li><strong>空态说清数据来源</strong>：经济采样来自「官方回放」，空图时提示到采集页的</li>
+<li><strong>删除跨局分析的「本批参照」侧栏</strong>（教练反馈不清楚表达什么）。</li>
+<li><strong>对局档案支持编辑对手队名</strong>：每张卡片悬停出现 ✎，弹窗修改；写入</li>
+</ul>
+<h3>样本门槛</h3>
+<ul>
+<li><strong>跨局分析覆盖不足 2 局时不再输出结论</strong>：标题中性化为「先攒够 2 局可用</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.17</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>跨局分析页把缺失时长当 0</strong>：缺时长的对局显示成 &quot;0:00&quot;，并污染</li>
+<li><strong>详情路由缺 ID 死循环</strong>：直接输入 <code>#session</code> / <code>#match</code> 等无 ID 的</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.16</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>倍速录屏的 POV 时间轴偏移</strong>：视频时间→游戏时间用恒定 <code>offset</code></li>
+<li><strong>ffmpeg stderr 管道死锁</strong>：帧流子进程的 stderr 直到读完后才排空，</li>
+<li>新增 3 个回归测试（倍速换算 2 例、stderr 排空 1 例）。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.15</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>首次启动自动安装主 OCR</strong>：Gitee 渠道完整包（78 MB，受附件 100 MB 限制不含</li>
+<li><strong>增量包恢复可用</strong>：1.5.13 修好的更新器（tools/ 放行、门槛校验）从本版起生效——</li>
+<li>修复 Gitee Release 页面说明的编码问题（此前误存为双重 URL 编码）。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.14</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>背景</strong>：识别引擎面板一直写着「主 OCR 随安装包发布」，但打包器其实没有</li>
+<li><strong>修复</strong>：完整包内置主 OCR 运行时（rapidocr-onnxruntime 及其依赖</li>
+<li>面板里的「安装主 OCR」按钮保留为旧安装/修复入口；Mimo 精读与 ffmpeg</li>
+<li>本次发布仍走完整包通道（1.5.13 及更早客户端的运行时里没有 OCR 依赖，</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.13</h2><span class='cl-date'>2026-11-10</span></div>
+<h3>已修复</h3>
+<ul>
+<li><strong>增量包门槛与基线脱钩</strong>：<code>make_release.py</code> 的 <code>--min-version</code> 硬编码 1.0.0，</li>
+<li><strong>安装端兜底校验</strong>：<code>updater.stage_patch</code> 现在强制校验 <code>minVersion</code>，</li>
+<li><strong>tools/ 运行期模块被禁写</strong>：更新器白名单整体禁止 <code>tools/</code>，但发布器明确</li>
+</ul>
+<h3>本次发布必须走完整包</h3>
+<ul>
+<li><strong>1.4.0 及更早的客户端内置的是旧更新器</strong>（禁止 tools/ 写入），无法安装本次</li>
+<li>远程更新清单（Gitee/GitHub）仍停在 1.3.0，所有已装用户收不到 1.4/1.5 的</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.12</h2><span class='cl-date'>2026-11-10</span></div>
+<li><strong>掉点孤立分析崩溃修复</strong>：死亡事件缺 x/y 坐标时，<code>math.dist</code> 对</li>
+<li><strong>定标模式下近身人数恒为 0</strong>：<code>nearCount</code> 用的是未缩放的原始半径</li>
+<li>清理死代码：未使用的 <code>bisect</code> 导入、<code>enemy_camp</code> 死变量、</li>
+<li>新增回归测试：缺坐标死亡事件不再崩溃。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.11</h2><span class='cl-date'>2026-11-10</span></div>
+<li>根因：<code>_value_at()</code> 按 <code>600 秒 / 对局时长 × 点数</code> 换算采样位置，8 分钟</li>
+<li>修复：采样位置夹在有效区间内，短局取终局值（语义为「该局此时已结束」）。</li>
+<li>顺带清理 <code>turning_points</code> 里未使用的死变量。</li>
+<li>新增回归测试：480 秒局取值不越界且取终局值，正常时长插值不变。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.10</h2><span class='cl-date'>2026-11-10</span></div>
+<li>根因：<code>_apply_match_meta</code> 在应用 ownCamp 补录时，用「击杀多的一方获胜」</li>
+<li>修复：winnerCamp 只保留营地/官方回放真值；教练明确 win/loss 的补录</li>
+<li>新增回归测试：25:26 且 winnerCamp=blue 的对局，补录 ownCamp 后</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.9</h2><span class='cl-date'>2026-11-10</span></div>
+<h3>根因（两层）</h3>
+<ul>
+<li><strong>营地数据包缺对局时长</strong>：64 局里 53 局的顶层 <code>match.duration</code> 为 null，</li>
+<li><strong>聚合分子分母样本错配</strong>：<code>player_stats</code> / <code>player_trend</code> 把「所有局的</li>
+</ul>
+<h3>修复</h3>
+<ul>
+<li><code>official_economy.duration_from_bundle()</code>：按 bundle 的 officialReplay.id</li>
+<li>按分钟聚合只统计「数值与时序都存在」的行，分子分母同样本，剩余缺时长的局</li>
+<li>新增回归测试：官方回放时长兜底、分钟指标样本对齐（两局一缺时长时 GPM</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.8</h2><span class='cl-date'>2026-11-10</span></div>
+<li>实测范围：对局档案（33 场渲染完整）、采集页、截图 OCR 页（引擎状态面板、</li>
+<li>服务端日志 0 个 4xx/5xx、0 异常、124 个请求全部成功；指南图片为懒加载，</li>
+<li>未发现阻塞体验的缺陷；页间切换有短暂「读取中」状态，属正常数据装载。</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.4.0</h2><span class='cl-date'>2026-11-09</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li><strong>ffmpeg 一键安装</strong>：点「安装 ffmpeg」自动下载静态包并解压到 <code>tools/ffmpeg/bin</code>，</li>
+<li><strong>录屏抽帧不再依赖系统 PATH</strong>：<code>ffmpeg</code> / <code>ffprobe</code> 统一走 <code>media_tools</code> 解析，</li>
+<li><strong>识别引擎条</strong>：缺 ffmpeg 时直接给安装按钮；状态里区分「应用内安装 / 系统 PATH」。</li>
+<li><strong>打包排除</strong>：<code>tools/ffmpeg/</code> 进 <code>.gitignore</code>，不会被打进安装包或增量包。</li>
+<li><strong>营地选手可改名</strong>：白名单里每位选手都能点「改名」换成真名，只影响本机显示，不改营地 ID。</li>
+<li><strong>按选手勾选拉取</strong>：每行带「拉取」勾选框。离队的号取消勾选即可，不再拉它的对局，历史数据照旧保留；</li>
+<li><strong>白名单与隐私提示做成醒目提示条</strong>：只绑一个每场都上的号就够；看不到某位选手战绩时，</li>
+</ul>
+<h3>升级说明</h3>
+<ul>
+<li>老用户更新后如果 ffmpeg 一栏仍是「未检测到」，点一次「安装 ffmpeg」即可，约 200 MB。</li>
+<li>已经自己装过 ffmpeg 并配置好 PATH 的用户不用动，平台会继续用系统那份。</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.3.0</h2><span class='cl-date'>2026-11-09</span></div>
 <h3>更新摘要</h3>
 <ul>
 <li><strong>识别引擎升级</strong>：<code>rapidocr-onnxruntime</code> 从 1.2.3 升到 1.4.4，压在半透明占比条上的小字号数字识别明显更稳。</li>
