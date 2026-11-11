@@ -37,9 +37,157 @@
 <main class="doc">
   <header>
     <h1>更新日志</h1>
-    <p>遵循语义化版本。当前最新 v1.5.32，发布于 2026-11-10；老用户在工作台右下角点「立即更新」即可增量升级。</p>
+    <p>遵循语义化版本。当前最新 v1.6.2，发布于 2026-11-11；老用户在工作台右下角点「立即更新」即可增量升级。</p>
   </header>
-<section class='cl-version'><div class='cl-head'><h2>v1.5.32</h2><span class='cl-date'>2026-11-10</span><span class='cl-tag'>优势兑现与对手阵容</span></div>
+<section class='cl-version'><div class='cl-head'><h2>v1.6.2</h2><span class='cl-date'>2026-11-11</span><span class='cl-tag'>截图 / 录屏新录入：营地一个月窗口外的老局也能建档</span></div>
+<h3>问题</h3>
+<ul>
+<li>截图 OCR / 录屏 OCR 原来只有「挂到哪一局」一种动作，语义等于<strong>补采</strong>：往已有通道</li>
+<li>没有营地链接的通道 <code>sourceStatus.complete</code> 永远为 false（必采只认 <code>official</code>），</li>
+</ul>
+<h3>后端</h3>
+<ul>
+<li>通道新增录入方式 <code>entry.mode = camp | ocr</code>，<code>sourceStatus.mode</code> 同步返回；旧通道</li>
+<li>OCR 通道的完整口径改为：<strong>七页截图齐全，或一段十人阵容完整的录屏报告，任一即可</strong></li>
+<li>新增 <code>POST /api/channels/from-screenshots</code>：从一组识别结果直接新建一局，自动带出</li>
+<li>新增 <code>POST /api/channels/from-recording</code>：从一段识别完成的录屏报告直接新建一局，</li>
+<li><code>POST /api/channels/{id}/screenshot</code> 改为并集合并：补采缺页时只传缺的几张即可，</li>
+<li>截图录入默认「左列 = 我方」（王者营地赛后截图左列就是录制者一方），按截图上的</li>
+<li>OCR 通道保存时自动复核人改为「截图/录屏录入」，不再署名「营地自动同步」。</li>
+<li>通道列表摘要新增 <code>entry</code>、<code>screenshotImageIds</code>、<code>recordingShas</code>、<code>recordingIds</code>，供前端</li>
+<li>录屏「已补采」识别兼容旧流程：以前人工导出报告 JSON 再挂载时，存的是报告文件的</li>
+</ul>
+<h3>前端</h3>
+<ul>
+<li>截图 OCR 页每张识别结果卡片拆成两个入口：<strong>补采到已有对局</strong>（原下拉 + 补到这一局）</li>
+<li>录屏 OCR 页同样拆两个入口，识别完成的报告可直接「新建一局并录入」。</li>
+<li>校对页适配 OCR 录入通道：文案不再提「营地十人面板」；新增「本局信息」卡，可就地</li>
+<li>截图 / 录屏 OCR 新录入的通道，七页里的扩展指标（补刀、野怪经济、控制效果、治疗量、</li>
+<li>采集页「补录一局」统一改称「新录入一局」，说明这是营地一个月窗口外的历史数据；</li>
+<li>截图页、录屏页的三步条与说明文案讲清「补采」和「新录入」的区别，不再看起来只有</li>
+</ul>
+<h3>测试与文档</h3>
+<ul>
+<li>新增 <code>tests/test_channel_entry_api.py</code>：两条新录入路径的完整链路（建档 → 审核 →</li>
+<li>更新 <code>docs/collection_channel.md</code>、<code>docs/collection_sop.md</code>、README、</li>
+</ul>
+<h3>单局页可视化：事件 / 开团 / 战斗拆分</h3>
+<ul>
+<li><strong>「战斗」拆成「团战」「掉点」两块</strong>（各自一行、各自分析，不再挤在同一张板子里）：</li>
+<li>「切C 与先手」重排：五路统计卡按固定分路顺序（对抗路 / 打野 / 中路 / 发育路 / 游走），</li>
+<li>「事件详情」重排：资源与推塔 / 水晶分成两组卡片，多参战者用分段占比条，单参战者不再画 100% 长条；</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.6.1</h2><span class='cl-date'>2026-11-11</span></div>
+<h3>新增分析层 <code>/api/decision/*</code></h3>
+<ul>
+<li><strong>统一事实表</strong>（<code>decision_facts.py</code>）：把终局面板（32 局 × 10 人）、官方回放</li>
+<li><strong>失利关键链</strong>（<code>/api/decision/loss</code>）：30/60/120 秒负向经济窗口 + ±60 秒死亡/团战/</li>
+<li><strong>优势保持与回撤</strong>（<code>/api/decision/advantage</code>）：最大优势、峰值后回撤、领先时长、</li>
+<li><strong>团战执行与人员协同</strong>（<code>/api/decision/fights</code>）：我方视角的到位延迟、迟到、开局人数差、</li>
+<li><strong>资源分配与发育效率</strong>（<code>/api/decision/resource</code>）：只依赖终局面板；经济/英雄伤害/</li>
+<li><strong>对手开局路线与热区</strong>（<code>/api/decision/opening</code>）：0–4 分钟 5 秒采样、按分路贪心聚类</li>
+<li><strong>赛训首页问题卡</strong>（<code>/api/decision/briefing</code>）：按「重复出现 / 涉及胜负 / 有证据可回看」</li>
+</ul>
+<h3>教练端（赛训台 client）</h3>
+<ul>
+<li>左侧新增一级入口「决策台」，路由 <code>/decision</code>；概览页顶部新增「今天先看这几件事」。</li>
+<li>四个决策工作区：赛后复盘（经济时间轴 + 关键链 + 优势 KPI/分位带/回撤排行）、</li>
+<li>每张图显示有效 n、空态显示 API 原因、近似时间标「≈」、证据可点回单局复盘；</li>
+<li><strong>深链</strong>：<code>kpl-client://open?tab=review|prep|player|training&amp;game=&lt;seq&gt;</code> 可把客户端直接拉到</li>
+</ul>
+<h3>工作台网页端入口</h3>
+<ul>
+<li>V3 工作台首页 <code>#overview</code> 新增「今天先看这几件事」：<strong>紧凑 3 行</strong>（不是 5 张大卡），</li>
+<li><strong>随数据变化</strong>：按工作台当前日期筛选请求 <code>/api/decision/briefing</code>，标题行显示当前范围</li>
+<li>证据展开含对局 label、<code>m:ss</code>、证据文字，可点进 <code>#match/&lt;key&gt;</code>；每行「在赛训台看」走</li>
+<li>接口失败/超时/空数据只替换本区块（含重试），首页其它区块不受影响；</li>
+<li>新增 <code>v3/public/home-decision.js</code>；<code>app.js</code> 首页注入容器、传日期筛选并在 render 后挂载；</li>
+<li>首页行主入口改为 <code>#decision/&lt;tab&gt;?game=…</code>，工作台内直接看四工作区；</li>
+</ul>
+<h3>工作台网页端决策台 <code>#decision</code></h3>
+<ul>
+<li>顶部导航新增「决策」；页面直接提供四个工作区，不装客户端也能复盘：</li>
+<li>URL 为 <code>#decision/review|prep|player|training</code>，刷新保持当前工作区，切工作区不整页刷新；</li>
+<li>新增 <code>v3/public/decision-page.js</code>；<code>app.js</code> 增加决策路由渲染与挂载钩子（决策页自行取数，</li>
+</ul>
+<h3>分析归属调整：模块优先</h3>
+<ul>
+<li>决策台不再承载全部分析。对象模块是主分析所在地，决策台只做跨对局任务汇总与入口；</li>
+<li>第一批落地：<strong>BP 阵容抗针对</strong>放在 BP 模块 <code>#bpcounter</code>，赛前备战只保留补练建议摘要和入口。</li>
+<li>新增 <code>decision_bp.py</code> + <code>/api/decision/bp</code>：对手禁选排行、我方分路英雄池、被常禁后的</li>
+</ul>
+<h3>视觉层：决策台/BP 抗针对</h3>
+<ul>
+<li>深绿渐变英雄区 + 金色 kicker + 米色数据印章式覆盖条；覆盖条压在英雄区下沿，形成层次。</li>
+<li>页签改为报告目录式；工作区卡片加编号、细线、浅阴影；表格去竖线、提高行高与字号；</li>
+<li>BP 抗针对同款视觉语言：英雄区、建议卡、禁选条形图（渐变填充）、分路可用池卡片；</li>
+<li>选手研究四象限散点改为可点选：单击/回车选中人次 → 下方证据卡（对局、英雄、经济/输出/推塔/</li>
+</ul>
+<h3>客户端团战/表格排版</h3>
+<ul>
+<li>团战列表从 6 列压到 4 列（时间 / 参战与人数差 / 击杀差 / 结果），先手信息移到摘要与</li>
+<li>团战区从「左表 + 右图」改为单列（表格 → 到位图 → 开局人数差汇总），</li>
+<li>开局人数差从 11 行明细压成「落后 / 持平 / 领先」3 组汇总。</li>
+<li>数据表行高/内边距提高（10px 12px）、正文 12.5px、数字 tabular-nums；</li>
+</ul>
+<h3>客户端字体修复与可读性</h3>
+<ul>
+<li>旧 <code>noto-serif-sc.woff2</code> 实际是 <strong>146 字形（140 汉字）的 ExtraLight(200) 子集</strong>，</li>
+<li>新增 <code>scripts/build_client_fonts.py</code>：从 OFL 的 Noto Serif CJK SC 生成 400/700 两个子集，</li>
+<li><strong>可读性</strong>：去掉 Windows 上会让小字发虚的 <code>-webkit-font-smoothing: antialiased</code>；</li>
+<li><strong>界面大小</strong>：默认 115%，设置页可选 100/110/115/125/140%；</li>
+</ul>
+<h3>数据边界（本机真实库）</h3>
+<ul>
+<li>23 局可判胜负（20 胜 3 负）、32 局终局面板、518 场团战、831 次死亡、1407 条地图事件。</li>
+<li>每名对手目前 1 局回放 → 对手「固定套路」类结论不成立，页面只做单局观察；</li>
+<li>复盘结论→训练目标→复测的自动闭环仍属下一阶段；本轮训练验证只读 <code>/api/v3/effect</code>。</li>
+</ul>
+<h3>测试与验证</h3>
+<ul>
+<li>新增 <code>tests/decision_fixtures.py</code>（合成 camp/normalized/positions 数据）与 5 个测试文件</li>
+<li>新增 <code>scripts/shot_client_decision.mjs</code>：启动工作台 + Electron 客户端，截取概览与</li>
+<li>工作台首页决策入口用 Playwright 真机验证：真实数据 5 张卡、0 console error、</li>
+<li>字体修复后重新构建客户端并截图核对：标题汉字不再回退、400/700 字重一致；</li>
+<li><code>client</code> 通过 <code>npm run typecheck</code> 与 <code>npm run build</code>。</li>
+</ul>
+<h3>数据口径与冲突提示</h3>
+<ul>
+<li>营地十人面板合入草稿时，<code>damage</code> / <code>taken</code> 改用<strong>对英雄输出 / 对英雄承伤</strong></li>
+<li>跨来源合并按显示精度比对：截图 <code>66.1k</code> / <code>48%</code> / <code>6.2k</code> 与营地面板 <code>66056</code> / <code>48.1</code> / <code>6191</code></li>
+<li>单局复盘页删除底部采集提示条：来源冲突与录屏提示不再在分析页重复展示；</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.6.0</h2><span class='cl-date'>2026-11-11</span></div>
+<li><strong>协议双轨</strong>：代码改为 AGPL-3.0-or-later。个人、教学、俱乐部内部使用免费；</li>
+<li><strong>历史版本存档</strong>：1.5.x 及以前的 PolyForm Noncommercial 文本移到</li>
+<li><strong>素材与个人资料移出版本库</strong>：取消跟踪 <strong>961 个文件</strong>——<code>resources/icons</code>（349 张英雄/装备图）、</li>
+<li><strong>新增发布自检</strong> <code>scripts/check_publish.py</code>：扫描禁止路径、本机用户名/用户目录、</li>
+<li><strong>清理</strong>：两份技术文档里的本机用户目录绝对路径改为占位符。</li>
+<li><strong>新增 <code>NOTICE</code></strong>：第三方依赖、字体与游戏素材归属；<code>client/package.json</code>、</li>
+<li><strong>注意</strong>：Git 历史里仍含这些素材与参考站副本。首次公开前如要彻底干净，</li>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.33</h2><span class='cl-date'>2026-11-11</span></div>
+<h3>位置可多选</h3>
+<ul>
+<li>对话框里的「位置」从单选下拉换成<strong>可多选标签</strong>，第一个勾的是主位置。</li>
+<li>数据落两张口径：<code>players.position</code> 存主位置（下游仍按单值用，不动分析口径），</li>
+</ul>
+<h3>命名后那一行不再消失</h3>
+<ul>
+<li>排序改成已命名在前（原来 <code>sorted(False, True)</code> 把待命名排到了最上面）</li>
+<li>「改名」按钮统一改成「编辑」——它本来就能改位置和战队，叫「改名」把人劝退了</li>
+<li>行里显示全部位置：<code>对抗路 / 打野 / 发育路</code></li>
+</ul>
+<h3>数据可以搬到另一台机器（命令行 + 接口已通，界面按钮待接）</h3>
+<ul>
+<li><strong>导出</strong>：<code>python scripts/transfer_data.py export --out 赛训数据-20261111.zip</code></li>
+<li><strong>导入</strong>：<code>python scripts/transfer_data.py import --bundle xxx.zip</code></li>
+<li><code>--dry-run</code> 先预演，<code>--with-screenshots</code> / <code>--with-replays</code> 按需带上大文件</li>
+</ul>
+</section>
+<section class='cl-version'><div class='cl-head'><h2>v1.5.32</h2><span class='cl-date'>2026-11-10</span></div>
 <li><strong>优势兑现</strong>（资源与团战）：先筛「10 分钟领先且分出胜负」的局，再看这些局里</li>
 <li><strong>对手阵容</strong>（对手）：按对手名分组，把他们每局五人两两配对，取出现次数最多的一组，</li>
 <li>向量新增 <code>heroesFoe</code>（对手五人阵容）。</li>
