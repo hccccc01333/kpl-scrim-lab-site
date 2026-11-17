@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>雨乐王者赛训数据工具 · 更新日志</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html</link>
+    <description>每一版改了什么：新增、修复与已知问题。</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 17 Nov 2026 10:58:47 +0000</lastBuildDate>
+  <item>
+    <title>v1.6.7</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.7</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.7</guid>
+    <pubDate>Fri, 13 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 新增「赛训工作台」首页：最近一局整卡进入单局复盘；待处理 / 训练计划 / 数据来源
+- 新增 8 张工作流卡：采集与入库、赛训决策、跨局研究、BP 抗针对、对手侦察、
+- 「今天先看这几件事」保留并整行可点：点行进对应决策分析（带对局 ID），
+- 经济趋势、本队英雄观察、近期对局都可下钻，待办数直接显示在首页卡片上
+- 浅色 / 深色主题与 1440–390 宽度均适配，无横向滚动
+- 营地对局 ID 与位置接口的 key 直接拼路径，理论上可读到工作目录外的文件：
+- 部分更新（如营地只回填日期胜负）会把人工确认过的记录状态重置回草稿、
+- 回放出装时间轴把 checkpoint 里合法的 0 金币 / 0 击杀当成缺失；
+- 回放状态缓存只按 abc 文件算 key，同一局的 ope 变了仍返回旧结果
+- 录像 OCR 的布局是模块级全局量，两段录屏并发识别会互相覆盖裁剪坐标
+- 英雄图标 / 分路参考表按进程缓存，改完文件不重启不生效
+- 分析仓库缓存无锁，并发请求可能读到半成品；解析失败被静默吞掉，现带出原因
+- 身份自动匹配先截断再过滤，会把后面的合格对局挤掉；同名队员的绑定冲突被覆盖
+- 空库首次打开仍是「第一次使用」引导页，采集入口不变。
+- 只换首页组织方式：不新增指标、不改筛选与统计口径。
+- 升级不受影响：data/、.env 与既有对局数据全部保留。
+- 已知：跨局分析（#cross）冷启动要现算全量跨局向量再逐局拉明细，首次打开较慢；</description>
+  </item>
+  <item>
+    <title>v1.6.6</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.6</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.6</guid>
+    <pubDate>Thu, 12 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 修「同步成功但回放为空」：/api/camp/list 的每条记录补回归属信息
+- 后端再加一层兜底：调用方漏传营地 ID 时，从条目自带的 ownerCampUserId 取
+- 新增「全部取消勾选」：拉取完自动勾上的局可以一键清空，列表顶部和底部各有一个入口
+- 勾选单局不再整页重绘：列表不会因为点一下复选框就跳回顶部
+- 升级不受影响：data/、.env、营地授权与既有对局数据全部保留。
+- 已经同步过、但回放为空的局，升级后重新点一次「同步所选」即可补上回放</description>
+  </item>
+  <item>
+    <title>v1.6.5</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.5</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.5</guid>
+    <pubDate>Thu, 12 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 修营地同步成功后回放仍然为空：同步时把营地账号 ID 一起带上，自动导入才拿得到 playerid
+- 修覆盖安装后打开仍是旧界面：启动器发现 8766 上跑着旧版本，先停旧进程再起新版本
+- 修升级后浏览器仍用旧页面：前端资源地址改成「版本号 + 前端最新修改时间」，每次发版都换
+- 页面发现自己是旧版本时，会提示按 Ctrl+F5 刷新，不再无声地停在旧界面
+- 新增按需解码的技能台账接口 /api/replays/&amp;lt;id&amp;gt;/skill-ledger
+- 升级不受影响：data/、.env、营地授权与既有对局数据全部保留。
+- 技能台账只从回放输入流解出「谁在第几帧放了哪个槽位、指向谁」，读不到命中、伤害、</description>
+  </item>
+  <item>
+    <title>v1.6.4</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.4</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.4</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 移除匿名使用统计：删掉客户端心跳、首启说明弹窗与页脚「匿名统计」入口
+- 移除 telemetry.py、stats/ 统计服务、/api/usage/* 接口与配套文档、测试
+- 工作台内自动更新保持不变：打开就提示、一键升级
+- 升级不受影响：data/、.env、营地授权与既有对局数据全部保留
+- 如果你已经装过 1.6.3，升级到 1.6.4 后不会再发送任何统计心跳，也不再弹相关说明。
+- 本次更新只删除程序文件，不做任何数据迁移；data/usage/ 里的旧安装 ID 可以手动删除。</description>
+  </item>
+  <item>
+    <title>v1.6.3</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.3</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.3</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 打开工作台自动检查新版本，右下角弹出更新卡片：立即更新 / 选择本地更新包 / 稍后
+- 立即更新：服务端下载增量包 → 校验 SHA-256 → 替换程序文件 → 自动重启；启动失败自动回滚
+- 更新只替换程序文件，data/、.env、营地授权不受影响；源码目录不弹更新（走 更新代码.bat）
+- 新增匿名使用统计：只上报随机安装 ID、版本与系统类型，可用 KPL_TELEMETRY=0 关闭
+- 首次打开会主动说明统计内容与本机匿名 ID，页脚「匿名统计」可随时关闭或重新开启
+- 页脚新增「检查更新」，随时手动检查
+- 新增 v3/public/update-banner.js：页面加载后约 1.5 秒静默调用 /api/update/check，
+- 「立即更新」走 /api/update/apply：服务端下载增量包并校验 SHA-256、暂存、退出；
+- 「选择本地更新包」支持完全离线：选 patch-&amp;lt;版本&amp;gt;.zip 上传到 /api/update/stage，
+- 「稍后」只在本次会话内生效（刷新不重复弹），下次打开再提示；页脚「检查更新」可随时手动检查，
+- 版本低于清单 minVersion 时不再提供增量更新，卡片引导下载完整包 / 安装包。
+- 源码模式保护：/api/update/check 返回 sourceMode，前端不弹自动更新；
+- 修复更新器在 KPL_DATA_DIR 指到应用目录之外时，替换完文件后写结果崩溃、服务不再
+- 前端 30 分钟节流 + 服务端清单缓存 6 小时；离线自动检查静默，不阻塞工作台。
+- 新增 telemetry.py 客户端心跳：从 update.json 的可选 stats 字段读取统计地址，
+- 可用环境变量 KPL_TELEMETRY=0 或 data/usage/optout 文件关闭；安装 ID 存在
+- 新增统计服务 stats/server.py（FastAPI + sqlite，/api/ping、/api/summary、仪表盘）
+- 新增 scripts/usage_report.py 查看安装总数 / 24h·7d·30d 活跃 / 版本分布。
+- 发版时用 python scripts/make_release.py --stats-url https://… 把统计地址写进 update.json；
+- 使用者可见的告知：首次打开工作台弹一次「匿名使用统计」说明（会上报 / 不会上报、
+- 新增 scripts/verify_update_panel.py（Playwright，自带 mock）：覆盖发现新版本、稍后、
+- 新增 tests/test_telemetry.py；更新 docs/update.md、README.md，新增 docs/usage_stats.md。</description>
+  </item>
+  <item>
+    <title>v1.6.2</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.2</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.2</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 截图 OCR / 录屏 OCR 原来只有「挂到哪一局」一种动作，语义等于补采：往已有通道
+- 没有营地链接的通道 sourceStatus.complete 永远为 false（必采只认 official），
+- 通道新增录入方式 entry.mode = camp | ocr，sourceStatus.mode 同步返回；旧通道
+- OCR 通道的完整口径改为：七页截图齐全，或一段十人阵容完整的录屏报告，任一即可
+- 新增 POST /api/channels/from-screenshots：从一组识别结果直接新建一局，自动带出
+- 新增 POST /api/channels/from-recording：从一段识别完成的录屏报告直接新建一局，
+- POST /api/channels/{id}/screenshot 改为并集合并：补采缺页时只传缺的几张即可，
+- 截图录入默认「左列 = 我方」（王者营地赛后截图左列就是录制者一方），按截图上的
+- OCR 通道保存时自动复核人改为「截图/录屏录入」，不再署名「营地自动同步」。
+- 通道列表摘要新增 entry、screenshotImageIds、recordingShas、recordingIds，供前端
+- 录屏「已补采」识别兼容旧流程：以前人工导出报告 JSON 再挂载时，存的是报告文件的
+- 截图 OCR 页每张识别结果卡片拆成两个入口：补采到已有对局（原下拉 + 补到这一局）
+- 录屏 OCR 页同样拆两个入口，识别完成的报告可直接「新建一局并录入」。
+- 校对页适配 OCR 录入通道：文案不再提「营地十人面板」；新增「本局信息」卡，可就地
+- 截图 / 录屏 OCR 新录入的通道，七页里的扩展指标（补刀、野怪经济、控制效果、治疗量、
+- 采集页「补录一局」统一改称「新录入一局」，说明这是营地一个月窗口外的历史数据；
+- 截图页、录屏页的三步条与说明文案讲清「补采」和「新录入」的区别，不再看起来只有
+- 新增 tests/test_channel_entry_api.py：两条新录入路径的完整链路（建档 → 审核 →
+- 更新 docs/collection_channel.md、docs/collection_sop.md、README、
+- 「战斗」拆成「团战」「掉点」两块（各自一行、各自分析，不再挤在同一张板子里）：
+- 「切C 与先手」重排：五路统计卡按固定分路顺序（对抗路 / 打野 / 中路 / 发育路 / 游走），
+- 「事件详情」重排：资源与推塔 / 水晶分成两组卡片，多参战者用分段占比条，单参战者不再画 100% 长条；</description>
+  </item>
+  <item>
+    <title>v1.6.1</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.1</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.1</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 统一事实表（decision_facts.py）：把终局面板（32 局 × 10 人）、官方回放
+- 失利关键链（/api/decision/loss）：30/60/120 秒负向经济窗口 + ±60 秒死亡/团战/
+- 优势保持与回撤（/api/decision/advantage）：最大优势、峰值后回撤、领先时长、
+- 团战执行与人员协同（/api/decision/fights）：我方视角的到位延迟、迟到、开局人数差、
+- 资源分配与发育效率（/api/decision/resource）：只依赖终局面板；经济/英雄伤害/
+- 对手开局路线与热区（/api/decision/opening）：0–4 分钟 5 秒采样、按分路贪心聚类
+- 赛训首页问题卡（/api/decision/briefing）：按「重复出现 / 涉及胜负 / 有证据可回看」
+- 左侧新增一级入口「决策台」，路由 /decision；概览页顶部新增「今天先看这几件事」。
+- 四个决策工作区：赛后复盘（经济时间轴 + 关键链 + 优势 KPI/分位带/回撤排行）、
+- 每张图显示有效 n、空态显示 API 原因、近似时间标「≈」、证据可点回单局复盘；
+- 深链：kpl-client://open?tab=review|prep|player|training&amp;amp;game=&amp;lt;seq&amp;gt; 可把客户端直接拉到
+- V3 工作台首页 #overview 新增「今天先看这几件事」：紧凑 3 行（不是 5 张大卡），
+- 随数据变化：按工作台当前日期筛选请求 /api/decision/briefing，标题行显示当前范围
+- 证据展开含对局 label、m:ss、证据文字，可点进 #match/&amp;lt;key&amp;gt;；每行「在赛训台看」走
+- 接口失败/超时/空数据只替换本区块（含重试），首页其它区块不受影响；
+- 新增 v3/public/home-decision.js；app.js 首页注入容器、传日期筛选并在 render 后挂载；
+- 首页行主入口改为 #decision/&amp;lt;tab&amp;gt;?game=…，工作台内直接看四工作区；
+- 顶部导航新增「决策」；页面直接提供四个工作区，不装客户端也能复盘：
+- URL 为 #decision/review|prep|player|training，刷新保持当前工作区，切工作区不整页刷新；
+- 新增 v3/public/decision-page.js；app.js 增加决策路由渲染与挂载钩子（决策页自行取数，
+- 决策台不再承载全部分析。对象模块是主分析所在地，决策台只做跨对局任务汇总与入口；
+- 第一批落地：BP 阵容抗针对放在 BP 模块 #bpcounter，赛前备战只保留补练建议摘要和入口。
+- 新增 decision_bp.py + /api/decision/bp：对手禁选排行、我方分路英雄池、被常禁后的
+- 深绿渐变英雄区 + 金色 kicker + 米色数据印章式覆盖条；覆盖条压在英雄区下沿，形成层次。
+- 页签改为报告目录式；工作区卡片加编号、细线、浅阴影；表格去竖线、提高行高与字号；
+- BP 抗针对同款视觉语言：英雄区、建议卡、禁选条形图（渐变填充）、分路可用池卡片；
+- 选手研究四象限散点改为可点选：单击/回车选中人次 → 下方证据卡（对局、英雄、经济/输出/推塔/
+- 团战列表从 6 列压到 4 列（时间 / 参战与人数差 / 击杀差 / 结果），先手信息移到摘要与
+- 团战区从「左表 + 右图」改为单列（表格 → 到位图 → 开局人数差汇总），
+- 开局人数差从 11 行明细压成「落后 / 持平 / 领先」3 组汇总。
+- 数据表行高/内边距提高（10px 12px）、正文 12.5px、数字 tabular-nums；
+- 旧 noto-serif-sc.woff2 实际是 146 字形（140 汉字）的 ExtraLight(200) 子集，
+- 新增 scripts/build_client_fonts.py：从 OFL 的 Noto Serif CJK SC 生成 400/700 两个子集，
+- 可读性：去掉 Windows 上会让小字发虚的 -webkit-font-smoothing: antialiased；
+- 界面大小：默认 115%，设置页可选 100/110/115/125/140%；
+- 23 局可判胜负（20 胜 3 负）、32 局终局面板、518 场团战、831 次死亡、1407 条地图事件。
+- 每名对手目前 1 局回放 → 对手「固定套路」类结论不成立，页面只做单局观察；
+- 复盘结论→训练目标→复测的自动闭环仍属下一阶段；本轮训练验证只读 /api/v3/effect。
+- 新增 tests/decision_fixtures.py（合成 camp/normalized/positions 数据）与 5 个测试文件
+- 新增 scripts/shot_client_decision.mjs：启动工作台 + Electron 客户端，截取概览与
+- 工作台首页决策入口用 Playwright 真机验证：真实数据 5 张卡、0 console error、
+- 字体修复后重新构建客户端并截图核对：标题汉字不再回退、400/700 字重一致；
+- client 通过 npm run typecheck 与 npm run build。
+- 营地十人面板合入草稿时，damage / taken 改用对英雄输出 / 对英雄承伤
+- 跨来源合并按显示精度比对：截图 66.1k / 48% / 6.2k 与营地面板 66056 / 48.1 / 6191
+- 单局复盘页删除底部采集提示条：来源冲突与录屏提示不再在分析页重复展示；</description>
+  </item>
+  <item>
+    <title>v1.6.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.6.0</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 协议双轨：代码改为 AGPL-3.0-or-later。个人、教学、俱乐部内部使用免费；
+- 历史版本存档：1.5.x 及以前的 PolyForm Noncommercial 文本移到
+- 素材与个人资料移出版本库：取消跟踪 961 个文件——resources/icons（349 张英雄/装备图）、
+- 新增发布自检 scripts/check_publish.py：扫描禁止路径、本机用户名/用户目录、
+- 清理：两份技术文档里的本机用户目录绝对路径改为占位符。
+- 新增 NOTICE：第三方依赖、字体与游戏素材归属；client/package.json、
+- 注意：Git 历史里仍含这些素材与参考站副本。首次公开前如要彻底干净，</description>
+  </item>
+  <item>
+    <title>v1.5.33</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.33</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.33</guid>
+    <pubDate>Wed, 11 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 对话框里的「位置」从单选下拉换成可多选标签，第一个勾的是主位置。
+- 数据落两张口径：players.position 存主位置（下游仍按单值用，不动分析口径），
+- 排序改成已命名在前（原来 sorted(False, True) 把待命名排到了最上面）
+- 「改名」按钮统一改成「编辑」——它本来就能改位置和战队，叫「改名」把人劝退了
+- 行里显示全部位置：对抗路 / 打野 / 发育路
+- 导出：python scripts/transfer_data.py export --out 赛训数据-20261111.zip
+- 导入：python scripts/transfer_data.py import --bundle xxx.zip
+- --dry-run 先预演，--with-screenshots / --with-replays 按需带上大文件</description>
+  </item>
+  <item>
+    <title>v1.5.32</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.32</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.32</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 优势兑现（资源与团战）：先筛「10 分钟领先且分出胜负」的局，再看这些局里
+- 对手阵容（对手）：按对手名分组，把他们每局五人两两配对，取出现次数最多的一组，
+- 向量新增 heroesFoe（对手五人阵容）。
+- scripts/verify_identity_flow.py 现在能在空实例上自跑：身份对照的账号来自
+- 对手账号命名补上「归队」这一步（产品口径要求命名时必须归队），并在保存没成功时</description>
+  </item>
+  <item>
+    <title>v1.5.31</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.31</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.31</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 「赛训 → 数据准备 → 建档」顶部新增「身份对照」：一行一个游戏账号，列出游戏ID、
+- 对手归属每名选手加「命名」：命名后直接显示真人名与战队，不再是营地昵称；
+- 选手认领不再写昵称字符串：认领、命名并归队都写同一条账号映射，settings.aliases
+- 删除选手 = 选手 + 他的游戏账号映射一起删：那些游戏ID回到「待命名」。不做转会、
+- 营地白名单的「改名」标注为本机备注，真正的游戏ID → 选手ID 在身份对照里统一改。
+- 修掉「选手认领」页直接打开提示「还没有选中选手认领」的路由判断（它是整页，不是详情页）。
+- scripts/replay_probe.py 恢复可用：字段早已从 gold 改名为 buyEcho，
+- 一次上传只解析一次（原来三次）：上传校验、导入、建出装时间轴各解一遍。
+- 上传不再堵事件循环：POST /api/replays/files 的解析改走
+- inspect_frame_stream 的 lastSequence 不再回绕：线上是 u8 序列号，
+- 解析器不再改模块全局：版本档案的偏移量原来靠临时改写 12 个模块常量 +
+- 帧率常量原来散在 tools/replay_frame_commands.py（15）、
+- 产品仍用 15 fps（docs/replay_binary_format.md §5.129），
+- 引擎 dump 实测 15.1515 fps（57 帧 / 3762 ms，已从 unit_*.bin 复现），
+- tests/test_replay_time_base.py 锁死「常量只能有一处」，并固定产品口径。
+- 新增 docs/replay_sources_matrix.md：四个来源（文件 / 营地 / 录屏 / 截图）
+- 新增 tests/test_replay_upload_parse_once.py（上传+导入只解一次、坏文件仍被拒）、</description>
+  </item>
+  <item>
+    <title>v1.5.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.0</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 截图不再压缩识别：去掉 OCR 前把宽度压到 1600px 的一刀切（横屏 2400×1080 截图
+- 战绩页解析重写：行内干净 token 优先 + KDA 合理性门限（击杀/死亡 ≤40、
+- 字形级救援读取：Otsu 自适应定位字形包围盒 → 回原图紧裁保留反锯齿 →
+- 多候选投票：每个数值单元格收集常规直读与字形变体的全部候选按多数决，
+- KDA+经济合并 token 截尾拆分：压缩在尾部粘出幽灵数字时（2/7/2+5828 →
+- 占比自洽性修复：合并页时若识别值与自己的占比自相矛盾而摊算值自洽
+- scripts/ocr_eval_piaoliu.json + scripts/eval_ocr_accuracy.py：漂流网咖对局
+- 干净原图 rapid/hybrid 双引擎 220/220；压力变体捆绑级 5/6 组 100%，
+- 无需任何操作；已识别过的截图结果按原样保留，重新识别即可享受新精度。</description>
+  </item>
+  <item>
+    <title>v1.5.1</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.1</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.1</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 回放面板工具入库：replay_panels.py——本地 .abc 回放 + 营地对局详情 →
+- 压力变体生成并入评测脚本：scripts/eval_ocr_accuracy.py --make-variants &amp;lt;目录&amp;gt;
+- 清理根目录探针脚本与 40MB 评测临时目录（其结论转正式修复，见后续版本）。</description>
+  </item>
+  <item>
+    <title>v1.5.2</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.2</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.2</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 首次全量拉取不再截断在 8 页：tools/camp_sync.py 无水位同步从固定 8 页
+- 翻页到详情保留期边界即停：整页对局都超出营地 31 天详情保留期后，
+- 同步汇总新增覆盖范围：summary 带 oldest（已覆盖到的最早对局时间），
+- tools/camp_insights.py 列表拉取默认页数 8 → 30（约 480 局）。</description>
+  </item>
+  <item>
+    <title>v1.5.3</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.3</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.3</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 识别时自动检测重压缩：从 JPEG 量化表估算有效画质（IJG 约定反推，实测
+- PNG 截图与高画质原图不触发提示，无误报；检测只提示、不拒图，与既有
+- 新增单元测试覆盖低画质告警 / 高画质与 PNG 静默两类场景。</description>
+  </item>
+  <item>
+    <title>v1.5.4</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.4</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.4</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 「采集规范」页新增「传到电脑」行：推荐数据线或 QQ 发文件；微信发图必须勾
+- 采集页截图 OCR 窗口的说明同步加上传输提示，压缩图识别时会被提示重传。</description>
+  </item>
+  <item>
+    <title>v1.5.5</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.5</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.5</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 整型列字形互核：对整型数值的检测框做字形级紧框重读，所有高置信变体
+- 经济精度回退显性化：战绩页精确经济没读出、只挂上数据/发育页 k 值时，
+- 压力变体捆绑级：5/6 组 100%，w1920 98.6%（仅剩带警告的精度回退）。</description>
+  </item>
+  <item>
+    <title>v1.5.6</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.6</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.6</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 整型字形互核加守卫：只对单位数 token 互核——多位数 token 被重读成
+- pyflakes 清零：清理 postgame_ocr.py 死变量、server.py 与
+- 审查结论：_merge_player 精度优先合并、_merge_match 冲突警告、</description>
+  </item>
+  <item>
+    <title>v1.5.7</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.7</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.7</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 「昵称完全一致率」只会算出 3/10，无法反映教练的真实负担——识别差一个字
+- 漂流网咖基准实测：自动认领 3、一字之差 5、人工核对 2、漏读 0——
+- 新增 camp_archive.py：把每份载荷摊平成「路径 → 类型 / 出现次数 / 非空数 /
+- scripts/archive_camp_fields.py 落三份产物：
+- GET /api/official/archive 直接读这份档案；营地改版后可以 diff 出新增字段。
+- 实测：24 条回放 / 163 个字段路径 / 140 条中文文案；十人面板 365 个字段路径、
+- 资源控制从「一行文字 + 四个散格」改成主数字（控制率）+ 计数药丸 + BUFF 说明；
+- 联动组合与「对位压制」共用同一块浅底面板（虚线分隔），不再是一排各自带框的小盒；
+- 击杀账本汇总行改成药丸，切C 贴右对齐，表格不再挤在中段留空白；
+- 「对位压制」删掉重复的「样本不足 / 没有同分路对位样本」，改成实际局数；
+- 对局档案首次只铺 24 行，其余折叠：档案页 4,735px → 2,507px，搜索仍走同一套渲染。
+- scripts/audit_v3_regression.py 把 .offline-card（详情路由缺 ID 时的提示卡）
+- 新增 tests/test_camp_archive.py（13 条），全套 589 passed。
+- 联动组合每张卡补一行 KPL：KPL 10 场 · 胜率 70%（2026），没有的组合写「KPL 没出现过」。
+- 对位压制没样本时说明原因：列出两个英雄在巅峰千强的使用率与 3% 门槛</description>
+  </item>
+  <item>
+    <title>v1.5.30</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.30</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.30</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 数据：巅峰千强同分路对位表（样本 ≥200 局、双方使用率 ≥3%）+ 同分段英雄基准胜率（近 90 天窗口）
+- 算法：超额胜率 = 实际对位胜率 − 按两个英雄各自基准胜率算出的期望胜率（Bradley-Terry）。
+- 判定：超额 ≥ +2 个点判「我方占优」，≤ −2 判「我方吃亏」，中间是「打平」；
+- 卡片同时保留两行参考：本局实际对位经济差（与大盘同向 / 相反）、自家训练赛的领先率。
+- 数据：KPL 2024 年起的 picks（本机 4,586 局可判定），双人 3,386 组、三人 10,495 组
+- 展示：本队 10 组双人里 3 组在 KPL 出现过，下面列出命中的组合与场次 / 胜率</description>
+  </item>
+  <item>
+    <title>v1.5.29</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.29</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.29</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 拆成四个页签：这段时间 / BP 与阵容 / 五路与人 / 对手。页签写进地址（#cross/bp），
+- 删掉逐局对照台：一局一局的对照交回单局复盘；跨局页只留结论卡，页面不再上万像素。
+- 「圈定」改成按钮展开：每张卡底部「看这 N 局」，点开在卡片里列出一行一局
+- 新增两块分析：英雄账本（我方选过的英雄：局数、胜算，按出场 / 按胜率两视图）、
+- 文案统一成教练口径：金 → 金币；「中位」→「典型」；卡片标题改成一句人话结论；
+- 阶段口径修正：优势归因改回教练定义的三段——0–4 对线 / 4–10 发育 / 10 分钟后，
+- 「这段时间」页换成五块：共性（一局一格、按时间排开）、赢的局和输的局差在哪、
+- 共性改成散点：一局一个点、按开赛时间横向排开，纵轴是这一局的 10 分钟经济差；
+- 新增「资源与团战」页签：控龙率与推塔（赢的局 / 输的局并排）、
+- 切 C 与首杀：场均切 C（我方对抗路/打野击杀对方中路/发育路）与「先拿首杀」的比例，
+- 英雄组合：每局我方五人两两配对，统计同一对英雄一起上场的局数与胜负
+- 团战账本：按每波团双方参战人数分「多打少 / 人数相同 / 少打多」，
+- 打野节奏：用 0–10 分钟的逐秒坐标（1 Hz）算「过河时间占比 / 首次过河 / 深入野区占比」，
+- 选手榜：逐人场均死亡、参团率、分均经济；出场不足 3 局的先不进榜，
+- 位置对位：每局把双方同分路的人配对，比分均经济差、分均输出差、场均死亡差。
+- 团战伤害结构：从每波团的十人明细算我方各分路的伤害占比与承伤占比。
+- 向量新增 pl（逐人一行）与 fs（团战分路占比）；没有回放或没有时长的局对应字段留空。
+- 新增数据字典 docs/camp_replay_payload.md：24 局真实载荷逐字段核对（163 个字段），
+- 拆成两个页签：五路强弱（分路经济 / 胜率 / 同路对位 / 团战参与）、
+- 新增「本队名单 / 全部出场」范围切换：本队名单只算已认领的选手，全部出场把未认领昵称
+- 文案同步改成金币口径（「五条路的钱加起来，每分钟比对手多 +73 金币」），
+- 新增「打野并线」区块（十人数据页签）：兵线到来时本队 2～3 人在同一条路上一起吃这波线
+- 组里必须有打野：教练次日补充「射手 + 辅助不算」——固定搭档同吃一波线不算并线；
+- 三段按 KPL 口径切：0–4 对线 / 4–10 发育 / 10 分钟后到结束；卡片上每段一个数字加一条
+- 时间轴：三条路各一条轨道，上线＝本队打野、下线＝对手；圆点＝双人并线、方块＝三人并线，
+- 按路拆表：3 条路 × 3 段，每格「本队 / 对手」次数，底色深浅表示两队合计强度，末列合计。
+- 三人并线单列：卡片上「三人 / 双人」分开计数，时间轴上三人并线用方块区分（恰好 3 人才算）。
+- 只按兵线波次切窗口，不假定交汇点：第 n 波在 10 + 33(n−1) 秒出发
+- 走廊用回放坐标反推：对抗路＝左侧竖段接上边横段、发育路＝下边接右侧、中路＝对角线，
+- 不计入：己方基地 34 单位内、坐标 (0,0) 占位、阵亡冻结样本、5 人以上推挤（团战不是并线）。
+- 23 局实测（均值）：打野 10.7 次；同一批里和打野一起吃线最多的是中路 6.4、对抗路 4.1、
+- 10 分钟经济可在工作台直接填：营地与回放都没有逐人金币时间轴（回放只有团队经济，
+- cheat sheet 换统计：击杀账本改成「切C 与先手」五张统计卡（切C / 先手 / 击杀，
+- 比赛脉搏点位可点：龙＝菱形、BUFF＝圆点、防御塔＝方块、水晶＝大方块，金青分阵营；
+- 对位热区重做：径向渐变的糊状光斑换成离散分格（每格按停留时长分 5 档），
+- 资源控制可视化：控制率做成主数字 + 进度条，四个目标各一条对向条，防御塔拆到
+- BP 复盘卡：一句结论 + 对位命中（历史同分路同英雄对战，本局是否兑现）+ 联动命中；</description>
+  </item>
+  <item>
+    <title>v1.5.28</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.28</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.28</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 新增 camp_tiles.py：按 (阵营, 英雄) 对齐十人，只做单位归一（% / 秒 / 千 / 万）
+- 单局接口带回 player.campTiles。实测钟馗「勾中敌方英雄 16」、孙悟空
+- 十人面板每个位置先亮一张该位置最相关的卡片（游走=视野价值、
+- 口径纪律：营地没给分母，卡片只做同局参考，不进任何评级。
+- camp_replay.link_from_entry()：战局清单（morebattlelist）自带
+- 营地同步完成后自动补拉官方回放并挂到通道（_camp_auto_official）。
+- 新增 GET /api/official/coverage 与 POST /api/official/backfill：
+- 原来一屏 8,042px。按「复盘 / 十人数据 / 事件 / 地图」拆开，地址带页签
+- 后到的区块（击杀账本、事件详情）插回各自页签，不再落到被隐藏的地图页。
+- 对位行的指标名改成单行（原来 32px 宽，分均经济 被折成三行）；
+- 雷达去掉轴标签：132px 里塞 5 个中文标签会被 viewBox 裁掉，看起来像乱码。
+- 事件详情去掉「框里框」，改成细分隔线；hurtTotal 在同一份回放里
+- 对位纵深里 0 秒 的格子退成虚线浅底，满屏灰块不再盖过真数据；</description>
+  </item>
+  <item>
+    <title>v1.5.27</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.27</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.27</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 对位压制：单局 BP 区新增五路英雄对位卡。用历史同分路对位样本
+- 打团存活（发育路）：每波团战从开始到本人阵亡（或团战结束）的平均秒数，
+- 中单跑图：中路对位行新增「跑图」＝逐秒位置累计移动距离/分，
+- 位置身份映射修复：positions.json 的 playerId 是营地短 ID，通道名单</description>
+  </item>
+  <item>
+    <title>v1.5.26</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.26</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.26</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 比赛是一等实体：新增 competitions 表（赛事名 / 日期 / 对手 / 赛段 /
+- 赛训首页改为「比赛与训练计划」：最上方是比赛列表与「添加比赛」；
+- 新增比赛详情页 #competition/&amp;lt;id&amp;gt;：赛事信息、负责教练、本队五路选手
+- 对局归集沿用训练课口径：手工关联 → 日期+对手 → 日期+训练组 → 日期。
+- 接口：GET/POST /api/studio/workspace/competitions、</description>
+  </item>
+  <item>
+    <title>v1.5.25</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.25</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.25</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 此前误判纠正：回放 battle.kills 一直是空数组，真正的事件账本是
+- 单局页新增「击杀账本」：按时间列出每一次击杀（击杀方 → 被击杀方 +
+- 对位面板新增「切C」：对抗路/打野的分路指标里增加切C次数（击杀对方
+- 台账同步修正：切C 从「卡点」改为已解锁；先手/团战 KDA 数据也在同一载荷。</description>
+  </item>
+  <item>
+    <title>v1.5.24</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.24</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.24</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 单局 BP 区新增「我方组合 / 对手组合」：把双方阵容里的英雄双人/三人组合
+- 实测：钟馗+项羽 4 局 100%（协同 +6pp）、姜子牙+项羽 4 局 50%（协同 −19pp）、
+- 顺带确认：各英雄胜率已在英雄榜页（105 英雄含分档/组合协同）；</description>
+  </item>
+  <item>
+    <title>v1.5.23</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.23</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.23</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 事件详情面板：每个关键事件（暴君/主宰/防御塔/水晶优先）列出参战者、
+- 反野统计：资源控制面板新增 BUFF：收己方野 X · 反野 Y 次 · 被反 Z 次
+- 营地复盘叙述：reportData.adviceList 的中文团战评述（含「己方伤害不足」
+- 修正 /api/replay 的字段白名单：此前会把 buffEvents/narrations 过滤掉。
+- 修正回放到达后的分区重渲染：新增区块（事件详情）此前不会插入页面。</description>
+  </item>
+  <item>
+    <title>v1.5.22</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.22</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.22</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- dtID → 资源类型映射（从 team-analyzev2 前端包核实）：
+- 单局页「资源控制」面板：暴君 / 暗影暴君 / 暗影主宰 / 防御塔的双方击杀数
+- 回放事件补充每个参战者的伤害量（hurtTotal）：为下一步「团战伤害占比」准备。
+- 接口侦察结论写入台账：battleanalyze 还有 adviceList/emeryInfo/skillUsedInfo 等未用数据；</description>
+  </item>
+  <item>
+    <title>v1.5.21</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.21</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.21</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 对位比较面板按分路取指标（基于营地终局字段，无需官方回放）：
+- 数据卡点如实记录（台账新增「数据卡点」一节）：</description>
+  </item>
+  <item>
+    <title>v1.5.20</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.20</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.20</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 分均经济评级：对位比较面板的「分均经济」按教练给的阈值直接分级
+- 经济转输出：对位面板新增该列（判断中单/发育路是否「无效输出」的关键指标）。
+- 死亡率预警：面板新增「死亡」列，超过 2 次标红加粗（对齐教练 Excel 的
+- 评分口径取自教练 2026-11-10 的 Excel「王者荣耀-对局数据总结」：
+- 台账更新：docs/feedback-2026-11-10-coach.md 追加第三波（打野控龙/反野、</description>
+  </item>
+  <item>
+    <title>v1.5.19</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.19</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.19</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 阶段口径固定：对线期 0–4 分钟、发育期 4–10 分钟、其后为「后期」
+- 对局详情 BP 置顶：本局 BP（双方阵容 + 五禁 + 选用顺序）移到本局
+- 缺逐秒位置不再无限转圈：「对位热区 / 对位纵深 / 中野辅与入侵」在
+- 新增 docs/feedback-2026-11-10-coach.md：两波反馈的完整台账（含</description>
+  </item>
+  <item>
+    <title>v1.5.18</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.18</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.18</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 金差 → 经济差（全站 49 处）；「10 分钟中位金差」→「10 分钟经济差」；
+- 「最差的一成」→「最差的 10% 对局」（20 处，含英雄对比页），不再让人
+- 首页/对局经济走势加时间轴刻度：每 5 分钟一个刻度（0:00 / 5:00 /
+- 空态说清数据来源：经济采样来自「官方回放」，空图时提示到采集页的
+- 删除跨局分析的「本批参照」侧栏（这一栏表达不清楚）。
+- 对局档案支持编辑对手队名：每张卡片悬停出现 ✎，弹窗修改；写入
+- 跨局分析覆盖不足 2 局时不再输出结论：标题中性化为「先攒够 2 局可用</description>
+  </item>
+  <item>
+    <title>v1.5.17</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.17</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.17</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 跨局分析页把缺失时长当 0：缺时长的对局显示成 &amp;quot;0:00&amp;quot;，并污染
+- 详情路由缺 ID 死循环：直接输入 #session / #match 等无 ID 的</description>
+  </item>
+  <item>
+    <title>v1.5.16</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.16</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.16</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 倍速录屏的 POV 时间轴偏移：视频时间→游戏时间用恒定 offset
+- ffmpeg stderr 管道死锁：帧流子进程的 stderr 直到读完后才排空，
+- 新增 3 个回归测试（倍速换算 2 例、stderr 排空 1 例）。</description>
+  </item>
+  <item>
+    <title>v1.5.15</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.15</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.15</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 首次启动自动安装主 OCR：Gitee 渠道完整包（78 MB，受附件 100 MB 限制不含
+- 增量包恢复可用：1.5.13 修好的更新器（tools/ 放行、门槛校验）从本版起生效——
+- 修复 Gitee Release 页面说明的编码问题（此前误存为双重 URL 编码）。</description>
+  </item>
+  <item>
+    <title>v1.5.14</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.14</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.14</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 背景：识别引擎面板一直写着「主 OCR 随安装包发布」，但打包器其实没有
+- 修复：完整包内置主 OCR 运行时（rapidocr-onnxruntime 及其依赖
+- 面板里的「安装主 OCR」按钮保留为旧安装/修复入口；Mimo 精读与 ffmpeg
+- 本次发布仍走完整包通道（1.5.13 及更早客户端的运行时里没有 OCR 依赖，</description>
+  </item>
+  <item>
+    <title>v1.5.13</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.13</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.13</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 增量包门槛与基线脱钩：make_release.py 的 --min-version 硬编码 1.0.0，
+- 安装端兜底校验：updater.stage_patch 现在强制校验 minVersion，
+- tools/ 运行期模块被禁写：更新器白名单整体禁止 tools/，但发布器明确
+- 1.4.0 及更早的客户端内置的是旧更新器（禁止 tools/ 写入），无法安装本次
+- 远程更新清单（Gitee/GitHub）仍停在 1.3.0，所有已装用户收不到 1.4/1.5 的</description>
+  </item>
+  <item>
+    <title>v1.5.12</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.12</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.12</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 掉点孤立分析崩溃修复：死亡事件缺 x/y 坐标时，math.dist 对
+- 定标模式下近身人数恒为 0：nearCount 用的是未缩放的原始半径
+- 清理死代码：未使用的 bisect 导入、enemy_camp 死变量、
+- 新增回归测试：缺坐标死亡事件不再崩溃。</description>
+  </item>
+  <item>
+    <title>v1.5.11</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.11</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.11</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 根因：_value_at() 按 600 秒 / 对局时长 × 点数 换算采样位置，8 分钟
+- 修复：采样位置夹在有效区间内，短局取终局值（语义为「该局此时已结束」）。
+- 顺带清理 turning_points 里未使用的死变量。
+- 新增回归测试：480 秒局取值不越界且取终局值，正常时长插值不变。</description>
+  </item>
+  <item>
+    <title>v1.5.10</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.10</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.10</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 根因：_apply_match_meta 在应用 ownCamp 补录时，用「击杀多的一方获胜」
+- 修复：winnerCamp 只保留营地/官方回放真值；教练明确 win/loss 的补录
+- 新增回归测试：25:26 且 winnerCamp=blue 的对局，补录 ownCamp 后</description>
+  </item>
+  <item>
+    <title>v1.5.9</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.9</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.9</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 营地数据包缺对局时长：64 局里 53 局的顶层 match.duration 为 null，
+- 聚合分子分母样本错配：player_stats / player_trend 把「所有局的
+- official_economy.duration_from_bundle()：按 bundle 的 officialReplay.id
+- 按分钟聚合只统计「数值与时序都存在」的行，分子分母同样本，剩余缺时长的局
+- 新增回归测试：官方回放时长兜底、分钟指标样本对齐（两局一缺时长时 GPM</description>
+  </item>
+  <item>
+    <title>v1.5.8</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.8</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.5.8</guid>
+    <pubDate>Tue, 10 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 实测范围：对局档案（33 场渲染完整）、采集页、截图 OCR 页（引擎状态面板、
+- 服务端日志 0 个 4xx/5xx、0 异常、124 个请求全部成功；指南图片为懒加载，
+- 未发现阻塞体验的缺陷；页间切换有短暂「读取中」状态，属正常数据装载。</description>
+  </item>
+  <item>
+    <title>v1.4.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.4.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.4.0</guid>
+    <pubDate>Mon, 09 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- ffmpeg 一键安装：点「安装 ffmpeg」自动下载静态包并解压到 tools/ffmpeg/bin，
+- 录屏抽帧不再依赖系统 PATH：ffmpeg / ffprobe 统一走 media_tools 解析，
+- 识别引擎条：缺 ffmpeg 时直接给安装按钮；状态里区分「应用内安装 / 系统 PATH」。
+- 打包排除：tools/ffmpeg/ 进 .gitignore，不会被打进安装包或增量包。
+- 营地选手可改名：白名单里每位选手都能点「改名」换成真名，只影响本机显示，不改营地 ID。
+- 按选手勾选拉取：每行带「拉取」勾选框。离队的号取消勾选即可，不再拉它的对局，历史数据照旧保留；
+- 白名单与隐私提示做成醒目提示条：只绑一个每场都上的号就够；看不到某位选手战绩时，
+- 老用户更新后如果 ffmpeg 一栏仍是「未检测到」，点一次「安装 ffmpeg」即可，约 200 MB。
+- 已经自己装过 ffmpeg 并配置好 PATH 的用户不用动，平台会继续用系统那份。</description>
+  </item>
+  <item>
+    <title>v1.3.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.3.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.3.0</guid>
+    <pubDate>Mon, 09 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 识别引擎升级：rapidocr-onnxruntime 从 1.2.3 升到 1.4.4，压在半透明占比条上的小字号数字识别明显更稳。
+- 修复 1.4.x 下「局部补读」整条失效：1.4 起 read_line 返回 (text, score) 二元组，
+- 数值自洽性核对：修复后战绩页左 5 人击杀合计 14、右 5 人 26，与页面比分一致，逐行占比也对得上。
+- Python 支持范围调整为 3.11 / 3.12：1.4.x 只发布到 3.12，CI 矩阵同步去掉 3.13，
+- 演示数据补上主教练：seed_demo_data.py 灌完数据后，教练档案页不再是一片空白。
+- 路由审计脚本区分空态：正常空状态（#content .empty）不再被判为失败。
+- 安装包与免安装包不内置 OCR 组件（体积原因），首次使用仍在「识别引擎」条里点一键安装；
+- 已经装过 OCR 组件的用户：增量更新只替换程序文件，不会动已装好的 site-packages，
+- 源码用户请重新执行 pip install -r requirements.txt（OCR 依赖从 1.2.3 升到 1.4.4）。
+- 仍在 Python 3.13 上跑源码的用户，需要降到 3.12 或改用安装包。</description>
+  </item>
+  <item>
+    <title>v1.2.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.2.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.2.0</guid>
+    <pubDate>Mon, 09 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 截图与录屏两页顶部新增「识别引擎」条：主 OCR（rapidocr）、Mimo 精读、ffmpeg 三项独立检测，缺哪个就在哪一行给按钮和原因，不再只在上传时报错。
+- 安装走服务端后台任务（GET/POST /api/ocr/install）：pip 先走清华镜像、失败自动回官方源；主 OCR 装 requirements-ocr.txt，Mimo 再下载约 2 GB 模型（官方源失败切 hf-mirror）。
+- 进度可见：百分比 + 当前步骤（正在下载 torch / 正在下载模型 1.2 GB / 3.1 GB），切页面不会中断；右下角常驻进度卡，装完给「已装好」提示并自动收起。
+- 完成后不用重启：状态接口重新探测，页面自动刷新并把「Mimo 精读」选项从禁用改为可选。
+- 装之前先看磁盘：主 OCR 需 1 GB、Mimo 需 4 GB，空间不够按钮直接禁用并说明可清理录屏缓存或换盘；安装中重复点击会返回 409。
+- 没装 Mimo 时选「Mimo 精读」不再白等：上传时自动退回主 OCR 并提示，装好后可「重新识别」再跑一遍。
+- ffmpeg 缺失时给 winget install Gyan.FFmpeg 与手动配置指引，并支持「重新检测」。
+- 发版清单补上 requirements-mimo.txt（此前安装包里没有，一键安装会直接失败）。
+- 修复发布脚本在 3.13 构建机上装错二进制轮子（内置运行时是 3.12），打包冒烟测试不再因 pydantic_core 失败。
+- web/capture-guide/ 里的七张赛后截图与两张录屏示例全部重新生成：左右双方各五人的昵称、录屏加载页十张卡片的名字、团队面板两侧栏与局内飘字昵称，统一做马赛克；直接替换原文件，页面与文档引用路径不变，不会再流出未打码示例。
+- 截图 OCR / 录屏 OCR 两页与《老对局补录》说明页同步加了一行说明：示例打码只是教学用，教练上传的原图 / 原片不要做任何处理，否则识别要多花人工。
+- 原来的两页只有「上传 + 列表」，七张截图和录屏规范都挂在外部文档链接上，教练得先跳出去看规范再回来。现在规范直接嵌在页内：
+- 两页都加了「去另一个页面」的直达按钮：截图页提示还要录屏，录屏页提示还要七张截图，不会做到一半迷路。
+- 截图识别结果改成按组的卡片：N / 7 页 · 缺 发育、团队 徽标 + 七段覆盖度色条，缺哪页直接点名；每组仍可展开看逐页明细与提示。
+- 录屏列表改成带进度条的卡片：状态徽标（识别完成 / 识别中 / 失败）、进度百分比、采样与计时帧、双方击杀、证据帧、提示数；识别完成后可直接把报告挂到某一局（复用 /api/channels/{id}/video），不用再手工导出 JSON。
+- 上传区统一成虚线投放区（选择文件后显示已选文件名与数量），录屏的帧率 / 识别方式与原上传按钮排在同一行。
+- 顺序按教练的实际动作重排：先连接，再拉取；拉取结果按「待同步 / 已进统计 / 营地无详情 / 待审查」分桶，后三桶折叠收起。
+- 出现「营地无详情」时，列表顶部常驻一条琥珀色提醒（多少局、为什么、怎么办），并直接给「补录一局」「去截图 / 录屏」两个动作；超过一个月的局整桶折叠，不再占篇幅。
+- 新增常驻的「截图 / 录屏 OCR」区块：两个窗口并排显示识别状态与数量，截图可就地选择并上传识别，录屏入口与拍摄要求同屏可见，各自带「完整页 →」。
+- 「对局审查」按来源拆成两组并排上下：王者营地（字段齐全、自动进入正式统计、不走人工审核）与 截图 / 录屏 OCR（OCR 可能有缺，必须逐条确认后才能保存），空组收成一行说明。
+- 视觉收敛：卡片圆角/描边/阴影统一，标题加 3px 主题色点缀，正文内边距统一 22px，按钮统一 32px 高，小字统一 11.5–12px，页面主标题从 34px 收到 26px，筛选条与空状态更紧凑。
+- 查看缺失值审查 的定位改为按标记查找，区块重排后不会滚错位置。
+- 首屏顺序改成「下一步条 → 拉取对局 → 缺失值审查 → 营地连接」：1920×960 下「拉取对局」从 y=902 提到 y=310，列表直接在首屏可见。
+- 「下一步」卡在授权正常、选手已绑定时压成 78px 的一条（右侧只留「今天拉取过」），不再占掉五分之一屏。
+- 「营地连接」在已授权且有选手时折叠成一条（昵称 / 授权时间 / 选手数 + 展开管理），要改白名单或重新扫码再展开；授权失效时仍默认展开并置顶报警。
+- 新增「补录一局（截图/录屏）」：营地拿不到的老对局可直接在工作台建一条审查记录（填日期 / 训练组），建完跳到「截图 OCR」，新建的通道在下拉里预选，挂完截图即清除。
+- 拉取列表里出现「营地无详情」的局时，提示行同时给出「直接补录一局」和拍摄规范链接，不用先跳出去看文档再回来。
+- 修掉一个隐患：查看缺失值审查 原来按 .section 下标定位，区块重排后会滚错位置，改成按标记定位。
+- 恢复 /assets/collection-guide.html（v3 合并时丢失，文档里的链接此前是 404）：一页讲清「营地只保留一个月 → 更早的局用七张截图 + 一段录屏补」。
+- 页面含七张截图清单（真实示例图 + 每张拍什么）、拍摄要求（同一局、不裁切不遮挡、原图上传）、录屏规范（加载页 5 秒 → 1 倍速整局 → 结算页 5 秒，团队面板常开、记分板 ≥5 秒）、上传入口与常见问题。
+- 明确「教学示例打码、教练上传不要打码」，避免为了隐私把识别需要的昵称和数值遮掉。
+- 采集页在出现「营地无详情」的局时，列表上方直接给出说明和这张指南的链接；截图 OCR 页的「上传截图」也加了同一入口。
+- 指南图片改用相对路径，整个 web/ 目录可直接打包发给教练离线查看。
+- 同步/拉取在后台继续执行，切到对局档案、选手页等其它页面也不中断；右下角常驻一张进度卡（阶段、已处理/总局数、当前对局），带「回到营地同步」入口。
+- 同步结束（含失败）后在右下角留一张结果卡：进入正式统计 / 待缺失值审查 / 营地无详情 / 没拉全，30 秒后自动收起，也可手动关闭；点击可回到采集页。
+- 采集页在非 #ingest 路由下不再整页重绘（此前同步结束时会把当前页面覆盖成采集页）。
+- 营地详情接口对一个月前的局返回 -30457 暂不支持查看一个月前的战绩详情。现在拉取列表里这类局直接标「营地无详情」并取消勾选，不再让人勾上后白等；后端 /api/camp/list 增加 campDetailAvailable 标记。
+- sync_entries 对超期局不再发详情请求，接口返回 -30457 时记为「营地无详情」而不是失败，也不会触发「连续 5 局失败」中止。
+- 同步结果把「营地无详情」与「没拉全」分开统计：前者提示改用截图/录屏兜底，后者仍留在列表里可重试。
+- 页面提示改用真实入库数：只有后端回报写入正式统计 / 待审查的局才计入，一局没写入时按失败提示并给出原因，不再拿「勾选数」当成功数。
+- 同步全程可见：拉取阶段显示已翻页数与已拿到局数，拉详情 / 写统计阶段显示 已处理 / 总局数 与当前对局；卡片进度条外加右下角浮动进度，滚动到列表深处也能看见。
+- 同步结束后在卡片里留一行结果（进入正式统计 / 待缺失值审查 / 没拉全可重试），不必再翻上面的提示。
+- 失败不再被静默吞掉：后端 ok: false、status.error、逐局失败原因都会回到页面；没拉全的局留在列表里保持勾选，可直接重试。
+- 后端兼容旧版 tools/camp_sync.py（没有 on_progress 参数时退化为无进度拉取）——安装包只升级主程序、tools/ 还是旧版时，同步会因 TypeError 整批中断，这就是本次 127 局一局没进的直接原因。
+- sync_entries 单局失败不再打断整批：记录失败原因后继续，连续 5 局失败才停下；中断时已拉到本机的详情照样建通道入库。
+- 没有拉到详情的局不再建空审查记录（避免缺失值审查被几十条无面板记录堆满），按「没拉全」留在拉取列表里。
+- _camp_ensure_channels 增加逐局结果（items），供前端回填「已进统计 / 待审查 / 失败」。</description>
+  </item>
+  <item>
+    <title>v1.1.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.1.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.1.0</guid>
+    <pubDate>Sun, 08 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 平台收成 V3 单应用：根路径直接进入，旧链接自动跳转，采集 / 导入 / 分析 / 赛训在同一进程。
+- 新增赛训闭环：训练计划 → 训练课 → 目标判定 → 报告 / 周报，配套赛训看板与统一指标层。
+- 新增跨局分析：多局按统一口径重算，10 张结论卡、分路对位与逐局对照 CSV。
+- 新增选手档案：逐人档案卡，按认领状态 / 分路 / 关键词筛选，点卡片进入个人页。
+- 新增战队风格 / 阵容 / 训练：四项同池分位、五人组与轮换、按对手汇总训练课。
+- 营地授权失效检测；对局标签与分路统一；自动认领存疑局只交给教练。
+- 新增 Windows 安装包、无黑窗启动与优雅停服；官网升级为产品站。
+- 新增首次打开页：空库时给三条起手路径（扫码采集 / 看示例 / 导入），不再是一页空白首页。
+- 新增旧数据一键搬迁：自动发现旧目录，整库复制（回放与录屏可选），失败不留残留、可重试。
+- 修复安装版采集页 500：tools/ 下的营地同步与回放解码模块漏出发布清单，补齐并有测试兜底。
+- 修复训练纪录页空数据崩溃；V3 写接口非法 JSON 返回 400。
+- 根路径直接进入 V3；V2 的 40 条路由改成 APIRouter 并入 server.py，不再挂第二个 app。
+- 全站只保留 V3：27 条分析路由统一到规范前缀 /api/v3/*；旧版模块名、环境变量、目录与前端调用统一改名，旧前缀不再保留。
+- 旧版时间轴构建模块 → replay_timeline_build.py（出装时间轴，V3 仍需）；V3 未使用的时间轴 API、预览脚本与历史快照移出工作区。
+- 旧环境变量与目录 → ANALYSIS_BUILDS / BUILDS_DIR / data/builds；web/capture-guide/ 因采集页与 collection_contract.py 依赖而保留。
+- 演示数据不再另起旧版只读的 v3/serve.py：8773 现在跑完整 server.py 单应用，采集 / 导入 / 分析链路与真实工作台一致，靠 KPL_DATA_DIR 隔离数据，采集页不再提示「采集接口未挂载」。
+- /api/mode、/api/demo/start 为唯一入口，演示标识为 training-data-v3。
+- frontend-v2-rebuild/ 改名为 v3/；V1 /studio、V2 8771 独立入口和 启动赛训数据V2.bat 退役。
+- 写操作会通过 server.py 中间件刷新 V3 分析快照；/v3、/studio、/analysis 统一 302 到根路径。
+- V3 写接口遇到非法 JSON 请求体时统一返回 400，不再抛 JSONDecodeError 变成 500。
+- 发布包与 Docker 镜像纳入 v3/；启动入口和文档同步改为 http://127.0.0.1:8766/。
+- 新增「训练计划」：按训练组、对手与日期排期，写训练目标；顶部赛训看板集中展示近 8 周训练负荷、目标达成环、训练节奏热力、目标绑定 / 复盘 / 对局关联覆盖率与最近训练课。
+- 新增「训练课」：按绑定关系、日期 + 对手、日期 + 训练组依次关联对局，也可手动挂局；带对手简报（最近交手 / 常用英雄 / 禁用习惯 / 关键选手）。
+- 训练课可写训练目标、勾选出勤、保存赛后复盘；标记已复盘后计划自动完成，出勤写入训练课报告。
+- 训练目标支持绑定指标 + 目标值 + 达成 / 部分达成 / 未达成状态；绑定已接入指标后，保存时自动判定，报告直接显示目标、实际值与达成表。
+- 报告导出：训练课生成 A4 报告，报告库生成训练周报（带上周对比），均可导出 PNG 或打印 / 保存 PDF。
+- 新增赛训指标层：metrics_registry.py 登记指标口径，metric_service.py 统一查询训练课 / 周指标；训练课页与周报读同一份结果，缺数据的指标返回原因而不是 0。训练过程为主，胜率与场均时长只作对局上下文。
+- 顶部「待处理」汇总待确认、战队待命名、旧名单未迁、训练课待复盘和历史对手 ID 未映射。
+- 历史 enemy_team_id 可在待处理收件箱映射到当前战队；映射后相关对局、训练课和周报一起生效。
+- 新增「跨局分析」：默认纳入全部已确认对局，按当前筛选一次重算；结论基于总体分布、分层与效应量，不随分页或单局明细变化。
+- 固定 10 张结论卡：分层基准、波动来源、下限风险、训练效应、水平变点、打法体系、体系适配、优势归因、领先守成、复盘队列；每张卡先给问题，再给结论与样本口径。
+- 新增分路对位平均分差图与逐局对照 CSV；置信分级随样本量变化，小样本会降级计算方法或标注精度，不硬下结论。
+- 新增「选手档案」：逐人档案卡，头像、位置、局数、胜率、KDA、MVP 与参团一眼可比；点卡片进入个人页看同位置分位、关键局与搭档。
+- 支持按认领状态（已认领 / 待认领）、分路与关键词筛选；待认领昵称可直接从档案页命名，认领后名单、位置与对比按选手累计。
+- 「名单与状态」保留队伍视角；「选手认领」继续负责身份维护，档案页只做只读展示与入口。
+- 战队聚焦训练组和全队节奏，选手聚焦个人状态与搭档，英雄聚焦分路和出装，BP 聚焦对手与阵容，对比按同分路重算双方样本。
+- 五个分析模块默认使用已入档营地记录，可手动纳入其他来源。营地原始面板和回放分析单列来源，并支持按开赛日期筛选。
+- BP 优先读取营地禁选名单，核对一致的人工顺序可补充手序与先选方。
+- 主导航按模块收口：比赛只放比赛档案 / 精选对局 / 训练纪录，战队只放团队复盘 / 数据看板 / 全队过程，选手 / 英雄 / BP / 对比各自只放本层分析；「手工录入」与「分析报告」从导航移除。
+- 全队过程分析（训练节奏、经济差过程、事件密度、击杀节奏、推进与抱团）归入「战队」，并新增「对手战队」选择；个人 / 分路 / 团战 / 掉点分析（补刀转化、资源产出、团战贡献、掉点经济、掉点代价、走位热区、分路占位、死亡热区）归入「选手」，每条都带选手选择。
+- 对比维度新增「对位对比」：同分路双方经济差 / KDA 差、占优率、英雄对位与逐局明细；「同位置参照」改名为「同位置排行」，补上分路筛选、指标切换和读图说明。
+- 选手页新增快速选人、昵称搜索、分路筛选和深度分析入口；选手详情新增同位置参照、英雄拆分、同分路对位记录与继续下钻。
+- 英雄页新增搜索 / 分路 / 排序工具条；英雄详情新增分路分布、英雄对位、使用选手拆分与出装 / 波动等下钻入口。
+- 深度分析页统一 KPI 摘要、对局选择、分路 / 状态筛选和可折叠明细；经济差、事件密度、击杀节奏支持按单局查看。
+- 新增「战队风格」#teamstyle：节奏 / 团战 / 运营 / 后期四项同池分位，配四象限散点与风格榜；风格是相对值，样本不足 3 局只作参考。
+- 新增「战队阵容」#teamroster：本队与对手的五人组、位置池与轮换；同一局两人同位置标为「位置重复」，不计入轮换。
+- 新增「战队训练」#teamtraining：按对手汇总训练课（训练计划的排期、目标、复盘）与交手日（营地自动归集）；未指定对手的计划单独提示。
+- studio/teams 增加风格原始量（场均时长、分均击杀 / 助攻 / 控制、参团率、经济转化）与逐队阵容 roster；新增 v3/team-training 接口。
+- 「战队对比 / 交手记录 / 对手画像」从战队模块下线，二级导航只保留战队档案、战队风格、战队阵容、战队训练；旧链接回落到战队档案。
+- 进入采集页时自动做一次轻量登录态探测（5 分钟内复用结果），拉取或入库遇到 -30003 / -30314 / 安全参数被拒时立即记录为失效。
+- 失效后「营地连接」顶部显示「营地授权已失效，爬取已暂停」，主按钮改为「补充授权」，首屏下一步卡同步提示；重新扫码后沿用原选手白名单，已入库数据不受影响。
+- 断网或接口异常只提示「暂时无法检测」，不会误判凭证失效；python tools\camp_auth.py --status 也会打印失效原因。
+- 对局标签统一为「MM-DD HH:MM · vs 对手 / 训练赛」，缺少开赛时间时按顺序显示「第 N 局」，界面不再直接暴露长数字对局 ID。
+- 分路统一显示中文路名（对抗路 / 中路 / 发育路 / 打野 / 游走），去掉「位置为营地原始编码」等提示。
+- 营地昵称清洗零宽字符与变体选择符，列表页与深度分析使用同一套显示名，选手下钻链接可以互相对上。
+- 新增「自动认领」：用已存档的战队名单比对红蓝两侧十人昵称，一侧最多 1 个没见过的昵称就自动分边、认领与建档；阈值可在预览面板里调成 0 / 1 / 2。
+- 2 个及以上不同、分边与原始记录冲突、多支战队都能对上、名单已满 40 人的对局标为「存疑」，只交给教练，系统不猜。
+- 教练在预览面板指定「本队在哪边 + 对手是谁」即可整局建档；判断结果写进存档，下一次遇到同类对局自动匹配。
+- 4/5 命中且只缺一位时，新昵称按小号合并到该身份，并在结果里标注可改绑；其余新昵称自动新建身份。
+- 「对局分边」页去掉逐行的认领下拉与解绑按钮（与「录入」页重复），改为只读显示认领状态；逐条认领、改绑、解绑统一在「录入」页，批量仍走「自动认领」。保存分边不再回写认领表，避免两页同时打开时互相覆盖。
+- 新增 Windows 安装包：桌面与开始菜单快捷方式、卸载项、可选开机后台启动；按用户安装到 %LOCALAPPDATA%，不弹 UAC。
+- 新增 launcher.py：用 pythonw 无黑窗启动，等 /api/health 就绪后打开浏览器；失败弹窗说明并写 logs/launcher.log。
+- 新增 /api/shutdown（仅接受本机请求）：停止工作台改为优雅退出，安装、卸载、升级前会自动停服。
+- 卸载保留 data/；升级沿用原安装目录，检测到工作台仍在运行会先停止再覆盖文件。
+- 发布包不再收录作者本机的 .tmp_*.py 与编辑器 ~RF*.TMP 临时文件。
+- 官网升级为产品站：深色首屏、产品截图、功能长页、数据安全、下载与 FAQ，新增 404 页。
+- 模板不再写死版本与更新内容，{{VERSION}}、{{LATEST_NOTES}} 由 scripts/build_website.py 从 version.py 与 CHANGELOG.md 渲染。
+- 首页只使用真实可用的产品画面（采集、选手表现、英雄池），空状态与加载态不上站。
+- 训练纪录页在缺少本方数据（own 为空）的对局上崩溃，报 Cannot read properties of null (reading &amp;#x27;kills&amp;#x27;)。</description>
+  </item>
+  <item>
+    <title>v1.0.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.0.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v1.0.0</guid>
+    <pubDate>Thu, 05 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 赛后结算截图导入，本地 OCR 识别双列五行面板，输出候选值供人工核对。
+- 录屏导入与逐帧抽帧，复用同一套识别与核对流程。
+- 表格（xlsx / csv）批量导入，对照字段契约校验缺失与异常值。
+- 王者营地分享链接导入对局详情，回放包与位置数据同步入库。
+- 采集指引页内置面板区域示意图，说明每类截图需要覆盖的字段。
+- 逐项候选对照界面：OCR 候选高亮，人工确认或改写后才写入记录。
+- 采集契约校验：字段缺失、类型不符、数值越界一律拦截并说明原因。
+- 未认领 / 已认领 / 冲突三态处理，选手身份不会因为一次误识别被静默覆盖。
+- 通道化管理：官方数据、营地数据、表格导入与本地录入互不覆盖，冲突留痕。
+- 比赛复盘：时间线、关键节点、掉点与经济曲线。
+- 选手视角：分英雄、分位置的出场表现与趋势。
+- 团队视角：阵容构成、BP 阶段记录与版本对照。
+- 深度视角：对位分布、推进深度与十人热区，标注采样口径。
+- 关键词研究：前期领先转化、十分钟领先转化等专题统计。
+- .abc 回放文件结构解析，记录流与帧指令解码。
+- 输入时间轴与英雄指令序列提取，支持断点回放。
+- 经济、等级、KDA 检查点读取；坐标类字段标注为采样或插值来源。
+- 本机单机运行，数据全部落在本地 data/ 目录，不依赖外部服务。
+- 环境变量配置监听地址、端口与数据目录，默认仅监听回环地址。
+- 备份与恢复入口，数据库、分析包、数据集与报告打包导出。
+- 内置更新检查、增量更新、启动健康检查与失败自动回滚；更新不触碰 data/。
+- 发布脚本按实际文件收集依赖并生成 update.json，完整包内置 Python 并做导入冒烟测试。
+- 单元测试与前端巡检脚本随仓库发布，CI 在每个提交上运行。</description>
+  </item>
+  </channel>
+</rss>
