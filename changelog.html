@@ -75,7 +75,7 @@
     <div class="shell">
       <div class="hero-masthead">
         <p class="hero-kicker"><i aria-hidden="true"></i>更新日志</p>
-        <p class="hero-edition">最新 v1.6.7 · 2026-11-13</p>
+        <p class="hero-edition">最新 v2.0.0 · 2026-11-18</p>
       </div>
 
       <h1 class="page-title">每一版，<br>改了什么。</h1>
@@ -86,11 +86,587 @@
   <div class="shell doc-layout">
     <nav class="doc-toc" aria-label="版本系列">
       <p class="doc-toc-title">版本系列</p>
-      <a href="#series-1.6" data-spy="series-1.6">1.6</a><a href="#series-1.5" data-spy="series-1.5">1.5</a><a href="#series-1.4" data-spy="series-1.4">1.4</a><a href="#series-1.3" data-spy="series-1.3">1.3</a><a href="#series-1.2" data-spy="series-1.2">1.2</a><a href="#series-1.1" data-spy="series-1.1">1.1</a><a href="#series-1.0" data-spy="series-1.0">1.0</a>
+      <a href="#series-2.0" data-spy="series-2.0">2.0</a><a href="#series-1.6" data-spy="series-1.6">1.6</a><a href="#series-1.5" data-spy="series-1.5">1.5</a><a href="#series-1.4" data-spy="series-1.4">1.4</a><a href="#series-1.3" data-spy="series-1.3">1.3</a><a href="#series-1.2" data-spy="series-1.2">1.2</a><a href="#series-1.1" data-spy="series-1.1">1.1</a><a href="#series-1.0" data-spy="series-1.0">1.0</a>
     </nav>
     <div class="doc cl-doc">
+<h2 class="cl-series" id="series-2.0">2.0</h2>
+<section class='cl-version' id='v2.0.0'><div class='cl-head'><h2>v2.0.0</h2><span class='cl-date'>2026-11-18</span><span class='cl-tag'>2.0：一个工作台，从采集到复盘全部重做</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li>单应用外壳：一级导航收成 8 个板块，旧链接自动落到新页面，书签不失效。</li>
+<li>采集页一页完成：营地同步、截图 / 录屏 / 回放、缺失值审查都是页签；扫码授权、增量拉取、回放补挂、重复局清理一条链路。</li>
+<li>对局档案改版：战况仪表 + 按日双列对局卡；跨局分析、大场分析、精选对局、版本对比、系列赛编组各自入口。</li>
+<li>战队页整页图形化：对手索引 + 档案 + BP / Ban 证据折叠，默认先看结论。</li>
+<li>选手档案与详情重做：主档（百段 / 巅峰赛分 / 千强 / 实力）+ 吸顶切片（范围 / 分路 / 英雄 / 对手 / 结果），整页联动、URL 可分享。</li>
+<li>新的 BP 工作台：英雄与组合数据库、对手 BP 情报、己方训练赛评估、己方英雄诊断 N01–N16、策略沙盘；训练赛统一 20 手（5+5 Ban）。</li>
+<li>单局复盘：区块条、复制结论、热区快捷键；组合胜率按样本分级，对位补英雄强度与 T1–T4，热区补三路 / 河道 / BUFF 地标与走位。</li>
+<li>更新链路：30 分钟自动复查、发现新版先后台预下载、多镜像取最高版本，检查失败给出具体原因。</li>
+<li>性能：页面模块按路由加载，首屏少解析约 1.5 MB；固定计算改为按指纹缓存。</li>
+<li>运行与交付：单入口、单端口、单实例；源码目录可生成无窗口快捷方式，安装包流水线跑通。</li>
+<li>下线与归位：移除「选手与位置」页签、旧版决策页和独立监控入口，独有信息归位到对应页面。</li>
+<li>口径不变：缺失不补零、来源留痕、样本不足明确标注，不拿部分数据冒充全场。</li>
+</ul>
+<h3>选手详情页：一个切片统领全页，数据变长变多也不再挤（2026-11-17）</h3>
+<ul>
+<li><strong>问题</strong>：上一版是「一张图装下所有东西」。数据一长（一个赛季 40+ 训练日）、</li>
+<li><strong>新增吸顶切片条</strong>：范围（全量 / 近 3 / 近 5 / 近 10 / 自定义起止）、分路、</li>
+<li><strong>图宽按栏数算</strong>：新增 <code>V.w(span)</code>，图按「占 12 栏里的几栏」反推像素宽，</li>
+<li><strong>热力网格可伸缩</strong>：列宽按表头宽度定（指标名 78px / 日期 52px），放不下就</li>
+<li><strong>矩形树图只画前 12 个</strong>：面积改为「这 12 个英雄之间的相对场次」，其余按数量</li>
+<li><strong>英雄替代候选改表</strong>：原来画「能力重合百分比」——同分路候选本来就按 ≥2 项</li>
+<li><strong>状态区分</strong>：切片筛空时给一张「退回上一步」的卡；门槛把所有英雄筛掉时</li>
+<li>验证：新增 <code>scripts/verify_player_detail.py</code>（14 项）。它把接口数据放大到 612 局 / 43 个训练日 / 126 个英雄，</li>
+</ul>
+<h3>自动检查与后台下载：更新链路不再靠「谁先返回」和「点了才动」（2026-11-17）</h3>
+<ul>
+<li><strong>自动检查变成持续行为</strong>：打开页面约 1.5 秒先查一次；之后每 30 分钟复查，从别的标签页</li>
+<li><strong>新增后台自动下载</strong>：发现新版本后不等点击，先下载增量包、校验 SHA-256 并暂存到</li>
+<li><strong>多镜像改成取最高版本</strong>：并发请求全部清单地址（最坏等一个超时），选版本号最高的一份。</li>
+<li><strong>手动检查失败不再静默</strong>：清单接口返回 <code>ok:false</code> 时页脚会提示具体原因；只有旧缓存时</li>
+<li><strong>修复更新卡片发布日期一直为空</strong>：<code>normalize_manifest</code> 丢掉了 <code>releaseDate</code> /</li>
+<li><code>/api/update/check</code> 新增 <code>mirrors</code>（每个源的成功/失败、版本、错误）、<code>stale</code> 与</li>
+<li><strong>Gitee 镜像已补到 v1.6.7</strong>：新建 <code>v1.6.7</code> Release，上传 <code>patch-1.6.7.zip</code> 与</li>
+<li>验证：<code>tests/test_update.py</code> 27 项通过（新增镜像取新版、配置、prepare/apply 复用、</li>
+</ul>
+<h3>单局 BP 复盘与对位热区：阈值不再吃掉信息（2026-11-17）</h3>
+<ul>
+<li><strong>置信区间（95% CI）全站不再显示</strong>（教练 2026-11-17：看不懂，不要）。单局复盘的</li>
+<li><strong>命中组合 / 联动组合：胜率不再因为场次少就被藏掉</strong>。以前 <code>n&lt;10</code> 只写「样本不足」，</li>
+<li><strong>对位压制补「英雄强度」</strong>：每条对位牌面下面加一行近 7 天巅峰千强数据——</li>
+<li><strong>撤掉「预期 vs 执行」对照表</strong>（教练看不懂，一张卡就够）。对位卡片里保留</li>
+<li><strong>克制命中：从「两源均无记录」改成分向取证</strong>。营地表每个英雄只收录前 3 组关系，</li>
+<li><strong>对位热区补底图与走位</strong>：以前只有一层灰网格 + 一条粗河道斜带，两支队的轨迹都是</li>
+<li><strong>验证</strong>：<code>tests/test_kpl_bp.py</code> 36 项通过；单局页按区块截图核对——</li>
+</ul>
+<h3>单局复盘页的交互补丁：区块条 / 复制结论 / 热区快捷键（2026-11-17）</h3>
+<ul>
+<li><strong>复盘大屏区块导航</strong>：8 个区块（结论 / 阵容 / BP / 对位 / 克制 / 组合 / 阶段 / 节点）</li>
+<li><strong>「复制结论」</strong>：本局 BP 复盘标题右侧加一个按钮，把这一局的判定、五路对位、</li>
+<li><strong>命中组合「展开其余 N 组」</strong>：前 5 条照旧平铺，多出来的收进折叠行，</li>
+<li><strong>对位热区补操作</strong>：倍速按钮（1× / 2× / 4×）、时间轴上的<strong>团战 / 掉点刻度</strong></li>
+<li><strong>新增「组合得失」区块</strong>（<code>#match-ov-broken</code>）：把双方「想凑的组合」拆成四种结局——</li>
+</ul>
+<h3>采集链路与身份同步：回放补挂、重复局清理、认领/改名全站生效（2026-11-17）</h3>
+<ul>
+<li><strong>修：回放已落盘、通道却没挂上</strong>。批量导入或上一次同步先把</li>
+<li><strong>修：回放覆盖面把「有文件」当成「已挂上」</strong>。<code>/api/official/coverage</code></li>
+<li><strong>修：回放补拉不再连发，避免被营地限流</strong>。详情同步原本就是每局约 2 秒，</li>
+<li><strong>修：删除通道留下旧 bundle</strong>。<code>DELETE /api/channels/{id}</code> 现在同时删除</li>
+<li><strong>修：同一局在对局列表里重复 2–8 次</strong>。通道删除/重建会留下多份</li>
+<li><strong>修：认领 / 改名只在选手档案页生效</strong>。<code>players</code> + <code>player_accounts</code> 是</li>
+<li><strong>修：选手主页档案在认领后读不到旧档案</strong>。档案按营地游戏名存，认领后</li>
+<li><strong>修：一个昵称对应多个营地账号时认领半途失败</strong>。第一个账号建/找好选手后，</li>
+<li><strong>验证</strong>：<code>pytest tests/</code> 1206 项通过、1 项跳过；新增回归覆盖</li>
+</ul>
+<h3>源码目录也能&quot;点图标就开&quot;；安装包流水线跑通并清掉一个打包漏洞（2026-11-17）</h3>
+<ul>
+<li><strong>新增 <code>scripts/make_shortcut.py</code></strong>：在项目根生成 <code>KPL赛训工具.lnk</code>，目标直接是</li>
+<li><strong>安装包流水线实跑通过</strong>：<code>python scripts/make_installer.py</code> 复用</li>
+<li><strong>修：安装包会带出调试残留</strong>（<code>scripts/make_release.py</code>）：<code>v3/public</code> 是整目录快照，</li>
+</ul>
+<h3>启动与端口：一个入口、一个端口、不会重复起进程（2026-11-17）</h3>
+<ul>
+<li><strong>启动只认一个入口</strong>：<code>启动工作台.bat</code> 不再直接 <code>python server.py</code>，改成 <code>launcher.py</code></li>
+<li><strong>服务端也加了兜底</strong>（<code>server.py</code>）：bind 之前先探一次 <code>/api/health</code>，分三种情况——</li>
+<li><strong>端口收敛成两个可预期的</strong>：工作台 <code>8766</code>（<code>TRAINING_PORT</code> 可改）；演示实例</li>
+<li><strong>演示实例不再泄漏</strong>：点「返回真实数据」时先给演示实例发 <code>/api/shutdown</code>（<code>keepalive</code>）</li>
+<li><strong><code>launcher.py</code> 补齐命令行</strong>：<code>--status</code>（打印地址 / pid / 版本）、<code>--url</code>（只打印地址，</li>
+<li><strong>文档</strong>：README 与 <code>docs/product_guide.md</code> 写明「端口只有两个」「任务管理器里其它</li>
+</ul>
+<h3>前端：页面模块按路由加载，首屏少解析 1.5 MB 脚本（2026-11-17）</h3>
+<ul>
+<li><strong>按路由懒加载</strong>（<code>v3/public/app.js</code>）：新增 <code>ensureModules(路由)</code>，<code>load()</code> 里先</li>
+<li><strong>把页签清单拆出来</strong>（新 <code>v3/public/feature-sections.js</code>）：外壳只为了拿</li>
+<li><strong>实测（本机冷启动，3 次取中位数）</strong>：首屏 JS 1915 KB → <strong>369 KB（首页）</strong> /</li>
+<li><strong>静态资源压缩策略收窄</strong>（<code>server.py</code>）：上一轮为了省 CPU 把回环请求全部跳过 gzip，</li>
+<li><strong>不做的事</strong>：CSS 按页拆分评估后放弃。浏览器无法给 <code>&lt;link&gt;</code> 指定 <code>@layer</code>，</li>
+<li><strong>验证</strong>：35 个路由全部渲染、0 个 console/pageerror；32 张整页截图与改动前逐像素</li>
+</ul>
+<h3>性能：把「明明固定却每次重算」的几秒从打开页面里拿掉（2026-11-17）</h3>
+<ul>
+<li><strong>英雄条目不再每次 stat 三个文件</strong>（<code>bp_camp.py</code>）：一次 <code>hero_entry</code> 要校验</li>
+<li><strong>营地面板只解析一次</strong>（<code>team_clusters.load_panels</code>）：104 个 battleDetail 的 JSON</li>
+<li><strong>BP 汇总 / 训练台账 / 选手看板 / 教练档案按指纹缓存</strong>：<code>bp_board</code>（2.0 秒）、</li>
+<li><strong>深度分析（空间 / 经济）</strong>：<code>/api/v3/space</code> 2.6 秒 → 8ms、<code>/api/v3/economy</code> 0.6 秒 → 20ms，</li>
+<li><strong>重量级报告落盘</strong>：BP 概览（首次 8.9 秒）、BP 工作台（2.6 秒）、KPL 组合全库</li>
+<li><strong>目录指纹加 2 秒 TTL + 写入口主动作废</strong>（<code>v3/serve.py</code>）：命中缓存时只剩指纹可比，</li>
+<li><strong>快照重建不再撞请求</strong>：15 秒过期时改成后台线程重建，当前请求先用旧快照返回；</li>
+<li><strong>大响应直接 dumps</strong>：<code>overview</code> / <code>bp</code> / <code>opponents</code> / <code>bp-board</code> / <code>bp-intelligence</code> /</li>
+<li><strong>静态资源改成 <code>no-cache</code> + ETag</strong>（<code>server.py</code>）：前端 CSS/JS 冷启动要 5.7 MB 传输 /</li>
+<li><strong>修：周期监控报告不可复现</strong>（<code>monitor.py</code>）：清单来自 <code>set()</code> 迭代，顺序随</li>
+<li><strong>守住</strong>：<code>tests/</code> 全量 1191 项通过；新增的缓存都以数据指纹为 key，改一局营地 / 合并</li>
+</ul>
+<h3>选手主页档案：百段 / 巅峰赛分 / 千强 / 实力，可采可填可筛（2026-11-17）</h3>
+<ul>
+<li><strong>扫码登录（2026-11-17 补）</strong>：营地有两条登录态——App 接口的 token（采集页的微信扫码，</li>
+<li><strong>为什么加</strong>：营地对局面板只给得出胜率、KDA、参团；百段、巅峰赛分、英雄战力只存在选手主页上，</li>
+<li><strong>自动采集</strong>：营地主页接口（<code>kohcamp.qq.com/role/getplayerinfo</code> 等）要登录态，不带 Cookie 返回</li>
+<li><strong>手动录入</strong>：分路 1–5 条（勾一条为主分路），每条填段数与巅峰分；巅峰千强开关；实力 S/A/B/C；</li>
+<li><strong>卡片与详情</strong>：卡片读数下面多一条档案：<code>102 段</code>、<code>2418 巅峰</code>、<code>千强</code>、实力徽标；没录的显示</li>
+<li><strong>筛选</strong>：档案页工具条下面多一条筛选行——百段下限、巅峰分下限、只看千强、按实力、只看有档案，</li>
+<li><strong>接口</strong>：新增 <code>/api/v3/player-profiles</code>（GET 全量 / POST 保存 / POST clear / POST session /</li>
+<li><strong>文件</strong>：新增 <code>player_profile.py</code>（存储 + 校验 + 营地采集）、<code>v3/public/player-profile-ui.js</code></li>
+</ul>
+<h3>采集页并成一个页面：营地同步 / 截图 / 录屏 / 回放 / 审查都是页签（2026-11-16）</h3>
+<ul>
+<li><strong>改动理由</strong>：采集原本是五个路由拼起来的（<code>#ingest</code>、<code>#shots</code>、<code>#videos</code>、<code>#replays</code>、</li>
+<li><strong>现在</strong>：一个 <code>#ingest</code>，顶部一条页签（营地同步 / 截图 OCR / 录屏 / 回放 / 对局审查，</li>
+<li><strong>旧链接照常</strong>：<code>#shots</code> / <code>#videos</code> / <code>#replays</code> / <code>#review</code>（含 <code>#review/&lt;id&gt;</code>）都映射回</li>
+<li><strong>数据只取一次</strong>：五个页签共用一次取数（15 秒内切页签不重拉；写操作后强制刷新），</li>
+<li><strong>守住</strong>：<code>tests/test_capture_one_page.py</code> 断言旧路由映射回 <code>#ingest</code>、采集页有五个页签、</li>
+</ul>
+<h3>采集页只剩「营地数据暂时读不到」：两套服务并成一套（2026-11-16）</h3>
+<ul>
+<li><strong>现象</strong>：采集页打开只有一张「营地数据暂时读不到」，「重新读取」永远同样结果；</li>
+<li><strong>原因</strong>：仓库里本来有两个 FastAPI app。<code>server.py</code>（工作台，8766）挂着采集接口；</li>
+<li><strong>改法（只留一套）</strong>：<code>v3/serve.py</code> 不再自建 app，只导出路由由 <code>server.py._mount_v3()</code></li>
+<li><strong>顺带补齐</strong>：旁支 app 独有的 gzip 压缩与「只读 POST 不失效分析快照」移进工作台；</li>
+<li><strong>守住</strong>：<code>tests/test_single_app.py</code> 断言 <code>v3/serve.py</code> 不自建 app、入口把端口交给</li>
+</ul>
+<h3>战队详情：整页换成图形化分析（2026-11-16，四轮改稿后的最终形态）</h3>
+<ul>
+<li><strong>改动理由</strong>（复盘会原话归纳）：横向细条形「很low，严厉禁止」；战队层的击杀 / 输出 / 承伤</li>
+<li><strong>配色</strong>：建立语义色板。五个分路五个色相（陶土 / 深青 / 靛蓝 / 赭金 / 橄榄），</li>
+<li><strong>图表（一图一型，不再重复同一种）</strong>：</li>
+<li><strong>英雄选择</strong>：被 ban 替补与 BP 分布都加了「全英雄」头像条——点敖隐只看敖隐的替补，</li>
+<li><strong>定序与整数</strong>：手序给中位数 / 众数与完整分布，核数 / 控数给整数分布；删掉「平均值没有意义」</li>
+<li><strong>删除</strong>：领先 / 落后、资源与对位、变化与异常、证据与方法、KPL 职业参照、数据质量与命名维护、</li>
+<li><strong>后端</strong>：<code>team_clusters.team_deep</code> 增补 <code>bo</code> / <code>series</code>、<code>draft.ordered</code>（每侧按手序的</li>
+<li><strong>文件</strong>：新增 <code>v3/public/team-dossier.js</code>（整页渲染 + 九种图元）、<code>team-dossier.css</code></li>
+</ul>
+<h3>战队分析：对手目录重做成「索引 + 档案」工作台（2026-11-16）</h3>
+<ul>
+<li><strong>重做理由</strong>：旧版是四张同构小卡，300px 里塞胜率环 + 三个 11px 数字格；1440 下永远</li>
+<li><strong>版面</strong>：读数带（识别对手 / 交手局数 / 本队胜率 / 时间跨度 / 样本覆盖）压住页头，</li>
+<li><strong>配色</strong>：浅色主题的页头换成青白釉面——浅青底、墨绿字、发丝分栏，左上角一条 2px 青绿</li>
+<li><strong>字号</strong>：页头 58px、读数 42px、档案主数字 38px、索引队名 17px、正文 13.5–15px；</li>
+<li><strong>档案</strong>：本队胜率（带胜/负分段条）、交手局数、对手场均推塔（与本队对比）、近 5 局；一句</li>
+<li><strong>交互</strong>：点索引换档案（按钮可键盘操作）、搜索后自动落到第一条可见对手、空结果两级提示、</li>
+<li><strong>控件</strong>：命名 / 改名从 <code>window.prompt</code> 换成页内 <code>dialog</code>——自动选中原名、回车保存、</li>
+<li><strong>对比 / 复盘 / 批量命名</strong>：索引栏新增「对比」——最多勾两支，右栏并排两份档案（同一套</li>
+<li><strong>文件</strong>：<code>v3/public/features.js</code>（战队列表页渲染重写）、新增 <code>v3/public/teams-board.css</code></li>
+</ul>
+<h3>选手档案：整页重做（2026-11-16）</h3>
+<ul>
+<li><strong>重做理由</strong>：旧版是层层补出来的——内容缩在 1560 中间、左右两条空边比内容抢眼，</li>
+<li><strong>版面</strong>：横向对齐顶部导航的 1640，满宽使用。结构改为「报头两栏（一句结论 + 认领面板）→</li>
+<li><strong>战队分框</strong>：本队一框、每支对手战队一框；框头写清「N 个游戏名 · M 个能跨局看 · 共 K 局」，</li>
+<li><strong>单局卡</strong>：样本不足时不假装有胜率 —— 大数字换成那一局的 KDA（标签写「单场 KDA」），</li>
+<li><strong>字号</strong>：结论数字 68–72px、卡片胜率 44px、看点 42px、事实 28px、正文 15px、卡内读数 19px。</li>
+<li><strong>材质</strong>：卡片 16px 圆角、釉面渐变 + 内高光 + 两层落地阴影；悬停抬升 3px 并换青绿描边；</li>
+<li><strong>新交互</strong>：卡片右下角「对比」勾选（最多 2 人，够了直接进对比）；常用英雄头像进卡；</li>
+<li><strong>选具体对手</strong>：工具条阵营那一组后面加了一个「对手」下拉（全部对手 + 每支打过的队伍），</li>
+<li><strong>修掉</strong>：「只看待认领」开关按下后按钮不回显（旧版一直有）；列表视图名字列被拉到 800px；</li>
+<li><strong>文件</strong>：<code>v3/public/players-page.js</code>（档案页渲染重写）、新增 <code>v3/public/player-archive.css</code></li>
+</ul>
+<h3>选手：下线「选手与位置」页签（2026-11-16）</h3>
+<ul>
+<li><strong>下线理由</strong>：分路胜率、分均经济 / 输出、同路对位、位置内选手、位置深度与多位置补位，</li>
+<li><strong>网页端</strong>：移除 <code>#compare</code> 页签、路由与 <code>lane-viz.js</code>；选手板块只剩「选手档案 / 选手对比」。</li>
+<li><strong>接口</strong>：<code>/api/v3/players-board</code> 去掉只有该页使用的 <code>lanes</code>（位置对照）字段；档案与对比</li>
+<li><strong>清理</strong>：删除 <code>players-page.js</code> 中早已不被路由引用的旧 <code>lanePage</code>、未再使用的 <code>track</code></li>
+<li><strong>文档 / 验收</strong>：README 与 <code>docs/product_guide.md</code> 的选手入口同步；<code>audit_v3_regression.py</code></li>
+</ul>
+<h3>战队页：对手卡 + 详情折叠（2026-11-16）</h3>
+<ul>
+<li><strong>对手目录</strong>：卡片从「三列小表格」改成「胜率环 + 三个数字块」——左侧环显示对手交手胜率、</li>
+<li><strong>顶栏 KPI</strong>：交手局数加一条胜/负分段条；1024 下 KPI 走 3+2 排布，末格跨两列，不留空格子；</li>
+<li><strong>详情页去长表</strong>：<code>BP 时序 / Ban × 英雄池 / Ban 形状</code> 收进「BP 与 Ban 细节」折叠，</li>
+<li><strong>字号</strong>：详情页的分析辅助字、图例、表格表头、散点轴、替换结构全部到 12px；1440/1024</li>
+<li><strong>验收</strong>：采集 / 对局 / 战队三页的原有交互不变；三套验收继续通过。</li>
+</ul>
+<h3>对局档案：仪表 + 对局卡（2026-11-16）</h3>
+<ul>
+<li><strong>顶部战况仪表</strong>：原来的一行统计改成四格——当前对局 / 本队战绩（胜绿负红分段条）/</li>
+<li><strong>对局列表</strong>：去掉八列表头，改成按日分组的双列对局卡；卡内依次是对手与场次、胜负章、</li>
+<li><strong>日头</strong>：日期 + 局数 + 胜负数 + 一条胜/负分段条，扫一眼知道这天的走向。</li>
+<li><strong>对齐</strong>：1440/1024 双列，≤900 单列；筛选条单独一张卡，卡片间距 12px；列表不再</li>
+<li><strong>复核</strong>：筛选/搜索仍走原 <code>refreshMatchResults</code>，仪表与卡片同步重画；卡片的编辑队名、</li>
+</ul>
+<h3>采集页信息层级（2026-11-16）</h3>
+<ul>
+<li><strong>拉取对局</strong>：四列 KPI（上次拉取 / 已进正式统计 / 待补全 / 已绑定营地号）铺满卡片；</li>
+<li><strong>对局审查</strong>：去掉「卡片里再套卡片」的双层结构，营地 / OCR 两组改成同一张卡里的分区；</li>
+<li><strong>采集页不可用</strong>：三条近义提示合并成一张状态卡（结论 + 已重试 / 会自动补上 / 可手动再读），</li>
+<li><strong>首次使用</strong>：未授权从红色告警改成中性「还没开始」；黄色提示条收成中性说明，红色只留给</li>
+<li><strong>统一</strong>：采集页不再单独锁 YaHei 与自有绿色，改用全站字体栈和 <code>--success/--danger/--muted</code>；</li>
+<li><strong>验收</strong>：正常态 / 首次使用态 / 不可用态在 1440、1024、深色主题下无横向溢出，</li>
+</ul>
+<h3>官网改版：纸本编辑风（2026-11-15）</h3>
+<ul>
+<li><strong>站点更名</strong>：官网品牌改为「雨乐赛训」，全称「雨乐王者赛训数据工具」，页眉不再挂 V3 版本徽标；</li>
+<li><strong>一套样式系统</strong>：<code>style.css</code> 重写为单一 token 源（暖纸 <code>#f3efe5</code>、墨 <code>#111a16</code>、青瓷 <code>#246b63</code>），</li>
+<li><strong>排版</strong>：宋体只负责 h1/h2/引文/页脚字标（500 字重），正文 16px、最小标签 12px，字号与间距改用</li>
+<li><strong>首页重构</strong>：首屏一个焦点（产品窗口 + 图注 + 本机说明）；下方依次为适用范围条、能力台账（2×2）、</li>
+<li><strong>移动端</strong>：新增原生 <code>&lt;dialog&gt;</code> 导航（Esc / 点遮罩关闭、焦点返回）；修掉 360px 下标题断行与</li>
+<li><strong>下载页</strong>：改成「下载主操作 + 版本发布卡 + 赞助小卡」，主按钮不再是页面里第二大的东西。</li>
+<li><strong>字体</strong>：新增 <code>scripts/build_website_fonts.py</code>，从 Noto Serif SC Medium 生成站点用字子集（693 字形，</li>
+</ul>
+<h3>全站 celadon 设计收口（2026-11-15）</h3>
+<ul>
+<li><strong>语义涨跌色</strong>：修掉 <code>bp-lab.css</code> 里全局 <code>.is-down { color: var(--bpl-red) !important }</code>。</li>
+<li><strong>12px 字号下限</strong>：首页、采集、对局、战队、选手、英雄、BP、交叉分析、数据来源逐页收口；</li>
+<li><strong>首页</strong>：玉雕封面压到 200px（1366 以下 148/130px）；筛选条改成左侧「正在查看 本周 ·</li>
+<li><strong>复盘卡</strong>：所有卡都保留 4 个字段 + 时间点 + 紧凑阵容，首卡只是更宽（520–600 /</li>
+<li><strong>统一组件</strong>：关注态恢复 accent 色带与浅底；发现标题锁定单行省略（<code>text-wrap:balance</code></li>
+<li><strong>验收</strong>：<code>pytest tests/test_period_brief.py</code>、<code>node scripts/test_workspace_home.mjs</code>、</li>
+</ul>
+<h3>BP 自选组合与区内时间窗（2026-11-15）</h3>
+<ul>
+<li><strong>头像自选组合</strong>：组合强度顶部新增英雄头像选择器，点两个/三个头像就组成一个组合；</li>
+<li><strong>任意组合接口</strong>：新增 <code>GET /api/v3/bp-lab/combo</code>，返回命中局数、使用率、胜率 /</li>
+<li><strong>其他分析也能自选</strong>：04 战队如何破解、08 组合稳定性新增「用头像自选目标 / 组合」</li>
+<li><strong>区内时间窗</strong>：01–09 与诊断主区的标题下新增时间窗按钮（近 7/15/30 天）。切换后</li>
+<li><strong>验收</strong>：<code>tests/test_bp_lab.py</code> 新增自选组合 / 本队过滤 / 空态用例；浏览器回归覆盖</li>
+</ul>
+<h3>选手详情：时间维度与环比 / 同比（2026-11-15）</h3>
+<ul>
+<li><strong>周期对比 · 环比 / 同比</strong>：按训练日窗口对比场次、胜率、评分、KDA、分均经济、对英雄输出、</li>
+<li><strong>周期口径</strong>：近 3 个训练日（默认）/ 近 5 个训练日 / 本周 vs 上周同期；只重画趋势模块，</li>
+<li><strong>口径沿用 BP 沙盘</strong>：环比 = 前一个等长训练日窗口；同比 = 去年同日期（不是自然月/自然年）；</li>
+<li><strong>训练日逐日走势</strong>：每个训练日的场次 / 胜率 / 评分 / KDA / 分均经济 / 对英雄输出 / 参团率，</li>
+<li><strong>分路周期对比</strong>：本期 vs 上期的实际分路场次、占比、胜率、评分、KDA；主位置占比与</li>
+<li><strong>英雄池周期变化</strong>：本期新增 / 重启使用、上期用过但本期未用的英雄，以及重合英雄的</li>
+<li><strong>空态</strong>：当前数据从 2026-11-02 开始，没有去年同日期样本，同比列显示「无对局 / —」，</li>
+<li><strong>验证</strong>：<code>player-detail.js</code> / <code>players-page.js</code> / <code>features.js</code> / <code>style.css</code>；</li>
+</ul>
+<h3>大场分析升级：BO3/5/7 多局一起挖掘（2026-11-15）</h3>
+<ul>
+<li><strong>经济差→胜率参考模型</strong>：L2 逻辑回归（1000 经济差 × 分钟交互），按对局分组 5 折交叉验证；</li>
+<li><strong>阶段与资源</strong>：0–4 / 4–10 / 10 分钟后经济差、胜负手阶段、10 分钟龙/塔/团战胜率；</li>
+<li><strong>局面形态聚类</strong>：6 点相对时间经济曲线 k-means，标注全程压制 / 逆风翻盘 / 优势被翻 /</li>
+<li><strong>BP 价值与英雄池</strong>：按「选到该英雄的一方」统计胜率，Beta-Binomial 向 50% 收缩（先验 8 局）</li>
+<li><strong>选手状态</strong>：GPM / DPM / 参团 / KDA / 死亡相对个人（≥4 局）或同位置（≥8 局）基线的 z-score，</li>
+<li><strong>团战与资源转化</strong>：有击杀团为分母的团战胜率、优势/均势/劣势团、10 分钟资源、领先兑现率。</li>
+<li><strong>历史对照</strong>：相似大场余弦检索 + 逐局 kNN（k=7）参考胜率与最近邻居；参考胜率 Beta(2,2) 平滑，</li>
+<li><strong>数据质量优先</strong>：过程指纹（10 分钟差/终局差/时长/双方阵容）相同的重复局、双方阵容相同/缺失</li>
+<li><strong>接口/前端</strong>：<code>GET /api/series/{id}/analysis</code> 新增 <code>insight</code>；新增 <code>v3/public/biggame-insight.js</code>，</li>
+<li><strong>修复</strong>：营地 <code>ownSide=red/blue</code> 与 <code>campBp</code> 的 <code>left/right</code> 未归一，red 方的 picks 会全部落到</li>
+<li><strong>性能/测试</strong>：全量语料按对局包指纹缓存，首次下钻约 4–7 秒、之后命中；新增</li>
+</ul>
+<h3>战队分析页 Ban 对位：双向散点 / Ban 形状 / 替代结构 / 池深度（2026-11-15）</h3>
+<ul>
+<li><strong>Ban × 英雄池（双向散点）</strong>：左图 x=我方出场率、y=他们 ban 率、点大小=我方拿该英雄时的胜率；右图 x=他们出场率、y=我们 ban 率、点大小=他们拿该英雄时的胜率。颜色=分路，虚线=20% 门槛，红圈=低使用率被 ban。</li>
+<li><strong>针对率</strong>：双方 ban 命中对方 top5 的比例 vs 按对方实际选人频率的随机期望，给出倍数；当前数据里他们 ban 命中我们 top5 <strong>2.4%</strong>，随机期望 25.6%；我们 ban 命中他们 top5 10.6%，随机期望 17.6%。</li>
+<li><strong>Ban 形状</strong>：双方 ban 的分路堆叠条；我们 ban 的分路 + 类型堆叠条；他们蓝/红方与前/后时间段的 top3 ban 目标；低使用率被 ban 单独列出（如我们 ban 敖隐 21 次、他们 0 次选）。</li>
+<li><strong>Ban 后的替代结构</strong>：我们 ban 某英雄后，对手同分路的实际替补；替代英雄数、有效替代（按集中度折算）、同类型/跨类型、主要替代与吸收者、对手胜率（Wilson 区间与相对基线）；类型转移矩阵与主要转移列表。</li>
+<li><strong>英雄池深度</strong>：五路英雄数、有效英雄数、top1/top2 份额、去掉 top1 后剩余池、替补的 KPL 五人成阵出场/胜率。</li>
+<li><strong>口径</strong>：全部描述性；有效替代按出场集中度折算（不写 HHI 术语）；KPL 是外部参照；替代与胜率是关联，不是因果；不写“该 ban 谁”的建议。</li>
+<li><strong>接口</strong>：<code>team-deep</code> 新增 <code>banMatchup / banReplacement / poolDepth</code> 三个块。</li>
+<li><strong>测试/验收</strong>：新增 <code>tests/test_ban_analysis.py</code>（双向目标率、同分路替代、池深）；<code>scripts/verify_team_page.py</code> 新增 <code>data.ban_analysis</code>、<code>copy.ban_pool</code>、<code>copy.ban_shape</code>、<code>copy.replacement_structure</code>、<code>copy.pool_depth</code>；当前 <strong>94 项断言全过</strong>，手机端表格改为卡片堆叠、无横向溢出。</li>
+</ul>
+<h3>客户端：移除「选手与位置」页签，独有信息归位到位置名册（2026-11-15）</h3>
+<ul>
+<li>客户端移除 <code>/players/lanes</code> 页签与 <code>LaneBoardPage</code>；旧链接重定向到 <code>/players</code>（名单与状态），不做 404。</li>
+<li>唯一独有的「按路本队/对手胜率与参团」并入「名单与状态 · 位置名册」：每路卡片直接给出两侧胜率、参团，</li>
+<li>v3 网页端保留 <code>#compare</code>「选手与位置」作为五路深看入口：分路胜率、同路金差中位/p10/p90 分布、</li>
+<li>删除仅该页使用的 <code>laneGoldDiffs</code> 计算与 <code>lane-strength-*</code> / <code>lane-player-*</code> / <code>multi-lane-*</code> 样式。</li>
+<li>口径不变：分路样本仍取全部营地面板，名单与状态页脚已注明。</li>
+</ul>
+<h3>己方英雄诊断 N01–N16（2026-11-15）</h3>
+<ul>
+<li><strong>N01–N02</strong>：当前窗口英雄使用胜率、Wilson 区间、前窗变化；敌方英雄同场时的</li>
+<li><strong>N03–N04</strong>：近 7/15/30 天（各自带前一个等长窗口变化）、自然周胜率序列；</li>
+<li><strong>N05–N06</strong>：当前窗口 vs 基准的胜率降幅、两比例 z 检验、p 值、显著性与严重度；</li>
+<li><strong>N07–N11</strong>：搭档英雄、敌方英雄、同分路对位、使用选手、对手/阵营/赛事分布，</li>
+<li><strong>N12–N14</strong>：阵容因素与胜率变化的关联（不写因果）；逐人 KDA、经济、对英雄伤害、</li>
+<li><strong>N15–N16</strong>：当前/前窗逐局阵容、按月多周期明细；搭档/敌方/对位英雄集合差异。</li>
+<li><strong>数据缺口</strong>：KPL 只有名单与分路，N13 明确显示“无逐人经济/KDA/输出”；没有回放</li>
+<li><strong>新增</strong> <code>GET /api/v3/bp-lab/diagnose</code>；<code>bp_diagnose.py</code> 纯计算。营地 roster 透传</li>
+<li><strong>验收</strong>：<code>tests/test_bp_diagnose.py</code> 9 项；KPL/训练赛浏览器回归覆盖桌面与 390px。</li>
+</ul>
+<h3>战队分析页 BP 顺序：首抢 / ban 顺序 / ban 后首抢（2026-11-15）</h3>
+<ul>
+<li><strong>BP 时序</strong>（02 选人模式）：对手第一手（该队首个 Pick，不等于全局一抢）的分路分布与英雄；我方/对方各自 5 手 ban 顺序（每手前 2）；我们 ban → 对方第一手的条件分布。分路未标注单列，不并进其他分路。</li>
+<li><strong>Ban 与结果</strong>（05 对位与关联）：我们 ban 某英雄时，对手胜率、相对基线、Wilson 95% 区间与胜负战绩；只用终局 ban 名单，全部有 ban 的 25 局都计入（不要求手序），只展示 ≥4 局。明确是条件关联，不是因果，受我方阵容、边、选手状态影响。</li>
+<li><strong>来源分层</strong>：显式 <code>draftEvents</code> / <code>bpOrder</code> / 人工录入才标“已核验”；其余为营地每侧名单顺序套 20 手模板（<code>orderAssumed=True</code>）。当前 92/104 有顺序，其中显式核验 1、默认模板 91、无顺序 12；页面同时显示“有顺序 N 局 · 显式 M”，脚注写清假设。</li>
+<li><strong>修正</strong>：<code>ban→首抢</code> 的分路统计此前会复用上一局 lane，导致 19 局只覆盖 17 局且百分比不足 100%；改为逐局取首抢英雄所在分路，并单列未标注。</li>
+<li><strong>接口</strong>：<code>team-deep.bpOrder</code> 增 <code>banSlots</code> / <code>verifiedGames</code> / <code>assumedGames</code>；逐局 <code>draft</code> 增 <code>orderSource</code> / <code>orderAssumed</code>。</li>
+<li><strong>验收</strong>：<code>scripts/verify_team_page.py</code> 新增 <code>data.bp_order_provenance</code>、<code>data.ban_outcome_sample</code>、<code>copy.bp_order</code>、<code>copy.ban_outcome</code>；该版验收 <strong>89 项断言全过</strong>。<code>tests/test_team_deep.py</code> 增乱序事件、ban 顺序、未标注分路与来源计数测试。</li>
+</ul>
+<h3>BP 时间对比：环比 / 同比（2026-11-15）</h3>
+<ul>
+<li>覆盖英雄 Pick/Ban/胜率、组合场次/胜率、阵营胜率和第一手；每项带样本量。</li>
+<li>默认当前窗口：KPL 最近 30 天、训练赛最近 7 天；也可用页面日期范围自定义。</li>
+<li>训练赛只有 8 天、去年同日期没有数据时，明确显示「无对局 / 样本不足」，不硬做同比。</li>
+<li>新增 <code>GET /api/v3/bp-lab/compare</code>；口径为等长窗口，不是自然月/自然年，页面已标注。</li>
+<li>各模块行内也带环比/同比小字：英雄 Pick/Ban/胜率、组合胜率、对手英雄/组合、选禁习惯、战队破解目标、训练赛体系、稳定性、赛前威胁；样本不足自动省略。</li>
+</ul>
+<h3>训练赛 BP 规则统一 20 手 · 15 手作废（2026-11-15）</h3>
+<ul>
+<li><strong>删除 15 手规则</strong>：<code>SCRIM_15_SCHEDULE</code> / <code>SCRIM_GLOBAL_15</code> 移除，<code>scrim_rule()</code> /</li>
+<li><strong>源头打上顺序</strong>：<code>camp_sync</code> 入库时由 <code>bp_camp.stamp_camp_order()</code> 按每侧</li>
+<li>人工每侧顺序保存时同步生成 20 手 <code>draftEvents</code>，不再需要二次沙盘录入。</li>
+<li><code>bp_board</code> / <code>bp_intelligence</code> / <code>bp_series</code> / <code>team_clusters</code> / 客户端 BP 手序展示</li>
+<li>文档同步：<code>docs/data_fields.md</code>、<code>docs/team_dossier_p0.md</code>、<code>docs/bp_lab.md</code>。</li>
+</ul>
+<h3>战队分析页可视化改造（2026-11-15）</h3>
+<ul>
+<li><strong>边野组合</strong>：从条形列表改成 <strong>2×3 频率矩阵</strong>（战边/坦边 × 刺野/战野/坦野），格内数字=局数、下方=占类型已知局，颜色深浅表示频率</li>
+<li><strong>资源与对位</strong>：每个数值下加小条——同队份额、同位置对位差（中间 0 点双向条）、胜局/负局份额、经济第一占总局数</li>
+<li><strong>结果关联</strong>：条件胜率加 Wilson 区间条 + 点，提升改成以 1.0 为基准的 lift 点线；保留高/低于整体分组</li>
+<li><strong>变化与异常</strong>：新增近 5 局滚动胜率折线（含 50% 基准线与首尾日期），再接前后段对照与离群局</li>
+<li><strong>验收</strong>：<code>scripts/verify_team_page.py</code> 新增 <code>copy.visual_encoding</code>，桌面 + 手机 <strong>85 项断言全过</strong></li>
+</ul>
+<h3>英雄标签升级为「五路 12 类精简版」（2026-11-15）</h3>
+<ul>
+<li><strong>新词表</strong>：对抗路 战边/坦边；打野 刺野/战野/坦野；中路 工具人/法核；发育路 游射/呆射；游走 开团辅/保护辅/功能辅</li>
+<li><strong>收编关系</strong>：法系边并入战边；刺客野/战士野改名为刺野/战野，法系野并入刺野；工具人法师改名为工具人，法刺/炮台/阵地/爆发/推进统一并入法核；功能射手并入游射/呆射；功能边/蓝领野/节奏辅/法伤射手不再作为默认类型</li>
+<li><strong>导入结果</strong>：133 英雄全部入表（0 条待细分）；默认类型变化 52 处、副分路登记 43 条；新增元流之子(射手)；槽位级「待分类」由 374 局 / 31 组合降至 106 局 / 16 组合；选用+禁用覆盖率 130/130</li>
+<li><strong>重生成</strong>：<code>hero_archetypes.py</code>、<code>hero_capabilities.py</code>、<code>hero_roles.py</code>、<code>resources/hero_tags.json</code>；导入脚本词表/模板同步，修复槽位待分类统计的字段名</li>
+<li><strong>前端/10 分钟经济</strong>：页面类型、边野组合、关联规则自动使用新词表；10 分钟经济仍按「坦野」单独口径，其余刺野/战野归野核</li>
+<li><strong>测试/文档</strong>：<code>test_hero_archetypes</code> / <code>test_lineup_stats</code> / <code>test_team_deep</code> 更新；新增对账清单 <code>docs/hero_labels_import_2026-11-12类.md</code>，<code>docs/team_dossier_p0.md</code> 词表改为 12 类</li>
+</ul>
+<h3>BP 四视图 + 对手行为画像 + 策略沙盘（2026-11-15）</h3>
+<ul>
+<li><strong>英雄与组合数据库</strong>：英雄优先级、组合强度、战队如何破解。</li>
+<li><strong>对手 BP 情报</strong>：指定对手四块研究 + 行为画像（阵营第一手、看到我方第一手后的第一手、</li>
+<li><strong>己方训练赛评估</strong>：训练赛体系、组合稳定性。</li>
+<li><strong>BP 策略模拟</strong>：赛前方案 + 训练赛规则沙盘（15/20 手合法候选、历史证据加权、</li>
+<li>组合区新增「近 7 / 15 / 30 天」窗口：近期胜率、相较历史的变化、样本量。</li>
+<li>对手行动/反制统一标注「同局历史共现，不是因果克制」；小样本不展示胜率。</li>
+<li>新增 <code>POST /api/v3/bp-lab/simulate</code>；沙盘规则只走训练赛，KPL 证据只作历史参考。</li>
+<li>多步搜索、BO 系列回测与跨局 history 录入仍属 P3，当前只做单步推演。</li>
+</ul>
+<h3>单局复盘：结论 / 总量 / 阶段统计口径（2026-11-15）</h3>
+<ul>
+<li><strong>结论卡不再用「最大相邻波动」</strong>：那是 30 个噪声差分里的极值，天然会大。改成回答</li>
+<li><strong>总量按分钟归一</strong>：总经济 / 击杀 / 输出 / 承伤在每个原始值下增加 <code>/分</code>（按本局时长），</li>
+<li><strong>阶段增长改每分钟</strong>：对线期 / 发育期 / 后期的「本队/分、对手/分、净差/分」都除以阶段分钟数，</li>
+</ul>
+<h3>BP 概览重建：九区内容 · 指定对手历史阵容研究（2026-11-15）</h3>
+<ul>
+<li><strong>第 03 区按教练新要求重建</strong>：以指定对手为对象，四块分别是「对手组合使用」、</li>
+<li>原第 07 区「对手重点防」与新第 03 区重复，已合并；页面从十区收成九区。</li>
+<li>新增 <code>bp_lab.py</code> 与 <code>/api/v3/bp-lab</code>（含 <code>opponent</code> / <code>lookup</code> / <code>counters</code> / <code>stability</code></li>
+<li>KPL 覆盖 4,702 局（含挑战者杯），可按全部 / KPL 联赛 / 挑战者杯筛选；训练赛 104 局单独计算，</li>
+<li>第 5 区用「每方 Pick/Ban 数组顺序」回答「第一手 / 第 N 手 / 对手 Ban A 后更常选谁」，</li>
+<li>版本字段为空：页面显示「版本未记录」，用时间窗口观察，不按日期推断版本。</li>
+<li>旧 <code>#bp/team</code>、<code>#bp/counter</code>、<code>#teambp</code>、<code>#bpcounter</code> 一律回 <code>#bp</code>；教练档案保留独立入口。</li>
+<li>前端新增 <code>v3/public/bp-lab.js</code> / <code>bp-lab.css</code>，删除不再引用的 <code>bp-intelligence.js</code>、</li>
+</ul>
+<h3>跨局分析 / 大场分析 · 两个独立模块（2026-11-15）</h3>
+<ul>
+<li><strong><code>#cross</code> 跨局分析（多场 BO）</strong>：四段分区，不是一锅描述——</li>
+<li><strong>四段切换写进 URL</strong>：<code>?view=overview|ingame|postgame|draft</code>，刷新保持；不再是 8000px 长页</li>
+<li><strong><code>#biggame</code> 大场分析（独立模块）</strong>：顶部次级导航与「跨局分析」并列；列表用双列大场卡</li>
+<li><strong>入口</strong>：<code>#cross</code> hero 与分区导航都有「大场分析 ↗」，<code>#biggame</code> 顶部导航独立可达；</li>
+<li><strong>数据</strong>：跨局一次取系列赛汇总 + 各局向量，按选中大场的 <code>seriesId</code> 过滤小局；</li>
+<li><strong>比分与赛制校验</strong>：BO3 出现 0:3 等不一致时标「比分异常」，先核实编组/规则集，</li>
+<li><strong>2026 视觉</strong>：深青渐变 hero + 42px 网格、玻璃工具条、四段分区导航（01–04）、20px 卡片、</li>
+<li><strong>可视化优先</strong>：hero 加胜率环、近 5 场比分、大场净胜走势；每分区顶部先给一条大号「一眼结论」；</li>
+<li>删除按单局聚合的 4 个页签和旧「系列赛」页签；<code>v3/public/series-analytics.js</code> 退役</li>
+<li>文档：重写 <code>docs/cross_analysis.md</code>；同步 <code>docs/design_system.md</code>、<code>docs/series_builder.md</code>、</li>
+<li>测试：重写 <code>scripts/verify_cross_page.py</code>（四分区切换/URL、独立大场列表/详情、旧路径重定向、</li>
+</ul>
+<h3>系列赛编组 · 重做交互与首屏性能（2026-11-15）</h3>
+<ul>
+<li><strong>首屏 10 秒 → 1 秒级</strong>：页面只打一个新接口 <code>/api/series/bootstrap</code>（轻量向量 + 系列赛 + 候选一次返回），</li>
+<li><strong>冷启动也快了</strong>：轻量向量落盘到 <code>data/.cache/series-vectors.json</code>，服务重启后首次进页直接读盘</li>
+<li><strong>写操作 2–4 秒 → 60–90ms</strong>：轻量向量按“对局包 + 队名/对局元数据”指纹缓存，命中时不建仓库快照；</li>
+<li><strong>首屏只铺一天</strong>：按日折叠，默认展开最近一天；每天先显示 24 行、按需「继续显示」；384 局不再一次塞进 DOM</li>
+<li><strong>系列赛默认收成摘要胶囊</strong>：BO、对手、比分、完赛状态一行看完；点「管理」才铺卡片，把首屏让给待编组对局</li>
+<li><strong>待核实闭环</strong>：工具条新增「待核实 N」筛选胶囊，只列 <code>needs_review</code> 编组；卡片菜单新增「标记已核实」，</li>
+<li><strong>需补数据筛选</strong>：待编组行缺对手 / 开赛时间 / 阵容 / 结果 / 时长 / 比分时出现 ⚠ 角标；</li>
+<li><strong>记住现场</strong>：展开的日期、搜索/对手/待核实/需补数据筛选、系列赛管理状态、每日显示条数写 <code>localStorage</code>，</li>
+<li><strong>批量编组</strong>：候选区新增「全部编组 N 组」，只处理无警告、无需核实、≤7 局的高置信候选；</li>
+<li><strong>键盘操作</strong>：方向键在行间移动并配合 Shift 连选，<code>Ctrl+A</code> 选当前展开页所有行，<code>Esc</code> 取消，<code>Ctrl+Z</code> 撤销</li>
+<li><strong>拖拽调序</strong>：系列赛「调整局序」里可直接拖动 G1..Gn 重排，松手即 PATCH；箭头按钮保留作键盘/触屏兜底</li>
+<li><strong>跨局页冷启动</strong>：<code>/api/cross/vectors</code> 落盘到 <code>data/.cache/cross-vectors.json</code>，重启后首次 5.5s → 0.18s，</li>
+<li><strong>删掉没用的交互</strong>：拖框框选、重复的提示语、每卡 7 个常驻按钮、按天全选会把上百局一次选进来、</li>
+<li><strong>新工具条</strong>：搜索（对手 / 训练组 / 版本 / 日期，支持 11-08、11.08、11/08）、对手筛选、日期栏定位、</li>
+<li><strong>底部操作条</strong>：推荐赛制、BO 切换、打满开关、超限提示；桌面悬浮居中、手机两行自适应，</li>
+<li><strong>打满徽标按实际局数显示</strong>：BO3 打了 3 局、BO5 打了 5 局都显示「打满」，不再只有建组时选了固定的才显示；</li>
+<li><strong>2026 视觉</strong>：编辑式页头 + 悬浮玻璃工具栏 + 20px 圆角卡片 + 发丝分隔线 + 轻投影 + 微动效；</li>
+<li><strong>卡片菜单</strong>：赛制直接选 BO3/5/7，添加对局、调整局序 / 移出、标记已核实 / 中断 / 缺采、两步确认删除；</li>
+<li>文档：<code>docs/series_builder.md</code> §6/§8 同步新接口、交互与性能约定；<code>tests/test_series_api.py</code> 增加 bootstrap 契约测试</li>
+</ul>
+<h3>选手档案 · 重做视觉与信息结构（2026-11-15）</h3>
+<ul>
+<li><strong>报头</strong>：一句结论「866 个游戏名，一个都还没认领」（数字进标题）+ 认领进度环</li>
+<li><strong>删掉两处重复</strong>：灰底身份条（进度合并进报头）、领跑长句（改成四格数字看点）</li>
+<li><strong>工具条</strong>：不再给每个下拉加一行 10px 小标签，改成控件自己说明（「全部位置 / 全部对局 /</li>
+<li><strong>卡片只有一种结构</strong>：位置方块 + 名字 / 认领 + 右侧一个数字（单位在数字下面）。</li>
+<li><strong>6 个有样本的人用三列卡</strong>（两行排满），<strong>860 个只打过 1 局的收进名录</strong>：</li>
+<li><strong>认领位</strong>从虚线圈改成「+ 认领」小标签，已认领显示「→ 选手ID」</li>
+<li><strong>选手ID 视图</strong>：两列自适应；没挂游戏名的 ID 不再摆一排 0 和 —，只留一句「还没有挂游戏名」</li>
+<li><strong>列表视图</strong>：名字列按视口给宽（<code>clamp(180px, 23vw, 300px)</code>），表头与数字严格对齐；</li>
+<li>认领率不足 1% 时保留一位小数（1/866 显示 0.1%，不再显示 0%）</li>
+<li>教程第 3 课文案跟着改（进度环、卡片 + 名录）</li>
+</ul>
+<h3>BP 入口三合一：概览 / 战队 / 抗针对收进同一页（2026-11-15）</h3>
+<ul>
+<li>次级导航从「BP 概览 / 战队 BP / BP 抗针对 / 教练档案」压成「BP 概览 / 教练档案」。</li>
+<li><code>#bp</code> 页头新增三个页内 tab：<strong>BP 概览</strong>（默认）、<strong>战队 BP</strong>（<code>#bp/team</code>）、<strong>BP 抗针对</strong>（<code>#bp/counter</code>），</li>
+<li>旧链接 <code>#teambp</code>、<code>#bpcounter</code> 自动落到对应页内 tab，书签和外部引用不失效。</li>
+<li>教练档案仍保留独立入口，不与 BP 研究混在一起。</li>
+</ul>
+<h3>BP 手序：已核验逐手事件接进单局复盘 + 20 手（5+5 Ban）规则（2026-11-15）</h3>
+<ul>
+<li><strong>单局复盘接入 <code>draftEvents</code></strong>：<code>/api/matches/{key}</code> 现在按 <code>campBp.gameSeq</code> 读取</li>
+<li><strong>新增 20 手规则</strong>：<code>bp_rules.SCRIM_GLOBAL_20</code>＝蓝红交替 10 Ban（双方各 5）+ 原有 10 Pick。</li>
+<li><strong>页面手工录入顺序</strong>：单局「双方阵容」新增按钮，每侧按 P1–P5 / B1–B5 排序，</li>
+<li><strong>默认训练赛推定</strong>：没有手工录入时，单局页把营地每侧名单的排列顺序套进训练赛顺序，</li>
+<li><strong>修正过期口径</strong>：删除「营地数组下标就是手序 / 无需手工录入」的旧说明（2026-11-14 的 396 局</li>
+<li><strong>移除「阵容短板 / 可补英雄」</strong>：原先是英雄能力标签的二元覆盖检查（5 人里没人带某标签即短板），</li>
+<li><strong>复盘大屏加证据类型标签</strong>：每个区块标注「本局描述 / 历史参照 / 区间估计 / 样本不足」，</li>
+<li><strong>对位证据分级</strong>：巅峰千强收录门槛 200→50，取消 3% 使用率过滤；50–199 只作「初步观察」，</li>
+<li><strong>巅峰基准改周中位数 + 登场率收缩</strong>：英雄基准从 90 天日均值改为最近 8 周的周中位数；</li>
+<li><strong>预期 vs 执行</strong>：对位压制下新增五路对照表——历史预期（巅峰千强超额 + n + CI）与本局</li>
+</ul>
+<h3>选手档案「按游戏名」重构 · 前端参数统一（2026-11-14）</h3>
+<ul>
+<li><strong>参数统一</strong></li>
+<li><strong>报头从 7 格压到 5 格</strong>：游戏名 / 已认领（带进度）/ 待认领 / 选手ID / 能跨局看。</li>
+<li><strong>删掉重复的简报句</strong>，身份条改成「一条进度 + 三个动作」：<code>0 / 866 个游戏名已认领</code> 的进度条，</li>
+<li><strong>卡片分两级</strong>：打过 2 局以上是完整卡（位置头像 + 名字/认领 + 跟着排序变的大数字 + 胜率 KDA）；</li>
+<li><strong>排序分层</strong>：按 KDA / 胜率排时，有 2 局以上样本的永远排在单局前面，不再被单局数据霸榜</li>
+<li><strong>领跑条</strong>只在跨 2 局以上的池子里点名，不足 3 人整条不出现</li>
+<li><strong>筛选条一行放完</strong>：搜索 / 阵营 / 位置 / 范围 / 排序 / 局数 + 右侧计数与工具；</li>
+<li><strong>列表视图</strong>：列宽重算（名字列封顶 420px，其余均分），表头与数据严格对齐；</li>
+<li>首页「按游戏名」在没有任何选手ID 时自动成为默认视图（原来会停在空的 ID 视图）</li>
+</ul>
+<h3>战队详情页对齐首页设计 + 内容收口（2026-11-14）</h3>
+<ul>
+<li><strong>设计参数对齐首页</strong>：1180 容器、页标题 <code>clamp(26–34px)</code>、段落标题 18px + 3px 强调条、</li>
+<li><strong>页头</strong>：深色头图改为白卡身份条（队徽 / 队名 / 标签 / 5 项事实 / 当前五人），</li>
+<li><strong>9 段 → 5 段</strong>：01 总览（整体对照 + 近期交手走势）、02 打法画像（经济分配 / 四象限 /</li>
+<li><strong>可视化替文字</strong>：新增 6 项双队对向条、近期交手 25 格走势、五路经济双条、四象限散点</li>
+<li><strong>英雄头像与跳转</strong>：英雄池 / 常选常禁 / 针对名单 / 替代选择 / 类型签名 / 五人阵容 / 对局证据 / KPL 组合全部改成头像 + 名字，统一可点进 <code>#hero/&lt;英雄&gt;</code>；头像直接加载，快速滚动不再出现空白方块</li>
+<li><strong>类型不再堆胶囊</strong>：英雄池改为「类型占比条（前 3 + 其他）+ 图例」，签名与组合改为纯文本类型串；「待分类」统一写作「未标注」，不再作为类型参与占比，并在英雄池下注明来源（英雄分类表暂未收录）</li>
+<li><strong>四象限点位</strong>：画布 5% 内缩 + 按局号确定性抖动，x 在 0/100 被截断的局不再贴左右边框；加窗口均值虚线</li>
+<li><strong>分路对位</strong>：3 + 2 卡片布局（前 3 张等宽、后 2 张加宽），指标「标签 | 对手 / 本队 | 差距」单行对齐</li>
+<li><strong>页面高度</strong>：1440 宽、25 局样本下 17673px → 约 7100px（其中头像与类型条占位），首屏即可读到身份、画像与对照</li>
+<li><strong>v3.2 再收口</strong>：04 只留「主力体系 Top 3」（按打野+中路+游走核心归并），类型签名 / 双人 / 三人 / 对抗 / 18 套资源全部收进「体系库」折叠；五人阵容与签名重复，已删除；演示 BO 系列不再出现</li>
+<li><strong>英雄使用合并</strong>：英雄池与常选合成一张「英雄使用」卡（分路类型条 + 最常选 + 英雄头像），常禁 / 针对 / 替代三张独立；胜率旁加「6 局」样本标签</li>
+<li><strong>空面板与口径</strong>：4/10 分钟检查点无数据时压成一行；去掉无效的「数据范围」按钮，页头写明「全部营地面板，不随顶栏筛选变化」</li>
+<li><strong>布局与交互</strong>：02 段改 5/7 bento；粘性目录改为整条 tab 栏并用 IntersectionObserver 高亮；移动端默认折叠 02–05、加底部段导航，页面高度 10,127px → 2,530px</li>
+<li><strong>加载与导出</strong>：战队详情先出分区骨架，再填数据；页头「复制摘要」输出队名 / 样本 / 经济 / 风格 / 英雄习惯 / 近期战绩，剪贴板被拒时弹出手动复制框</li>
+<li><strong>验收</strong>：<code>scripts/verify_team_page.py</code> 80 项断言全过（新增主力体系/体系库、演示数据、口径、样本标签、移动折叠与展开）</li>
+</ul>
+<h3>战队分析页改成「描述 + 挖掘」的七段结构（2026-11-15）</h3>
+<ul>
+<li><strong>七段顺序</strong>：01 样本与整体 → 02 选人模式 → 03 阵容组合 → 04 打法与资源 → 05 对位与关联 → 06 变化与异常 → 07 证据与方法</li>
+<li><strong>新增边野组合卡</strong>：按「对抗路类型 + 打野类型」统计频率（坦边+刺客野、战边+坦野……），只给局数/占比，不判断强弱</li>
+<li><strong>资源与对位表</strong>：五路同队份额、同位置对位经济差/分钟、胜局/负局份额、经济第一次数；明确标注未校正角色基线与时间轴</li>
+<li><strong>结果关联表</strong>：边/辅助类型/边野组合/英雄出场 → 胜负，列局数、胜负、条件胜率、lift、Wilson 区间；高/低于整体分两组；注明「关联不是因果」「未做多重比较校正」</li>
+<li><strong>变化与异常</strong>：按时间对半的前后段对照（胜率/时长/经济差/主要边野）+ 经济差异常局</li>
+<li><strong>结论降级</strong>：原页首「一句话画像」移到 05 段之后，改名「阶段性观察」，并写明只是描述汇总、不构成结论；「经济主要给打野」改为「经济份额最高的是打野」</li>
+<li><strong>布局</strong>：02 段英雄使用 + 边野组合 + 禁选三卡；03 段主力组合 + 组合库；04 段四象限 + 结构/领先 + 资源表；05 段对位 + 关联 + 观察；06 段变化 + 过程行为；07 段逐局证据 + KPL</li>
+<li><strong>验收</strong>：<code>scripts/verify_team_page.py</code> 84 项断言全过（新增边野频率、关联规则、资源对位差、变化异常）</li>
+<li><strong>修数据口径</strong>：分路/场均指标的分母改用逐局面板局数（此前 camp-compare 只有 1 局时会把</li>
+<li><strong>验收</strong>：<code>scripts/verify_team_page.py</code> 同步 v3 结构（五段、双队条、分路对位、时间窗交互），</li>
+</ul>
+<h3>选手板块收成三页 · 认领改成「选手ID ⇄ 游戏名」</h3>
+<ul>
+<li><strong>删两页</strong>：「名单与状态」<code>#players</code>、「选手认领」<code>#identity</code> 下线，旧链接回落</li>
+<li><strong>两个视图</strong>：选手档案默认「按选手ID」（一个 ID 一张卡，同 ID 下的小号按局数加权合并成</li>
+<li><strong>认领</strong>：游戏名卡名字旁直接「认领」，本队与对手都有；弹窗二选一——挂到已有选手ID</li>
+<li><strong>ID 卡操作</strong>：编辑 / 转会（换战队）、移出战队（离队）、删除选手ID、逐个解绑游戏名。</li>
+<li><strong>接口</strong>：新增 <code>GET /api/v3/identity/players</code>（全战队选手 + 战队清单 + 已挂账号数）；</li>
+<li>教程第 3 课改写：先讲身份条（几个 ID / 几个游戏名 / 多少没认），再切「按游戏名」看表现</li>
+</ul>
+<h3>跨局分析页整体重建（现代浅色数据工作台）</h3>
+<ul>
+<li><strong>排版</strong>：去掉深色战报头与 38–58px 巨型数字；页头改为「一句结论 + 指标副行」；</li>
+<li><strong>布局</strong>：页头 → bento 指标区（最近 20 局走势 + 2×2 小指标）→ 粘性分段页签 + 右对齐</li>
+<li><strong>对齐</strong>：卡片统一 16px 圆角 / 20px 内边距 / 发丝线；指标格、筛选控件、表格列统一网格；</li>
+<li><strong>图表重做</strong>（<code>cross-viz.js</code> 重写）：SVG 只画形状、文字全部走 HTML，任意宽度清晰；</li>
+<li><strong>信息量</strong>：删除 40 格微缩图长条；账本/榜单/类型卡全部设上限 + 「展开」；每张卡保留</li>
+<li><strong>页签与筛选</strong>：六页签改为白底胶囊分段控件，说明移入内容区；筛选（搜索/版本/训练组/</li>
+<li><strong>视觉统一</strong>：系列赛页签与编组中心同步字号与卡片圆角；移除需求已不存在的 <code>data-cx-sel</code></li>
+<li>契约与类型刻度写入 <code>docs/design_system.md</code>「V3 跨局分析（2026-11-14 重建）」</li>
+</ul>
+<h3>系列赛编组与分析（跨局分析重构 V2.0，阶段 01–03）</h3>
+<ul>
+<li><strong>数据层</strong>：<code>data/training.sqlite3</code> 新增 <code>training_series</code> / <code>training_series_games</code></li>
+<li><strong>规则集与完赛判定</strong>（新 <code>series_engine.py</code>）：全局BP·队内不复用（默认）/ 双方共同不复用 /</li>
+<li><strong>编组中心</strong>（新 <code>#series-builder</code>，对局区次级导航第一项）：按日期排列的对局时间轴 +</li>
+<li><strong>跨局分析新增「系列赛」页签</strong>（<code>#cross/series</code>，默认页签；下钻 <code>#cross/series/&lt;id&gt;</code>）：</li>
+<li><strong>口径防线</strong>：营地终局名单 ≠ BP 手序——无手序时调整对照一律按「终局阵容」理解并在</li>
+<li><strong>存量 bug 修复</strong>：<code>_cross_vector</code> 团战分桶局部变量覆盖外层对局 <code>key</code>，导致 330/386 个</li>
+<li>测试：<code>tests/test_series_store.py</code> / <code>test_series_api.py</code> / <code>test_series_analysis.py</code></li>
+</ul>
+<h3>赛训组规则落地：10 分钟经济新口径 + 英雄标签表</h3>
+<ul>
+<li><strong>10 分钟经济新口径</strong>（单局「十人数据」页签的手填卡）：</li>
+<li><strong>英雄标签表入库</strong>：新 <code>scripts/import_hero_tags.py</code> 把工作簿的 133 英雄</li>
+<li><strong>能力种子表整表重置</strong>：<code>scripts/rebuild_hero_roles.py</code> 按赛训组能力矩阵</li>
+<li>工作簿里的逐局数据录入模板未动：等有逐局核验数据后再接</li>
+</ul>
+<h3>复盘大屏第二轮：阵容对齐 / 克制命中 / KPL 组合查询 / 字体现代化</h3>
+<ul>
+<li>双方阵容重排：选用 / 禁用各按固定列网格对齐（两队同列等宽槽位卡），</li>
+<li>新增「克制命中」卡：两个证据源<strong>分开列、不合成一个分</strong>——</li>
+<li>新增「KPL 组合查询」：全库组合（双人 3,411 / 三人 10,676 / 新增<strong>四人 2,352</strong>）</li>
+<li>阵容短板可信度：能力维度翻成中文（开团 / 保护 / 前排承伤…），</li>
+<li>字体现代化：打包 Noto Sans SC 子集（OFL 授权，400/500/700 各约 1.3MB，</li>
+<li>修复旧样式层冲突：<code>match-recap-fixes.css</code> 里导致阵容名字竖排的旧实验规则</li>
+<li>回归：<code>python scripts/audit_match_bigscreen.py --regression</code> 断言更新为 9 区块</li>
+</ul>
+<h3>对局页：训练纪录并入精选对局</h3>
+<ul>
+<li>导航与数据口径只保留「精选对局」（<code>#featured</code>）；旧的 <code>#records</code> 链接自动跳到精选对局</li>
+<li>精选卡不变：正负切换 / 终局最接近 / 逆风翻盘 / 最悬殊 / 最长，带时间轴小图与理由</li>
+<li>极值卡去重后并入：只留精选维度没覆盖的四项——最短对局、最高击杀、最高 KDA、</li>
+<li>客户端同步：<code>/matches/records</code> 路由重定向到 <code>/matches/featured</code>，删 RecordsPage，</li>
+<li>演示数据补齐经济时间轴：<code>make_mock_camps</code> 为演示数据包合成 30 秒粒度的团队经济</li>
+</ul>
+<h3>单局复盘大屏：BP 复盘收敛 + 巅峰千强自动爬取</h3>
+<ul>
+<li>英雄跳转：双方阵容、对位压制、联动组合、命中组合、可补英雄里的头像与名字，</li>
+<li>本局 BP 复盘并入赛事命中：独立「赛事命中」卡撤掉，命中组合直接长在 BP 复盘里——</li>
+<li>团战与资源、经济走势两张卡撤掉：团战细节留在「事件」页签，经济曲线由结论卡里的</li>
+<li>对位压制：巅峰千强爬取自动化——新增 <code>peak_crawl.py</code>（91m 公开接口：英雄榜 / 逐日</li>
+<li>对位压制卡片：五路加英雄头像（跳英雄页），口径写明「今日巅峰千强（数据截至 X）」，</li>
+<li>结论句区分「有大盘样本的打平」与「没有样本」：「今日巅峰千强可判 1 路，都是打平</li>
+<li>高样本门槛：单条对位 n≥3000 才算 high 可靠度（原 1000）；200–3000 为 medium，</li>
+<li>回归：<code>python scripts/audit_match_bigscreen.py --regression</code>（断言更新为 7 区块结构、</li>
+<li>视觉收敛层 <code>v3/public/match-review.css</code>（只作用于 <code>.md-page</code>，不动 style.css 业务规则）：</li>
+<li>地图页签撤掉「阵线」（五人平均推进进度）：把五个人压成一个百分比，赛训组看不出该点谁、</li>
+<li>修巅峰千强数据重建（2026-11-14）：<code>build_daily_parquet</code> 先按空名字生成日线行、事后再读</li>
+</ul>
+<h3>版本对比：版本记录（教练维护赛季时间段）</h3>
+<ul>
+<li>版本对比页新增「版本记录」：一行一个版本（版本名 + 开始日期 + 结束日期，可增删），</li>
+<li>落盘 <code>data/versions.json</code>（整表覆盖、原子写入）；接口 <code>GET /api/v3/versions</code>、</li>
+<li>一条记录都没填时页面不受影响：仍可切「训练组」维度看</li>
+</ul>
+<h3>首页：赛训周期简报</h3>
+<ul>
+<li>新增只读接口 <code>GET /api/briefing</code>：按周期切片事实表，输出战况句、动态指标（最多 4 个，带与上期比较）、</li>
+<li>动态指标与变化按「变化幅度 × 样本 × 是否有对局证据」排序去重；本期没有明显变化时不出变化卡，不硬凑三条</li>
+<li>空态：本周/今日 0 局时显示「本周还没有对局」+ 上一周期情况（如「上周同期 23 局 20 胜 3 负」）+</li>
+<li>下钻：证据对局直达单局复盘（<code>#match/&lt;真实对局 key&gt;</code>）；「更多分析」跳到对应模块页并带上本期</li>
+<li>首页删除五路对照表、八宫格导航、管理类大卡、经济/英雄大图（这些留在专业页）</li>
+<li>回归：<code>node scripts/test_workspace_home.mjs</code>、<code>python scripts/verify_period_brief.py --real</code>、</li>
+</ul>
+<h3>其他并行改动</h3>
+<ul>
+<li>对局档案筛选换成胶囊 + 浮层：搜索框与「对手 / 英雄 / 日期」并排，</li>
+<li>筛选条件记在 URL 与本机：条件与搜索词写进地址栏 hash（如 <code>#matches?hero=项羽,小乔&amp;day=2026-11-03</code>），</li>
+<li>键盘操作：筛选面板里 ↑↓ 移动、空格勾选、Enter 收起；对局列表 ↑↓ 或 J/K 选局、</li>
+<li>对局档案行：改对手队名的按钮从悬停浮出挪到「对手未标注 / 对阵 X」后面常显；</li>
+<li>采集包补日期：207 个包顶层没有日期，列表里全显示「日期未知」，教练分不清哪一把。</li>
+<li>「对手开局路线与热区」整页删除：网页战队分析入口、客户端「开局与路线」块</li>
+<li>「阵容组合」研究页一并删除：网页战队分析入口 <code>#study/hero_combos</code> 与</li>
+<li>单局复盘改成一张「复盘大屏」：结论横幅、双方阵容、本局 BP 复盘、赛事命中、团战与资源、</li>
+<li>对局分析三页整页删除（2026-11-13）：「失利关键链 / 团战执行与到位 / 优势保持与回撤」的</li>
+<li>选手 / BP 十个分析整页删除（2026-11-13）：补刀与产出、经济投入与输出、同位置参照、</li>
+<li>分析专题整层下线（2026-11-13）：所有 <code>#topic/*</code> / <code>#study/*</code> 专题的入口 rail、页面文件</li>
+<li>分析仍是「候选事件，不证明因果」；小样本照旧标注「样本不足」</li>
+<li>没有新增数据口径，也没有改采集与筛选逻辑</li>
+<li>复盘大屏只换排布与入口：区块数据仍来自原有接口与同一批判定结果，明细仍能在各页签追到</li>
+<li>单局页有 7 局在十人面板取到空选手时报错、整页回落成「暂时读不到数据」：营地 position 偶发重复 / 缺失，</li>
+<li>网页工作台：顶部导航去掉「决策」；<code>#decision</code> 四个工作区拆成模块里的分析入口</li>
+<li>网页首页：去掉「今天先看这几件事」问题卡，首页只保留本期战绩、分路对位与数据状态</li>
+<li>赛训台客户端：去掉「决策台」页面与概览页问题卡（原有坏链一并消除）；</li>
+<li><code>/api/decision/*</code> 其余只读接口保持不变，仅供上述模块分析页读取</li>
+<li>首页空数据不再整页换成「第一次使用」采集向导：改成弹窗说明 ——</li>
+</ul>
+</section>
 <h2 class="cl-series" id="series-1.6">1.6</h2>
-<section class='cl-version' id='v1.6.7'><div class='cl-head'><h2>v1.6.7</h2><span class='cl-date'>2026-11-13</span><span class='cl-tag'>分析师工作首页：每块信息直接点进对应业务页</span></div>
+<section class='cl-version' id='v1.6.7'><div class='cl-head'><h2>v1.6.7</h2><span class='cl-date'>2026-11-13</span></div>
 <h3>更新摘要</h3>
 <ul>
 <li>新增「赛训工作台」首页：最近一局整卡进入单局复盘；待处理 / 训练计划 / 数据来源</li>
