@@ -5,7 +5,7 @@
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html</link>
     <description>每一版改了什么：新增、修复与已知问题。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 18 Nov 2026 14:15:07 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 14:22:50 +0000</lastBuildDate>
   <item>
     <title>v2.0.1</title>
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v2.0.1</link>
@@ -20,6 +20,8 @@
 - 战队页核数玫瑰图标签去描边、局数移进扇区；位置组合表字号整体放大。
 - 单场报告 BP 卡不再被同排展开的卡拉长。
 - 修掉公开仓库与发布包根路径空白：发布包只拷 v3/serve.py、deep_analysis.py、demo_data.py 三个白名单文件，同目录的 v3/series_api.py 没进包，_mount_v3() 一失败 v3 路由与 /static 全都不挂载，打开就是空白页；公开仓库那边则是 peak_crawl 顶层依赖不随仓库发布的 scripts/build_bp_facts.py。现在 v3/ 按目录扫 *.py，peak_crawl 改为可选导入（缺失只关掉巅峰千强抓取）；make_release.py 的冒烟测试补了 V3_MODULE 断言，同类问题打包时就报错。
+- 首页数据覆盖文案：只有终局面板、没有可看过程的对局时，概述与「数据覆盖」原来都写「本月还没有对局」，而同一屏的「一句战况」写着「本月 31 局训练赛」——自相矛盾。现在改成「本月还没有可看比赛过程的对局」，并在有面板局时点明「N 局只有终局面板，只参与战绩，不参与时间轴指标」。
+- 首页与官网截图：README 首图与官网首屏换成新的「赛训简报」首页（一句战况 / 本期指标 / 重点发现 / 最值得复盘的比赛），不再是对局档案或旧版首页；alt 文案同步。
 - 规则：征召 draft-18（4 Ban/方 + 5 Pick/方，18 手）；KPL draft-20（5 Ban/方，20 手，2024 年度总决赛起；此前 4 Ban 按 18 手）；排位/巅峰 rank-20（5+5 同时 Ban + 10 Pick）。训练赛与 KPL 固定全局 BP；KPL BO7 第 7 局巅峰对决（无 Ban、盲选、解禁）；征召默认无，双方可约定。
 - 元流之子：Pick / 全局 BP 五形态算一个英雄；Ban 按形态。KPL 2024–2026 的 102 局双形态 Ban、105 局 Ban 一形态选另一形态全部合法。
 - 数据：营地赛后名单就是手序，camp_sync 按格式自动铺成 draftEvents；移除「手工录入 BP 顺序」弹窗、camp-bp-order / camp-bp-events 写接口和 bpOrder 依赖。数量不符只标 orderPending，不伪造。
