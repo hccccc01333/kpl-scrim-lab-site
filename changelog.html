@@ -10,9 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111a16'/%3E%3Crect x='6' y='13' width='5' height='12' rx='1.5' fill='%239dc4b7'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='1.5' fill='%23c9553a'/%3E%3Crect x='21' y='16' width='5' height='9' rx='1.5' fill='%239dc4b7'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/noto-serif-sc.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2fbf278b2e">
+<link rel="stylesheet" href="assets/style.css?v=f497ac35f1">
 <script>document.documentElement.classList.add('js');</script>
-<script src="assets/site.js?v=2fbf278b2e" defer></script>
+<script src="assets/site.js?v=f497ac35f1" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 </head>
 <body>
@@ -101,6 +101,7 @@
 <li>首页复盘卡改用 subgrid 逐行对齐，阵容头像放大到 40px。</li>
 <li>战队页核数玫瑰图标签去描边、局数移进扇区；位置组合表字号整体放大。</li>
 <li>单场报告 BP 卡不再被同排展开的卡拉长。</li>
+<li>修掉公开仓库与发布包根路径空白：发布包只拷 <code>v3/serve.py</code>、<code>deep_analysis.py</code>、<code>demo_data.py</code> 三个白名单文件，同目录的 <code>v3/series_api.py</code> 没进包，<code>_mount_v3()</code> 一失败 v3 路由与 <code>/static</code> 全都不挂载，打开就是空白页；公开仓库那边则是 <code>peak_crawl</code> 顶层依赖不随仓库发布的 <code>scripts/build_bp_facts.py</code>。现在 <code>v3/</code> 按目录扫 <code>*.py</code>，<code>peak_crawl</code> 改为可选导入（缺失只关掉巅峰千强抓取）；<code>make_release.py</code> 的冒烟测试补了 <code>V3_MODULE</code> 断言，同类问题打包时就报错。</li>
 </ul>
 <h3>BP 规则与展示：三模式重做</h3>
 <ul>
@@ -1621,7 +1622,7 @@
     </div>
     <div class="footer-gh">
       <div class="footer-gh-main">
-        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=2fbf278b2e" alt="Rainfun 的头像" width="64" height="64">
+        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=f497ac35f1" alt="Rainfun 的头像" width="64" height="64">
         <div>
           <p class="footer-gh-kicker"><b>Rainfun</b> · 独立开发者</p>
           <p class="footer-gh-title"><a href="https://github.com/hccccc01333/kpl-scrim-lab-app">源码都在 GitHub 上</a></p>
