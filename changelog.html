@@ -104,6 +104,8 @@
 <li><strong>原因</strong>：<code>bp_studio_page()</code> 在没有 <code>primary</code> 记录时抛 <code>HTTPException(400, ...)</code>，前端把非 2xx 一律当成读取失败；骨架屏又没有任何文字，2.2s 内没返回就只剩空白。</li>
 <li><strong>改法</strong>：接口改为返回 <code>200 {&quot;available&quot;: false, &quot;reason&quot;: ..., &quot;source&quot;: ...}</code>；前端在 <code>paint()</code> 里先判 <code>available === false</code>，渲染 <code>.bps-empty</code> 整页空态（标题 + 缺什么 + 两步怎么办 + 去采集 / 载入模拟数据 / 重新读取）；<code>rule</code> 名字翻成人话（<code>draft-20</code> → KPL 20 手），不再把内部代号摆给教练看。</li>
 <li><strong>验证</strong>：在 <code>git clone</code> 出来、没有 <code>data/</code> 的干净副本上跑 <code>scripts/audit_v3_regression.py</code>，24 条路由 <strong>失败 0 条 / 空态 2 条</strong>（<code>coach</code>、<code>bp</code>）；空态里的「载入模拟数据」点下去能正常渲染整套 BP 版式。</li>
+<li><strong>CI 清理</strong>：<code>verify_bp_interactions</code> / <code>verify_bp_diagnose</code> / <code>verify_bp_pickers</code> 等的是 <code>.bpi-*</code> 情报面板，<code>verify_scrim_global_bp</code> 等的是 <code>bp-lab</code> 的 <code>.bpl-*</code>——BP 概览换成 <code>bp-studio</code> 之后这两个视图都不再渲染，四条脚本每次提交必红。已删除，换成 <code>scripts/verify_bp_shell.py</code>：宽窄屏各验一次 <code>#bp</code> 落到「有数据」或「空态」、无 JS 异常、无横向溢出，空态下点「载入模拟数据」必须渲染出完整界面。干净副本与本地实例都通过。</li>
+<li><strong>更新面板回归</strong>：空库首次打开会弹「还没有对局数据」引导（复用 <code>#filters</code>，fixed 遮罩），关掉后下一次数据刷新还会再弹，把更新卡片的点击全挡住——10 条用例里 7 条超时在 click。回归里改成弹起即关，10/10 通过（53s）。至此 <code>ci</code> 三条 job 全绿。</li>
 </ul>
 </section>
 <section class='cl-version' id='v2.0.1'><div class='cl-head'><h2>v2.0.1</h2><span class='cl-date'>2026-11-18</span></div>
