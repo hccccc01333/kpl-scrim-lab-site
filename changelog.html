@@ -10,9 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111a16'/%3E%3Crect x='6' y='13' width='5' height='12' rx='1.5' fill='%239dc4b7'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='1.5' fill='%23c9553a'/%3E%3Crect x='21' y='16' width='5' height='9' rx='1.5' fill='%239dc4b7'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/noto-serif-sc.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=b0ad605892">
+<link rel="stylesheet" href="assets/style.css?v=c3c04d0a3a">
 <script>document.documentElement.classList.add('js');</script>
-<script src="assets/site.js?v=b0ad605892" defer></script>
+<script src="assets/site.js?v=c3c04d0a3a" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 </head>
 <body>
@@ -75,7 +75,7 @@
     <div class="shell">
       <div class="hero-masthead">
         <p class="hero-kicker"><i aria-hidden="true"></i>更新日志</p>
-        <p class="hero-edition">最新 v2.0.0 · 2026-11-18</p>
+        <p class="hero-edition">最新 v2.0.1 · 2026-11-18</p>
       </div>
 
       <h1 class="page-title">每一版，<br>改了什么。</h1>
@@ -90,7 +90,46 @@
     </nav>
     <div class="doc cl-doc">
 <h2 class="cl-series" id="series-2.0">2.0</h2>
-<section class='cl-version' id='v2.0.0'><div class='cl-head'><h2>v2.0.0</h2><span class='cl-date'>2026-11-18</span><span class='cl-tag'>2.0：一个工作台，从采集到复盘全部重做</span></div>
+<section class='cl-version' id='v2.0.1'><div class='cl-head'><h2>v2.0.1</h2><span class='cl-date'>2026-11-18</span><span class='cl-tag'>2.0.1：BP 三模式 + 界面细节修正</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li>BP 三模式：征召 18 手、KPL 20 手（含 BO7 巅峰对决）、排位·巅峰 5+5 同时 Ban；营地名单位置直接铺成手序。</li>
+<li>元流之子按形态 Ban、按英雄 Pick；KPL 逐手手序回填 3,418/3,482（98.2%）。</li>
+<li>战队页「变化」卡改为「本窗口 vs 上一个同长度窗口」，不再把窗口对半切。</li>
+<li>选手页：英雄方块再点一次取消、图内字体去描边、英雄池变动图轴标签不再重叠、导航与切片条一起吸顶。</li>
+<li>大场列表重做：纯白画布 + 钢蓝 / 琥珀橙胜负色，卡片内对手名与比分同行、小局压成两行。</li>
+<li>首页复盘卡改用 subgrid 逐行对齐，阵容头像放大到 40px。</li>
+<li>战队页核数玫瑰图标签去描边、局数移进扇区；位置组合表字号整体放大。</li>
+<li>单场报告 BP 卡不再被同排展开的卡拉长。</li>
+</ul>
+<h3>BP 规则与展示：三模式重做</h3>
+<ul>
+<li><strong>规则</strong>：征召 <code>draft-18</code>（4 Ban/方 + 5 Pick/方，18 手）；KPL <code>draft-20</code>（5 Ban/方，20 手，2024 年度总决赛起；此前 4 Ban 按 18 手）；排位/巅峰 <code>rank-20</code>（5+5 同时 Ban + 10 Pick）。训练赛与 KPL 固定全局 BP；KPL BO7 第 7 局巅峰对决（无 Ban、盲选、解禁）；征召默认无，双方可约定。</li>
+<li><strong>元流之子</strong>：Pick / 全局 BP 五形态算一个英雄；Ban 按形态。KPL 2024–2026 的 102 局双形态 Ban、105 局 Ban 一形态选另一形态全部合法。</li>
+<li><strong>数据</strong>：营地赛后名单就是手序，<code>camp_sync</code> 按格式自动铺成 <code>draftEvents</code>；移除「手工录入 BP 顺序」弹窗、<code>camp-bp-order</code> / <code>camp-bp-events</code> 写接口和 <code>bpOrder</code> 依赖。数量不符只标 <code>orderPending</code>，不伪造。</li>
+<li><strong>页面</strong>：BP 工作台三模式切换（征召 / KPL 18/20 / 排位·巅峰）；Ban 手扩展到 1–5；决策树按 18/20 手；单局复盘与大场 BP 板按格式自动还原，排位 Ban 以两条同时禁用泳道展示；单局复盘新增「巅峰对决盲选」面板（双方各 5 个、允许跨方重复、不写记录）。</li>
+<li><strong>模拟数据</strong>：BP 页「征召」tab 新增「载入模拟数据」：8 局 18 手、本队 vs 模拟对手 A/B，只在页面内存中生成，不写文件、不计入真实统计，用于验证 18 手界面。</li>
+<li><strong>数据回填</strong>：新增 <code>scripts/backfill_kpl_draft_events.py</code>，按 <code>battleId</code> 重抓官方单局快照回填 KPL 2024-10 之后的逐手 <code>draftEvents</code>：3,521/3,521 完成，KPL 手序覆盖 3,418/3,482（98.2%）（备份 + 原子写）。</li>
+<li><strong>验证</strong>：全量 pytest 1,220 项通过（1 skip、92 subtests）；KPL 5,239/5,247 个 18 手记录、6/6 个 20 手记录与排程逐手一致。</li>
+</ul>
+<h3>界面细节修正</h3>
+<ul>
+<li><strong>战队页 02 BP 手序</strong>：「变化」卡不再把当前时间窗对半切成前段 / 近段（窗口内再切两半在小样本下只是噪声），改为「本窗口 vs 上一个同长度窗口」，与 01 样本的环比同口径；选「全部 / 自定义」时没有上窗口，只显示 BO3 / BO5 / BO7 切片。</li>
+<li><strong>选手页英雄池</strong>：英雄使用图谱只在够大的方块里写「局数 · 胜率」，小方块只留头像和名字；数字始终保留在悬停提示里。</li>
+<li><strong>选手页点英雄</strong>：英雄方块 / 单选筛选项再点一次即取消，回到「全部」，不用再去下拉里手动选「全部」。</li>
+<li><strong>选手页图内字体</strong>：去掉 SVG 文字的同色描边（原描边叠 600/700 字重后，13–14px 的中文笔画互相糊在一起，「五五开」「本人」等标签几乎读不出来），只保留字体本身的字重。</li>
+<li><strong>英雄池变动图</strong>：Y 轴名改竖排放左侧，顶部按气泡半径动态留白，点标签贴边时自动改对齐 / 翻到下方；左上角的点不再和坐标轴名叠在一起。</li>
+<li><strong>选手页吸顶</strong>：模块导航和切片条一起吸在顶栏下面（窄屏也吸顶，下拉改单行横向滚动），滚到任意一节都能直接换筛选。</li>
+<li><strong>大场列表界面重做</strong>：整页纯白画布、细线白色卡片、单一墨绿强调色；比分/小局胶囊/状态胶囊/KPI 读数带统一重排，去掉渐变光斑和玻璃模糊。只作用于大场列表页，单场报告和其它页面不变。</li>
+<li><strong>大场卡片内部排版</strong>：对手名与比分改同一行；队名首字做圆角头像（单字队名只留头像），比分做成胜负结果徽章；小局从「第一把 / 胜 / +1,579」三行压成「1胜 / +1,579」两行并加胜负色顶边，BO7 七个小局也读得清；卡头加细分隔线，辅助文字加大并加深。</li>
+<li><strong>大场列表配色重做</strong>：最终采用冷白画布 + 墨蓝黑 + 石板蓝强调，<strong>胜用钢蓝 <code>#2b6cb0</code>、负用琥珀橙 <code>#c2702a</code></strong>，彻底去掉红绿；标题胜负数、已完赛状态、队名头像、结果徽章、小局顶边、卡片左侧 outcome 色条、底部链接全部按同一套色板取色，深色主题同步重映射。</li>
+<li><strong>首页复盘卡排版</strong>：轨道改成列向网格 + 卡片 <code>subgrid</code> 共享七条行轨道，标题/结论/时间点/阵容/数字/动作逐行对齐；结论钳到两行（否则一张长文案会把整轨同一行撑到 600px+ 造成大片空白）；阵容头像 28→40px，间距、字号和数字两列栅格统一。规则集中在 <code>home-watch-layout.css</code>。</li>
+<li><strong>玫瑰图标签</strong>：去掉 2px 深色描边（字发黑结块的原因），改成纯色深字；局数移进扇区内部，沿中线取内外半径中点放白色粗体数字，外侧只留「N 核」标签，两者不再挤在一起。</li>
+<li><strong>位置组合表字号</strong>：行文字 11.5→15px，表头 9.5→13px，组合名 12→16px，副标签 / 局数 9.5→12.5px，出现数与稳定度 11.5/10→15/13px；列宽与行高同步放大，响应式断点也跟着调，底注 12.5→15px。并给「最常见的类型搭配」列显式设 15px，修掉 <code>team-dossier.css</code> 里给 SVG 用的 <code>.tp-paircombo{font-size:9px}</code> 漏到 HTML 表格导致这一列偏小的问题；行高回收到 11px 避免过空。</li>
+<li><strong>单场报告 BP 卡不再被拉长</strong>：<code>.bgv-bp-grid</code> 默认 <code>stretch</code>，同一排里展开的卡会把收起的 <code>&lt;details&gt;</code> 卡拉成同样高、留一大块空白。新增 <code>biggame-detail-fixes.css</code>，在 <code>.bgx-detail</code> 下把网格和卡片都设为 <code>start</code>。</li>
+</ul>
+</section>
+<section class='cl-version' id='v2.0.0'><div class='cl-head'><h2>v2.0.0</h2><span class='cl-date'>2026-11-18</span></div>
 <h3>更新摘要</h3>
 <ul>
 <li>单应用外壳：一级导航收成 8 个板块，旧链接自动落到新页面，书签不失效。</li>
@@ -1582,7 +1621,7 @@
     </div>
     <div class="footer-gh">
       <div class="footer-gh-main">
-        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=b0ad605892" alt="Rainfun 的头像" width="64" height="64">
+        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=c3c04d0a3a" alt="Rainfun 的头像" width="64" height="64">
         <div>
           <p class="footer-gh-kicker"><b>Rainfun</b> · 独立开发者</p>
           <p class="footer-gh-title"><a href="https://github.com/hccccc01333/kpl-scrim-lab-app">源码都在 GitHub 上</a></p>
