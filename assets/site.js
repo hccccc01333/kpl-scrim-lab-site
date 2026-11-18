@@ -892,5 +892,300 @@
     });
   })();
 
+  /* ---------- 复盘台演示 ---------- */
+
+  (function () {
+    var root = doc.querySelector('[data-demo]');
+    if (!root) return;
+
+    var svg = root.querySelector('[data-wb-svg]');
+    var track = root.querySelector('[data-wb-track]');
+    var playersEl = root.querySelector('[data-wb-players]');
+    var clockEl = root.querySelector('[data-wb-clock]');
+    var diffEl = root.querySelector('[data-wb-diff]');
+    var killsA = root.querySelector('[data-wb-kills-a]');
+    var killsB = root.querySelector('[data-wb-kills-b]');
+    var durationEl = root.querySelector('[data-wb-duration]');
+
+    var ROSTER = {
+      a: [['廉颇', '对抗路'], ['澜', '打野'], ['沈梦溪', '中路'], ['公孙离', '发育路'], ['张飞', '游走']],
+      b: [['夏侯惇', '对抗路'], ['云缨', '打野'], ['王昭君', '中路'], ['马可波罗', '发育路'], ['太乙真人', '游走']]
+    };
+
+    var GAMES = [
+      {
+        ka: 9, kb: 9, dur: 18.7,
+        gold: [[0, 0], [2, 180], [4, 120], [6, -90], [8, -260], [10, -120], [12, 140], [14, 520], [16, 880], [18, 1240]],
+        events: [[2.6, '一血', 'a'], [6.1, '暴君', 'b'], [9.0, '团战', 'b'], [12.6, '主宰', 'a'], [15.2, '掉点', 'b'], [17.4, '团灭', 'a']]
+      },
+      {
+        ka: 12, kb: 6, dur: 16.3,
+        gold: [[0, 0], [2, 260], [4, 480], [6, 420], [8, 760], [10, 1120], [12, 980], [14, 1460], [16, 1820]],
+        events: [[1.8, '一血', 'a'], [5.3, '暴君', 'a'], [8.0, '团战', 'a'], [11.2, '主宰', 'a'], [14.8, '高地', 'a']]
+      },
+      {
+        ka: 7, kb: 11, dur: 21.1,
+        gold: [[0, 0], [3, -280], [6, -560], [9, -480], [12, -860], [15, -1210], [18, -1520], [21, -1780]],
+        events: [[3.5, '一血', 'b'], [6.8, '暴君', 'b'], [10.0, '掉点', 'a'], [13.5, '团战', 'b'], [19.0, '团灭', 'b']]
+      }
+    ];
+
+    var KILL_W = [0.32, 0.24, 0.18, 0.15, 0.11];
+    var DEATH_W = [0.16, 0.22, 0.18, 0.16, 0.28];
+    var ASSIST_W = [0.18, 0.22, 0.22, 0.18, 0.2];
+    var GOLD_BASE = [6300, 6500, 6600, 7300, 5200];
+
+    var state = { game: 0, side: 'a', cursor: 0, rows: [] };
+
+    function split(total, weights) {
+      var raw = weights.map(function (w) { return total * w; });
+      var out = raw.map(Math.floor);
+      var rest = total - out.reduce(function (a, b) { return a + b; }, 0);
+      var order = raw.map(function (v, i) { return i; }).sort(function (i, j) {
+        return (raw[j] - out[j]) - (raw[i] - out[i]);
+      });
+      for (var k = 0; k < rest; k += 1) out[order[k % out.length]] += 1;
+      return out;
+    }
+
+    function buildRows(game, side) {
+      var g = GAMES[game];
+      var enemy = side === 'a' ? 'b' : 'a';
+      var kills = split(side === 'a' ? g.ka : g.kb, KILL_W);
+      var deaths = split(side === 'a' ? g.kb : g.ka, DEATH_W);
+      var assists = split(Math.round((side === 'a' ? g.ka : g.kb) * 1.1) + 4, ASSIST_W);
+      var roster = ROSTER[side];
+      var rows = roster.map(function (item, i) {
+        var gold = GOLD_BASE[i] + kills[i] * 90 - deaths[i] * 70 + Math.round(g.dur * 22);
+        return {
+          hero: item[0],
+          role: item[1],
+          k: kills[i],
+          d: deaths[i],
+          a: assists[i],
+          gold: Math.round(gold / 100) * 100
+        };
+      });
+      state.rows = rows;
+      return rows;
+    }
+
+    function valueAt(game, minute) {
+      var pts = GAMES[game].gold;
+      if (minute <= pts[0][0]) return pts[0][1];
+      for (var i = 1; i < pts.length; i += 1) {
+        if (minute <= pts[i][0]) {
+          var p = pts[i - 1];
+          var q = pts[i];
+          var t = (minute - p[0]) / (q[0] - p[0] || 1);
+          return p[1] + (q[1] - p[1]) * t;
+        }
+      }
+      return pts[pts.length - 1][1];
+    }
+
+    function fmtClock(minute) {
+      var m = Math.floor(minute);
+      var s = Math.round((minute - m) * 60);
+      if (s === 60) { m += 1; s = 0; }
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function fmtDiff(value) {
+      var k = value / 1000;
+      if (Math.abs(k) < 0.05) return '0.0k';
+      var sign = k > 0 ? '+' : '−';
+      return sign + Math.abs(k).toFixed(1) + 'k';
+    }
+
+    var W = 640;
+    var H = 240;
+    var PAD = { l: 40, r: 14, t: 12, b: 24 };
+
+    function renderChart() {
+      var g = GAMES[state.game];
+      var maxAbs = Math.max(1000, Math.ceil(Math.max.apply(null, g.gold.map(function (p) {
+        return Math.abs(p[1]);
+      })) / 1000) * 1000);
+      var innerW = W - PAD.l - PAD.r;
+      var innerH = H - PAD.t - PAD.b;
+
+      function x(m) { return PAD.l + (m / g.dur) * innerW; }
+      function y(v) { return PAD.t + innerH * (1 - (v + maxAbs) / (maxAbs * 2)); }
+
+      function line() {
+        return g.gold.map(function (p, i) {
+          return (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + y(p[1]).toFixed(1);
+        }).join(' ');
+      }
+
+      var zero = y(0).toFixed(1);
+      var area = line() + ' L' + x(g.dur).toFixed(1) + ' ' + zero + ' L' + PAD.l + ' ' + zero + ' Z';
+
+      var parts = [];
+      parts.push('<line class="wb-zero" x1="' + PAD.l + '" x2="' + (W - PAD.r) + '" y1="' + zero + '" y2="' + zero + '"/>');
+      parts.push('<text class="wb-axis" x="' + (PAD.l - 8) + '" y="' + (Number(zero) + 4) + '" text-anchor="end">0</text>');
+      parts.push('<line class="wb-grid" x1="' + PAD.l + '" x2="' + (W - PAD.r) + '" y1="' + y(maxAbs).toFixed(1) + '" y2="' + y(maxAbs).toFixed(1) + '"/>');
+      parts.push('<text class="wb-axis" x="' + (PAD.l - 8) + '" y="' + (y(maxAbs) + 4).toFixed(1) + '" text-anchor="end">+' + maxAbs / 1000 + 'k</text>');
+      parts.push('<line class="wb-grid" x1="' + PAD.l + '" x2="' + (W - PAD.r) + '" y1="' + y(-maxAbs).toFixed(1) + '" y2="' + y(-maxAbs).toFixed(1) + '"/>');
+      parts.push('<text class="wb-axis" x="' + (PAD.l - 8) + '" y="' + (y(-maxAbs) + 4).toFixed(1) + '" text-anchor="end">−' + maxAbs / 1000 + 'k</text>');
+      parts.push('<path class="wb-area" d="' + area + '"/>');
+      parts.push('<path class="wb-line" d="' + line() + '"/>');
+
+      g.events.forEach(function (ev) {
+        var cx = x(ev[0]).toFixed(1);
+        var cy = y(valueAt(state.game, ev[0])).toFixed(1);
+        parts.push('<g class="wb-dot wb-dot--' + ev[2] + '" data-event="' + ev[0] + '">' +
+          '<circle cx="' + cx + '" cy="' + cy + '" r="4.5"/>' +
+          '<title>' + fmtClock(ev[0]) + ' ' + ev[1] + '</title></g>');
+      });
+
+      parts.push('<line class="wb-cursor" data-wb-cursor x1="' + PAD.l + '" x2="' + PAD.l + '" y1="' + PAD.t + '" y2="' + (H - PAD.b) + '"/>');
+
+      svg.innerHTML = parts.join('');
+    }
+
+    function renderTimeline() {
+      var g = GAMES[state.game];
+      var html = '';
+      for (var m = 0; m <= g.dur; m += 2) {
+        var left = (m / g.dur * 100).toFixed(2);
+        html += '<i class="wb-tick" style="left:' + left + '%"></i>';
+        if (m % 4 === 0) {
+          html += '<span class="wb-tick-label" style="left:' + left + '%">' + m + "'</span>";
+        }
+      }
+      g.events.forEach(function (ev) {
+        var left = (ev[0] / g.dur * 100).toFixed(2);
+        html += '<button class="wb-event wb-event--' + ev[2] + '" type="button" style="left:' + left + '%"' +
+          ' data-event="' + ev[0] + '" title="' + fmtClock(ev[0]) + ' ' + ev[1] + '">' +
+          '<span class="sr-only">' + fmtClock(ev[0]) + ' ' + ev[1] + '</span></button>';
+      });
+      html += '<i class="wb-head" data-wb-head style="left:0%"></i>';
+      track.innerHTML = html;
+    }
+
+    function paintPlayers() {
+      var rows = state.rows;
+      var maxGold = Math.max.apply(null, rows.map(function (r) { return r.gold; }));
+      playersEl.innerHTML = rows.map(function (r) {
+        var pct = Math.round(r.gold / maxGold * 100);
+        return '<li class="wb-player"><b>' + r.hero + '</b><span>' + r.k + '/' + r.d + '/' + r.a + '</span>' +
+          '<em>' + r.role + '</em><span>' + (r.gold / 1000).toFixed(1) + 'k</span>' +
+          '<i><span style="width:' + pct + '%"></span></i></li>';
+      }).join('');
+    }
+
+    function paintReadout() {
+      var value = valueAt(state.game, state.cursor);
+      clockEl.textContent = fmtClock(state.cursor);
+      diffEl.textContent = fmtDiff(value);
+      diffEl.setAttribute('data-tone', value >= 0 ? 'up' : 'down');
+
+      var g = GAMES[state.game];
+      var pct = (state.cursor / g.dur * 100).toFixed(2) + '%';
+      var head = root.querySelector('[data-wb-head]');
+      if (head) head.style.left = pct;
+      var cursor = svg.querySelector('[data-wb-cursor]');
+      if (cursor) {
+        var x = PAD.l + (state.cursor / g.dur) * (W - PAD.l - PAD.r);
+        cursor.setAttribute('x1', x.toFixed(1));
+        cursor.setAttribute('x2', x.toFixed(1));
+      }
+
+      var nearest = null;
+      g.events.forEach(function (ev) {
+        var on = Math.abs(ev[0] - state.cursor) < 0.35;
+        root.querySelectorAll('.wb-event[data-event="' + ev[0] + '"]').forEach(function (el) {
+          el.classList.toggle('is-on', on);
+        });
+        svg.querySelectorAll('.wb-dot[data-event="' + ev[0] + '"]').forEach(function (el) {
+          el.classList.toggle('is-on', on);
+        });
+        if (on) nearest = ev;
+      });
+      return nearest;
+    }
+
+    function setCursor(minute) {
+      var g = GAMES[state.game];
+      state.cursor = Math.max(0, Math.min(g.dur, minute));
+      paintReadout();
+    }
+
+    function setGame(index) {
+      state.game = index;
+      var g = GAMES[index];
+      killsA.textContent = g.ka;
+      killsB.textContent = g.kb;
+      durationEl.textContent = fmtClock(g.dur);
+      buildRows(index, state.side);
+      renderChart();
+      renderTimeline();
+      paintPlayers();
+      setCursor(g.dur * 0.6);
+    }
+
+    function setSide(side) {
+      state.side = side;
+      buildRows(state.game, side);
+      paintPlayers();
+    }
+
+    root.querySelectorAll('[data-game]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var index = Number(btn.getAttribute('data-game'));
+        if (index === state.game) return;
+        root.querySelectorAll('[data-game]').forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        setGame(index);
+      });
+    });
+
+    root.querySelectorAll('[data-side]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var side = btn.getAttribute('data-side');
+        if (side === state.side) return;
+        root.querySelectorAll('[data-side]').forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        setSide(side);
+      });
+    });
+
+    track.addEventListener('click', function (event) {
+      var eventBtn = event.target.closest('.wb-event');
+      if (eventBtn) {
+        setCursor(Number(eventBtn.getAttribute('data-event')));
+        return;
+      }
+      var rect = track.getBoundingClientRect();
+      if (!rect.width) return;
+      var ratio = (event.clientX - rect.left) / rect.width;
+      setCursor(ratio * GAMES[state.game].dur);
+    });
+
+    svg.addEventListener('click', function (event) {
+      var dot = event.target.closest('.wb-dot');
+      if (dot) setCursor(Number(dot.getAttribute('data-event')));
+    });
+
+    setGame(0);
+  })();
+
+  /* ---------- 滚动动画（仅支持 scroll-driven 的浏览器） ---------- */
+
+  (function () {
+    if (reduce.matches) return;
+    if (!window.CSS || !CSS.supports('animation-timeline', 'view()')) return;
+    var targets = doc.querySelectorAll('.sec-head, .brief, .wb, .faq-grid, .footer-gh, .page-tail-inner');
+    Array.prototype.forEach.call(targets, function (el) { el.classList.add('scroll-rise'); });
+  })();
+
   onScroll();
 })();
