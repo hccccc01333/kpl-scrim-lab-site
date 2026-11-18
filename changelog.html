@@ -75,7 +75,7 @@
     <div class="shell">
       <div class="hero-masthead">
         <p class="hero-kicker"><i aria-hidden="true"></i>更新日志</p>
-        <p class="hero-edition">最新 v2.0.1 · 2026-11-18</p>
+        <p class="hero-edition">最新 v2.0.2 · 2026-11-18</p>
       </div>
 
       <h1 class="page-title">每一版，<br>改了什么。</h1>
@@ -90,7 +90,23 @@
     </nav>
     <div class="doc cl-doc">
 <h2 class="cl-series" id="series-2.0">2.0</h2>
-<section class='cl-version' id='v2.0.1'><div class='cl-head'><h2>v2.0.1</h2><span class='cl-date'>2026-11-18</span><span class='cl-tag'>2.0.1：BP 三模式 + 界面细节修正</span></div>
+<section class='cl-version' id='v2.0.2'><div class='cl-head'><h2>v2.0.2</h2><span class='cl-date'>2026-11-18</span><span class='cl-tag'>2.0.2：BP 页空库空态 + 首页文案修正</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li>新库打开 BP 页不再是一句「BP 数据暂时读不到」：没有任何 BP 记录时给整页空态，写清缺哪种赛制的记录，并给「去采集 / 载入模拟数据 / 重新读取」三个入口。</li>
+<li>接口口径：<code>GET /api/v3/bp-studio</code> 在无记录时由 400 改为 200 + <code>available: false</code> + <code>reason</code>，这不是客户端错误。</li>
+<li>骨架屏补「正在读取 BP 数据…」，首次冷启动不再是一片空白骨架。</li>
+<li>全站路由回归把 <code>.bps-empty</code> / <code>.bps-loading</code> 也算作正常空态与加载态。</li>
+</ul>
+<h3>BP 页空库空态</h3>
+<ul>
+<li><strong>症状</strong>：全新安装（库和语料都是空的）打开 BP 页，只有一句红字「BP 数据暂时读不到 / 请求失败（HTTP 400）」，页面高度 240px；全站路由回归因此判 FAIL（空页无空态说明）。</li>
+<li><strong>原因</strong>：<code>bp_studio_page()</code> 在没有 <code>primary</code> 记录时抛 <code>HTTPException(400, ...)</code>，前端把非 2xx 一律当成读取失败；骨架屏又没有任何文字，2.2s 内没返回就只剩空白。</li>
+<li><strong>改法</strong>：接口改为返回 <code>200 {&quot;available&quot;: false, &quot;reason&quot;: ..., &quot;source&quot;: ...}</code>；前端在 <code>paint()</code> 里先判 <code>available === false</code>，渲染 <code>.bps-empty</code> 整页空态（标题 + 缺什么 + 两步怎么办 + 去采集 / 载入模拟数据 / 重新读取）；<code>rule</code> 名字翻成人话（<code>draft-20</code> → KPL 20 手），不再把内部代号摆给教练看。</li>
+<li><strong>验证</strong>：在 <code>git clone</code> 出来、没有 <code>data/</code> 的干净副本上跑 <code>scripts/audit_v3_regression.py</code>，24 条路由 <strong>失败 0 条 / 空态 2 条</strong>（<code>coach</code>、<code>bp</code>）；空态里的「载入模拟数据」点下去能正常渲染整套 BP 版式。</li>
+</ul>
+</section>
+<section class='cl-version' id='v2.0.1'><div class='cl-head'><h2>v2.0.1</h2><span class='cl-date'>2026-11-18</span></div>
 <h3>更新摘要</h3>
 <ul>
 <li>BP 三模式：征召 18 手、KPL 20 手（含 BO7 巅峰对决）、排位·巅峰 5+5 同时 Ban；营地名单位置直接铺成手序。</li>

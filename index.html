@@ -27,8 +27,8 @@
   "applicationCategory": "SportsApplication",
   "operatingSystem": "Windows 10, Windows 11",
   "inLanguage": "zh-CN",
-  "softwareVersion": "2.0.1",
-  "downloadUrl": "https://github.com/hccccc01333/kpl-scrim-lab-app/releases/download/v2.0.1/KPL-Scrim-Lab-2.0.1-setup.exe",
+  "softwareVersion": "2.0.2",
+  "downloadUrl": "https://github.com/hccccc01333/kpl-scrim-lab-app/releases/download/v2.0.2/KPL-Scrim-Lab-2.0.2-setup.exe",
   "screenshot": "https://hccccc01333.github.io/kpl-scrim-lab-site/assets/img/v3-hero.png"
 }
 </script>
@@ -42,7 +42,7 @@
 <script src="assets/site.js?v=74710e6e22" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 </head>
-<body class="home" data-version="v2.0.1" data-release="2026-11-18">
+<body class="home" data-version="v2.0.2" data-release="2026-11-18">
 
 <a class="skip" href="#main">跳到主要内容</a>
 
@@ -104,7 +104,7 @@
   <div class="shell">
     <div class="hero-masthead">
       <p class="hero-kicker"><i aria-hidden="true"></i>王者荣耀 · 本机赛训数据</p>
-      <p class="hero-edition">v2.0.1 · 2026-11-18</p>
+      <p class="hero-edition">v2.0.2 · 2026-11-18</p>
     </div>
 
     <h1 class="hero-title">
@@ -141,7 +141,7 @@
             <span class="frame-url">127.0.0.1:8766</span>
           </div>
           <img src="assets/img/v3-hero.webp?v=74710e6e22" alt="赛训数据首页：一句战况、本期指标、重点发现与最值得复盘的比赛，均为合成演示数据" width="1600" height="1000" fetchpriority="high">
-          <figcaption class="frame-cap"><span>赛训数据首页 · 合成示例数据</span><span>v2.0.1</span></figcaption>
+          <figcaption class="frame-cap"><span>赛训数据首页 · 合成示例数据</span><span>v2.0.2</span></figcaption>
         </figure>
         <p class="hero-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
@@ -286,12 +286,12 @@
     <div class="updates-head">
       <div class="updates-title">
         <span class="sec-index">更新</span>
-        <h2 id="updates-title">v2.0.1</h2>
+        <h2 id="updates-title">v2.0.2</h2>
         <span class="updates-date mono">2026-11-18</span>
       </div>
       <a class="arrow-link updates-link" href="changelog.html">全部更新日志 <span>→</span></a>
     </div>
-    <ul class="updates-list"><li>BP 三模式：征召 18 手、KPL 20 手（含 BO7 巅峰对决）、排位·巅峰 5+5 同时 Ban；营地名单位置直接铺成手序</li><li>元流之子按形态 Ban、按英雄 Pick；KPL 逐手手序回填 3,418/3,482（98.2%）</li><li>战队页「变化」卡改为「本窗口 vs 上一个同长度窗口」，不再把窗口对半切</li><li>选手页：英雄方块再点一次取消、图内字体去描边、英雄池变动图轴标签不再重叠、导航与切片条一起吸顶</li></ul>
+    <ul class="updates-list"><li>新库打开 BP 页不再是一句「BP 数据暂时读不到」：没有任何 BP 记录时给整页空态，写清缺哪种赛制的记录，并给「去采集 / 载入模拟数据 / 重新读取」三个入口</li><li>接口口径：<code>GET /api/v3/bp-studio</code> 在无记录时由 400 改为 200 + <code>available: false</code> + <code>reason</code>，这不是客户端错误</li><li>骨架屏补「正在读取 BP 数据…」，首次冷启动不再是一片空白骨架</li><li>全站路由回归把 <code>.bps-empty</code> / <code>.bps-loading</code> 也算作正常空态与加载态</li></ul>
   </div>
 </section>
 
@@ -394,7 +394,7 @@
       </div>
     </div>
     <div class="footer-status">
-      <span class="mono">v2.0.1</span>
+      <span class="mono">v2.0.2</span>
       <span>Windows 10 / 11</span>
       <span>本机运行 · 0 云端依赖</span>
       <a href="changelog.html">更新日志 <span aria-hidden="true">→</span></a>
@@ -458,7 +458,7 @@
 <dialog class="welcome" id="welcome" aria-labelledby="welcome-title" aria-describedby="welcome-note">
   <div class="welcome-inner">
     <div class="welcome-top">
-      <p class="welcome-ver"><span class="mono">v2.0.1</span><span>2026-11-18</span></p>
+      <p class="welcome-ver"><span class="mono">v2.0.2</span><span>2026-11-18</span></p>
       <button class="welcome-close" type="button" data-welcome-close aria-label="关闭说明">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
