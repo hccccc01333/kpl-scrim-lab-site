@@ -183,6 +183,25 @@
   syncScrollbar();
   window.addEventListener('resize', syncScrollbar, { passive: true });
 
+  /* ---------- 首屏截图视差 ---------- */
+
+  (function () {
+    var frame = doc.querySelector('.hero-visual .frame');
+    if (!frame || reduce.matches) return;
+    var ticking = false;
+    function shift() {
+      ticking = false;
+      var y = window.pageYOffset || doc.documentElement.scrollTop;
+      if (y > window.innerHeight * 1.2) return;
+      frame.style.translate = '0 ' + (y * -0.06).toFixed(1) + 'px';
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(shift);
+    }, { passive: true });
+  })();
+
   /* ---------- 滚动：进度条、吸顶阴影、回顶按钮 ---------- */
 
   var topbar = doc.querySelector('.topbar');
