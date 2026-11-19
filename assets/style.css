@@ -5575,3 +5575,287 @@ dd {
 
 /* 数据口径页原有的圆环保留但更淡 */
 .mx-hero::after { opacity: 0.28; }
+
+
+/* ==========================================================================
+   v5 首页：按 Claude 官网的骨架重做 —— 少即是贵
+   封面(一屏一句话) → 演示 → FAQ → 下载 → 页脚
+   ========================================================================== */
+
+.home .v5-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(560px, 86vh, 900px);
+  padding-block: clamp(72px, 10vw, 132px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.v5-hero-inner {
+  max-width: 860px;
+}
+
+.v5-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+.v5-kicker i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+.v5-h1 {
+  margin: clamp(28px, 4vw, 48px) 0 0;
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 1.4rem + 3.4vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.v5-h1 em {
+  font-style: normal;
+  color: var(--coral-deep);
+}
+
+.v5-sub {
+  margin-top: clamp(20px, 2.6vw, 30px);
+  max-width: 34em;
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+.v5-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin-top: clamp(30px, 3.6vw, 44px);
+}
+
+.v5-textlink {
+  font-size: 0.9375rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-2);
+  padding-bottom: 3px;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.v5-textlink:hover {
+  color: var(--celadon);
+  border-color: var(--celadon);
+}
+
+.v5-textlink span {
+  margin-left: 4px;
+}
+
+.v5-meta {
+  margin-top: clamp(36px, 5vw, 64px);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+}
+
+.v5-section {
+  padding-block: clamp(84px, 11vw, 148px);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.v5-head {
+  max-width: 720px;
+  margin-bottom: clamp(44px, 6vw, 72px);
+}
+
+.v5-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  color: var(--celadon);
+  text-transform: uppercase;
+}
+
+.v5-head h2 {
+  margin-top: 14px;
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.v5-head p:not(.v5-eyebrow) {
+  margin-top: 14px;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.v5-demo .ov {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+
+.v5-demo-note {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--faint);
+}
+
+/* FAQ：原生 details，去掉卡片感 */
+.v5-qa {
+  max-width: 760px;
+  border-top: 1px solid var(--line);
+}
+
+.v5-qa details {
+  border-bottom: 1px solid var(--line);
+}
+
+.v5-qa summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 2px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  color: var(--ink);
+}
+
+.v5-qa summary::-webkit-details-marker {
+  display: none;
+}
+
+.v5-qa summary span {
+  flex: none;
+  font-family: var(--sans);
+  font-size: 1.25rem;
+  color: var(--muted);
+  transition: transform var(--dur) var(--ease);
+}
+
+.v5-qa details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.v5-qa details p {
+  padding: 0 40px 24px 2px;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--ink-2);
+}
+
+.v5-more {
+  margin-top: 30px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.v5-more a {
+  color: var(--celadon);
+  border-bottom: 1px solid currentColor;
+}
+
+.v5-cta {
+  padding-block: clamp(80px, 10vw, 132px);
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.v5-cta-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: end;
+}
+
+.v5-cta-inner h2 {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--surface);
+}
+
+.v5-cta-inner p {
+  margin-top: 18px;
+  max-width: 40em;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: rgba(252, 249, 242, 0.66);
+}
+
+.v5-cta-inner code {
+  font-family: var(--mono);
+  font-size: 0.875em;
+}
+
+.v5-cta-actions {
+  min-width: 260px;
+}
+
+.v5-sponsor {
+  display: block;
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: rgba(252, 249, 242, 0.72);
+  border-bottom: 1px solid rgba(252, 249, 242, 0.3);
+  padding-bottom: 4px;
+}
+
+.v5-sponsor:hover {
+  color: var(--surface);
+  border-color: var(--surface);
+}
+
+.v5-fine {
+  margin-top: 22px !important;
+  font-size: 0.75rem !important;
+  line-height: 1.6 !important;
+  color: rgba(252, 249, 242, 0.42) !important;
+}
+
+/* 页脚：去掉跑马灯后收紧顶部 */
+.home .footer {
+  padding-top: clamp(56px, 7vw, 84px);
+}
+
+@media (max-width: 900px) {
+  .home .v5-hero {
+    min-height: auto;
+  }
+  .v5-cta-inner {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .v5-cta-actions {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 560px) {
+  .v5-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .v5-qa summary {
+    font-size: 1rem;
+  }
+}
