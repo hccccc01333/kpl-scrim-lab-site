@@ -17,7 +17,9 @@ body { overflow: auto; min-width: 0; }
 .celadon-result, .ov-point { pointer-events: auto; cursor: pointer; }
 .celadon-result { border: 0; }
 .ov-point { fill: var(--paper); stroke: var(--accent); stroke-width: 2; }
-.ov-point:hover, .ov-point:focus { fill: var(--accent); outline: none; }
+.ov-point:hover { fill: var(--accent); }
+ /* 键盘聚焦必须可见：保留 fill 变化并加一圈高对比描边，不用 outline:none */
+ .ov-point:focus-visible { fill: var(--accent); stroke: var(--ink); stroke-width: 3; }
 .ov-point-readout { margin-top: 8px; color: var(--muted); font-size: 11px; min-height: 1.4em; }
 .ov-area { fill: color-mix(in srgb, var(--accent) 10%, transparent); }
 .ov-line { fill: none; stroke: var(--accent); stroke-width: 2; }
@@ -362,14 +364,21 @@ body { overflow: auto; min-width: 0; }
       if (readout) readout.textContent = '第 ' + (i * 30) + ' 秒 · 本队经济差 ' + (v >= 0 ? '+' : '') + v + ' 金（' + (v >= 0 ? '领先' : '落后') + '）';
     }
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    var pt = e.target.closest && e.target.closest('.ov-point');
-    if (!pt) return;
-    e.preventDefault();
+  function activatePoint(target) {
     // SVG <circle> 没有 HTMLElement.click()，键盘触发时必须派发真实事件，
     // 否则会抛 "pt.click is not a function"，读数是永远不更新的。
-    pt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    target.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var pt = e.target.closest && e.target.closest('.ov-point');
+    if (pt) { e.preventDefault(); activatePoint(pt); }
+  });
+  // 仿原生 <button>：Enter 在 keydown 触发，Space 在 keyup 触发
+  document.addEventListener('keyup', function (e) {
+    if (e.key !== ' ') return;
+    var pt = e.target.closest && e.target.closest('.ov-point');
+    if (pt) { e.preventDefault(); activatePoint(pt); }
   });
 })();
 </script>
