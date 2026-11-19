@@ -14,7 +14,7 @@ body { overflow: auto; min-width: 0; }
 .page.celadon-client-home { gap: 28px; }
 .client-top-nav { overflow: hidden; }
 .client-top-link { pointer-events: none; }
-.celadon-result, .ov-point, .latest-link { pointer-events: auto; cursor: pointer; }
+.celadon-result, .ov-point { pointer-events: auto; cursor: pointer; }
 .celadon-result { border: 0; }
 .ov-point { fill: var(--paper); stroke: var(--accent); stroke-width: 2; }
 .ov-point:hover, .ov-point:focus { fill: var(--accent); outline: none; }
@@ -74,7 +74,7 @@ body { overflow: auto; min-width: 0; }
             <div class="latest-side is-away"><small>对手</small><b>星轨战队</b><span>对方战队</span></div>
           </div>
           <div class="latest-bottom"><div class="latest-lineup"><span>本队阵容</span><span class="hero-slot"><span class="portrait" aria-hidden="true">廉</span><small>廉颇</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">澜</span><small>澜</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">沈</span><small>沈梦溪</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">公</span><small>公孙离</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">张</span><small>张飞</small></span></div>
-            <a class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></a></div>
+            <span class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></span></div>
         </article>
         <div class="ledger" role="group" aria-label="本期指标">
           <div class="ledger-item"><span class="ledger-label">对局总数</span><span class="ledger-value" data-role="matches">36<small>局</small></span><span class="ledger-note">11 局时间轴完整</span></div>
@@ -105,7 +105,7 @@ body { overflow: auto; min-width: 0; }
     <div class="overview-analysis">
       <section class="card">
         <div class="card-head"><div><h2 class="card-title">经济走势</h2><div class="card-sub">11 局平均 · 每 30 秒一个点 · 每 30 秒一个采样点，本队减对手</div></div>
-          <a class="card-link">逐局查看</a></div>
+          <span class="card-link">逐局查看</span></div>
         <div class="economy-chart"><div class="chart-wrap">
           <svg viewBox="0 0 760 210" role="img" aria-label="本队经济差曲线（合成示例）">
       <line class="ov-grid" x1="26" y1="184.0" x2="734" y2="184.0"/>
@@ -113,12 +113,12 @@ body { overflow: auto; min-width: 0; }
       <path class="ov-line" d="M26.0,184.0 L96.8,175.8 L167.6,166.3 L238.4,171.8 L309.2,155.4 L380.0,132.3 L450.8,103.8 L521.6,73.9 L592.4,52.1 L663.2,41.2 L734.0,26.0"/>
       <circle class="ov-point" data-i="0" cx="26.0" cy="184.0" r="4.5" tabindex="0" role="button" aria-label="第 0 秒，经济差 0"/><circle class="ov-point" data-i="1" cx="96.8" cy="175.8" r="4.5" tabindex="0" role="button" aria-label="第 30 秒，经济差 120"/><circle class="ov-point" data-i="2" cx="167.6" cy="166.3" r="4.5" tabindex="0" role="button" aria-label="第 60 秒，经济差 260"/><circle class="ov-point" data-i="3" cx="238.4" cy="171.8" r="4.5" tabindex="0" role="button" aria-label="第 90 秒，经济差 180"/><circle class="ov-point" data-i="4" cx="309.2" cy="155.4" r="4.5" tabindex="0" role="button" aria-label="第 120 秒，经济差 420"/><circle class="ov-point" data-i="5" cx="380.0" cy="132.3" r="4.5" tabindex="0" role="button" aria-label="第 150 秒，经济差 760"/><circle class="ov-point" data-i="6" cx="450.8" cy="103.8" r="4.5" tabindex="0" role="button" aria-label="第 180 秒，经济差 1180"/><circle class="ov-point" data-i="7" cx="521.6" cy="73.9" r="4.5" tabindex="0" role="button" aria-label="第 210 秒，经济差 1620"/><circle class="ov-point" data-i="8" cx="592.4" cy="52.1" r="4.5" tabindex="0" role="button" aria-label="第 240 秒，经济差 1940"/><circle class="ov-point" data-i="9" cx="663.2" cy="41.2" r="4.5" tabindex="0" role="button" aria-label="第 270 秒，经济差 2100"/><circle class="ov-point" data-i="10" cx="734.0" cy="26.0" r="4.5" tabindex="0" role="button" aria-label="第 300 秒，经济差 2324"/>
     </svg>
-          <p class="ov-point-readout" data-role="readout">点图上的点，看那一分钟的经济差。</p>
+          <p class="ov-point-readout" data-role="readout" aria-live="polite">点图上的点，看那一分钟的经济差。</p>
         </div>
         <div class="chart-foot"><span><i></i>本队经济差</span><span>11 局平均 · 11 个时间点</span></div></div>
       </section>
       <section class="card">
-        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><a class="card-link">全部英雄</a></div>
+        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><span class="card-link">全部英雄</a></div>
         <div class="bar-list"><div class="bar-row"><span><span class="portrait" aria-hidden="true">廉</span> 廉颇</span><div class="meter"><i style="width:60%"></i></div><b>5 场 · 60%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">伽</span> 伽罗</span><div class="meter"><i style="width:67%"></i></div><b>6 场 · 67%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">沈</span> 沈梦溪</span><div class="meter"><i style="width:55%"></i></div><b>4 场 · 55%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">张</span> 张飞</span><div class="meter"><i style="width:50%"></i></div><b>3 场 · 50%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">澜</span> 澜</span><div class="meter"><i style="width:58%"></i></div><b>4 场 · 58%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">公</span> 公孙离</span><div class="meter"><i style="width:62%"></i></div><b>5 场 · 62%</b></div></div>
       </section>
     </div>
@@ -175,7 +175,7 @@ body { overflow: auto; min-width: 0; }
             <div class="latest-side is-away"><small>对手</small><b>测试对手B</b><span>对方战队</span></div>
           </div>
           <div class="latest-bottom"><div class="latest-lineup"><span>本队阵容</span><span class="hero-slot"><span class="portrait" aria-hidden="true">猪</span><small>猪八戒</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">妲</span><small>妲己</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">孙</span><small>孙权</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">阿</span><small>阿轲</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">赵</span><small>赵怀真</small></span></div>
-            <a class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></a></div>
+            <span class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></span></div>
         </article>
         <div class="ledger" role="group" aria-label="本期指标">
           <div class="ledger-item"><span class="ledger-label">对局总数</span><span class="ledger-value" data-role="matches">36<small>局</small></span><span class="ledger-note">13 局时间轴完整</span></div>
@@ -206,7 +206,7 @@ body { overflow: auto; min-width: 0; }
     <div class="overview-analysis">
       <section class="card">
         <div class="card-head"><div><h2 class="card-title">经济走势</h2><div class="card-sub">13 局平均 · 每 30 秒一个点 · 每 30 秒一个采样点，本队减对手</div></div>
-          <a class="card-link">逐局查看</a></div>
+          <span class="card-link">逐局查看</span></div>
         <div class="economy-chart"><div class="chart-wrap">
           <svg viewBox="0 0 760 210" role="img" aria-label="本队经济差曲线（合成示例）">
       <line class="ov-grid" x1="26" y1="56.2" x2="734" y2="56.2"/>
@@ -214,12 +214,12 @@ body { overflow: auto; min-width: 0; }
       <path class="ov-line" d="M26.0,56.2 L85.0,66.3 L144.0,79.3 L203.0,74.9 L262.0,62.0 L321.0,43.3 L380.0,26.0 L439.0,37.5 L498.0,64.9 L557.0,102.3 L616.0,135.4 L675.0,164.2 L734.0,184.0"/>
       <circle class="ov-point" data-i="0" cx="26.0" cy="56.2" r="4.5" tabindex="0" role="button" aria-label="第 0 秒，经济差 0"/><circle class="ov-point" data-i="1" cx="85.0" cy="66.3" r="4.5" tabindex="0" role="button" aria-label="第 30 秒，经济差 -140"/><circle class="ov-point" data-i="2" cx="144.0" cy="79.3" r="4.5" tabindex="0" role="button" aria-label="第 60 秒，经济差 -320"/><circle class="ov-point" data-i="3" cx="203.0" cy="74.9" r="4.5" tabindex="0" role="button" aria-label="第 90 秒，经济差 -260"/><circle class="ov-point" data-i="4" cx="262.0" cy="62.0" r="4.5" tabindex="0" role="button" aria-label="第 120 秒，经济差 -80"/><circle class="ov-point" data-i="5" cx="321.0" cy="43.3" r="4.5" tabindex="0" role="button" aria-label="第 150 秒，经济差 180"/><circle class="ov-point" data-i="6" cx="380.0" cy="26.0" r="4.5" tabindex="0" role="button" aria-label="第 180 秒，经济差 420"/><circle class="ov-point" data-i="7" cx="439.0" cy="37.5" r="4.5" tabindex="0" role="button" aria-label="第 210 秒，经济差 260"/><circle class="ov-point" data-i="8" cx="498.0" cy="64.9" r="4.5" tabindex="0" role="button" aria-label="第 240 秒，经济差 -120"/><circle class="ov-point" data-i="9" cx="557.0" cy="102.3" r="4.5" tabindex="0" role="button" aria-label="第 270 秒，经济差 -640"/><circle class="ov-point" data-i="10" cx="616.0" cy="135.4" r="4.5" tabindex="0" role="button" aria-label="第 300 秒，经济差 -1100"/><circle class="ov-point" data-i="11" cx="675.0" cy="164.2" r="4.5" tabindex="0" role="button" aria-label="第 330 秒，经济差 -1500"/><circle class="ov-point" data-i="12" cx="734.0" cy="184.0" r="4.5" tabindex="0" role="button" aria-label="第 360 秒，经济差 -1775"/>
     </svg>
-          <p class="ov-point-readout" data-role="readout">点图上的点，看那一分钟的经济差。</p>
+          <p class="ov-point-readout" data-role="readout" aria-live="polite">点图上的点，看那一分钟的经济差。</p>
         </div>
         <div class="chart-foot"><span><i></i>本队经济差</span><span>13 局平均 · 13 个时间点</span></div></div>
       </section>
       <section class="card">
-        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><a class="card-link">全部英雄</a></div>
+        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><span class="card-link">全部英雄</a></div>
         <div class="bar-list"><div class="bar-row"><span><span class="portrait" aria-hidden="true">廉</span> 廉颇</span><div class="meter"><i style="width:60%"></i></div><b>5 场 · 60%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">伽</span> 伽罗</span><div class="meter"><i style="width:67%"></i></div><b>6 场 · 67%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">沈</span> 沈梦溪</span><div class="meter"><i style="width:55%"></i></div><b>4 场 · 55%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">张</span> 张飞</span><div class="meter"><i style="width:50%"></i></div><b>3 场 · 50%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">澜</span> 澜</span><div class="meter"><i style="width:58%"></i></div><b>4 场 · 58%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">公</span> 公孙离</span><div class="meter"><i style="width:62%"></i></div><b>5 场 · 62%</b></div></div>
       </section>
     </div>
@@ -276,7 +276,7 @@ body { overflow: auto; min-width: 0; }
             <div class="latest-side is-away"><small>对手</small><b>对面战队</b><span>对方战队</span></div>
           </div>
           <div class="latest-bottom"><div class="latest-lineup"><span>本队阵容</span><span class="hero-slot"><span class="portrait" aria-hidden="true">元</span><small>元流之子</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">裴</span><small>裴擒虎</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">伽</span><small>伽罗</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">司</span><small>司马懿</small></span><span class="hero-slot"><span class="portrait" aria-hidden="true">空</span><small>空空儿</small></span></div>
-            <a class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></a></div>
+            <span class="latest-link">打开复盘 <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor"/></svg></span></div>
         </article>
         <div class="ledger" role="group" aria-label="本期指标">
           <div class="ledger-item"><span class="ledger-label">对局总数</span><span class="ledger-value" data-role="matches">36<small>局</small></span><span class="ledger-note">11 局时间轴完整</span></div>
@@ -307,7 +307,7 @@ body { overflow: auto; min-width: 0; }
     <div class="overview-analysis">
       <section class="card">
         <div class="card-head"><div><h2 class="card-title">经济走势</h2><div class="card-sub">11 局平均 · 每 30 秒一个点 · 每 30 秒一个采样点，本队减对手</div></div>
-          <a class="card-link">逐局查看</a></div>
+          <span class="card-link">逐局查看</span></div>
         <div class="economy-chart"><div class="chart-wrap">
           <svg viewBox="0 0 760 210" role="img" aria-label="本队经济差曲线（合成示例）">
       <line class="ov-grid" x1="26" y1="184.0" x2="734" y2="184.0"/>
@@ -315,12 +315,12 @@ body { overflow: auto; min-width: 0; }
       <path class="ov-line" d="M26.0,184.0 L96.8,175.3 L167.6,164.9 L238.4,155.4 L309.2,145.1 L380.0,127.6 L450.8,105.4 L521.6,83.2 L592.4,60.9 L663.2,42.7 L734.0,26.0"/>
       <circle class="ov-point" data-i="0" cx="26.0" cy="184.0" r="4.5" tabindex="0" role="button" aria-label="第 0 秒，经济差 0"/><circle class="ov-point" data-i="1" cx="96.8" cy="175.3" r="4.5" tabindex="0" role="button" aria-label="第 30 秒，经济差 220"/><circle class="ov-point" data-i="2" cx="167.6" cy="164.9" r="4.5" tabindex="0" role="button" aria-label="第 60 秒，经济差 480"/><circle class="ov-point" data-i="3" cx="238.4" cy="155.4" r="4.5" tabindex="0" role="button" aria-label="第 90 秒，经济差 720"/><circle class="ov-point" data-i="4" cx="309.2" cy="145.1" r="4.5" tabindex="0" role="button" aria-label="第 120 秒，经济差 980"/><circle class="ov-point" data-i="5" cx="380.0" cy="127.6" r="4.5" tabindex="0" role="button" aria-label="第 150 秒，经济差 1420"/><circle class="ov-point" data-i="6" cx="450.8" cy="105.4" r="4.5" tabindex="0" role="button" aria-label="第 180 秒，经济差 1980"/><circle class="ov-point" data-i="7" cx="521.6" cy="83.2" r="4.5" tabindex="0" role="button" aria-label="第 210 秒，经济差 2540"/><circle class="ov-point" data-i="8" cx="592.4" cy="60.9" r="4.5" tabindex="0" role="button" aria-label="第 240 秒，经济差 3100"/><circle class="ov-point" data-i="9" cx="663.2" cy="42.7" r="4.5" tabindex="0" role="button" aria-label="第 270 秒，经济差 3560"/><circle class="ov-point" data-i="10" cx="734.0" cy="26.0" r="4.5" tabindex="0" role="button" aria-label="第 300 秒，经济差 3980"/>
     </svg>
-          <p class="ov-point-readout" data-role="readout">点图上的点，看那一分钟的经济差。</p>
+          <p class="ov-point-readout" data-role="readout" aria-live="polite">点图上的点，看那一分钟的经济差。</p>
         </div>
         <div class="chart-foot"><span><i></i>本队经济差</span><span>11 局平均 · 11 个时间点</span></div></div>
       </section>
       <section class="card">
-        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><a class="card-link">全部英雄</a></div>
+        <div class="card-head"><div><h2 class="card-title">英雄出场</h2><div class="card-sub">本队当前样本</div></div><span class="card-link">全部英雄</a></div>
         <div class="bar-list"><div class="bar-row"><span><span class="portrait" aria-hidden="true">廉</span> 廉颇</span><div class="meter"><i style="width:60%"></i></div><b>5 场 · 60%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">伽</span> 伽罗</span><div class="meter"><i style="width:67%"></i></div><b>6 场 · 67%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">沈</span> 沈梦溪</span><div class="meter"><i style="width:55%"></i></div><b>4 场 · 55%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">张</span> 张飞</span><div class="meter"><i style="width:50%"></i></div><b>3 场 · 50%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">澜</span> 澜</span><div class="meter"><i style="width:58%"></i></div><b>4 场 · 58%</b></div><div class="bar-row"><span><span class="portrait" aria-hidden="true">公</span> 公孙离</span><div class="meter"><i style="width:62%"></i></div><b>5 场 · 62%</b></div></div>
       </section>
     </div>
@@ -338,9 +338,17 @@ body { overflow: auto; min-width: 0; }
 (function () {
   var panels = [].slice.call(document.querySelectorAll('[data-game-panel]'));
   var data = [{"team": "示例战队", "opp": "星轨战队", "camp": "蓝方", "score": "9 : 6", "result": "胜利", "heroes": ["廉颇", "澜", "沈梦溪", "公孙离", "张飞"], "duration": "18:42", "econ": 2324, "winrate": 75, "matches": 36, "wins": 27, "curve": [0, 120, 260, 180, 420, 760, 1180, 1620, 1940, 2100, 2324], "hero": "廉颇", "picks": 5, "hero_wr": 60}, {"team": "示例战队", "opp": "测试对手B", "camp": "红方", "score": "7 : 10", "result": "失利", "heroes": ["猪八戒", "妲己", "孙权", "阿轲", "赵怀真"], "duration": "21:08", "econ": -1775, "winrate": 67, "matches": 36, "wins": 24, "curve": [0, -140, -320, -260, -80, 180, 420, 260, -120, -640, -1100, -1500, -1775], "hero": "猪八戒", "picks": 4, "hero_wr": 50}, {"team": "示例战队", "opp": "对面战队", "camp": "蓝方", "score": "12 : 4", "result": "胜利", "heroes": ["元流之子", "裴擒虎", "伽罗", "司马懿", "空空儿"], "duration": "16:35", "econ": 3980, "winrate": 78, "matches": 36, "wins": 28, "curve": [0, 220, 480, 720, 980, 1420, 1980, 2540, 3100, 3560, 3980], "hero": "伽罗", "picks": 6, "hero_wr": 67}];
+  function sendHeight() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'wb-demo-height', height: document.documentElement.scrollHeight }, '*');
+    }
+  }
   function show(i) {
     panels.forEach(function (p, j) { p.hidden = j !== i; });
+    sendHeight();
   }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
   document.addEventListener('click', function (e) {
     var chip = e.target.closest('[data-game-chip]');
     if (chip) { show(parseInt(chip.dataset.gameChip, 10)); return; }
