@@ -16,8 +16,8 @@
 
   --ink:        #1b1d19;
   --ink-2:      #3d423b;
-  --muted:      #6d736a;
-  --faint:      #989d93;
+  --muted:      #646a61;   /* 5.14:1 on paper — 次级正文达 WCAG AA */
+  --faint:      #6a7067;   /* 4.71:1 on paper — 元信息不再不可读 */
 
   --line:       #e0ded5;
   --line-2:     #cdcbc0;
@@ -27,6 +27,7 @@
   --accent:        #1f5f57;
   --accent-deep:   #15443e;
   --accent-soft:   #5c8b83;
+  --accent-on-dark: #6a9a92; /* 5.38:1 on ink — 深墨底上的青碧文字 */
   --accent-wash:   #e8f0ed;
 
   /* 兼容旧变量名；不再一律降为灰 */
@@ -108,6 +109,15 @@ h2, .sec-head h2, .v5-head h2, .v9-faq-intro h2,
   font-weight: 500 !important;
   letter-spacing: -0.02em !important;
 }
+/* .cl-series 是小号系列标签，被 style.css 的 .doc h2 撑成 28px 且落到 --faint，
+   看起来像一块低对比的水印。按语义还原成 12px 眉题。 */
+.cl-series {
+  font-family: var(--mono) !important;
+  font-size: var(--fs-micro) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  color: var(--accent) !important;
+}
 h3, h4 {
   font-family: var(--sans);
   font-weight: 600;
@@ -144,6 +154,10 @@ h3, h4 {
   font-variant-numeric: tabular-nums;
 }
 .v9-fact-no { color: var(--accent); font-weight: 600; font-size: 0.875rem; }
+
+/* 旧版残留在内页封面左下角的赤陶色 44×2 装饰线，和暖纸/青碧体系冲突，
+   且浮在内容容器之外像贴纸 —— 直接移除。 */
+.page-hero::after, .mx-hero::after { display: none !important; }
 
 /* --------------------------------------------------------------------------
    导航
@@ -261,11 +275,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 /* CTA：深墨收尾，暖色文字 */
 .v5-cta { background: var(--ink) !important; color: var(--surface); }
 .v5-cta h2, .v5-cta .v5-eyebrow { color: var(--surface) !important; }
-.v5-cta .v5-eyebrow { color: var(--accent-soft) !important; }
+.v5-cta .v5-eyebrow { color: var(--accent-on-dark) !important; }
 .v5-cta-inner p { color: #b8bdb4; }
 .v5-cta .btn--light { background: var(--surface); color: var(--ink); border-color: var(--surface); }
 .v5-cta .btn--light:hover { background: var(--accent-soft); color: #fff; border-color: var(--accent-soft); }
-.v5-sponsor { color: var(--accent-soft); font-weight: 600; }
+.v5-sponsor { color: var(--accent-on-dark); font-weight: 600; }
 .v5-sponsor:hover { color: #9ec6bd; }
 .v5-fine { color: #8f958b !important; font-size: var(--fs-micro); }
 
@@ -282,7 +296,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   color: var(--surface) !important;
 }
 .section--deep h2, .section--deep h3, .section--deep h4 { color: var(--surface) !important; }
-.section--deep .sec-index { color: var(--accent-soft) !important; }
+.section--deep .sec-index { color: var(--accent-on-dark) !important; }
 .section--deep p, .section--deep .sec-intro, .section--deep li { color: #b8bdb4 !important; }
 .section--deep .board-tab { color: #b8bdb4; }
 .section--deep .board-tab.is-open { color: var(--surface); }
