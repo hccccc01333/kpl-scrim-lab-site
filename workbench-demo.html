@@ -365,7 +365,11 @@ body { overflow: auto; min-width: 0; }
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     var pt = e.target.closest && e.target.closest('.ov-point');
-    if (pt) { e.preventDefault(); pt.click(); }
+    if (!pt) return;
+    e.preventDefault();
+    // SVG <circle> 没有 HTMLElement.click()，键盘触发时必须派发真实事件，
+    // 否则会抛 "pt.click is not a function"，读数是永远不更新的。
+    pt.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
   });
 })();
 </script>
