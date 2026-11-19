@@ -1141,7 +1141,7 @@
   (function () {
     if (reduce.matches) return;
     if (!window.CSS || !CSS.supports('animation-timeline', 'view()')) return;
-    var targets = doc.querySelectorAll('.sec-head, .brief, .wb, .faq-grid, .footer-gh, .page-tail-inner');
+    var targets = doc.querySelectorAll('.sec-head, .v9-head, .v9-fact, .v9-faq-body, .v5-cta-inner, .footer-gh, .page-tail-inner');
     Array.prototype.forEach.call(targets, function (el) { el.classList.add('scroll-rise'); });
   })();
 

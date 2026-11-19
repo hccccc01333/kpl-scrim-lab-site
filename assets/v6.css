@@ -77,7 +77,22 @@ h1, h2, h3, h4, blockquote {
 }
 
 /* —— 关掉逐屏淡入：提示词明确说这是 AI 生成的默认痕迹 —— */
-.scroll-rise { animation: none !important; opacity: 1 !important; transform: none !important; }
+/* V13：克制的滚动入场——默认静态（无 JS / 不支持时内容始终可见），
+   仅在「用户未要求减少动效」且浏览器支持 scroll-driven 时启用。
+   只动 opacity 与 transform，留在合成线程；不改变布局、不变色、不缩放。 */
+@keyframes v13-rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .scroll-rise {
+      animation: v13-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+  }
+}
 
 /* —— 顶栏 —— */
 .topbar {
