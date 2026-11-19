@@ -36,11 +36,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111a16'/%3E%3Crect x='6' y='13' width='5' height='12' rx='1.5' fill='%239dc4b7'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='1.5' fill='%23c9553a'/%3E%3Crect x='21' y='16' width='5' height='9' rx='1.5' fill='%239dc4b7'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/noto-sans-sc-light.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/v3-hero-core.webp?v=eb48f6b610" as="image">
-<link rel="stylesheet" href="assets/style.css?v=eb48f6b610">
-<link rel="stylesheet" href="assets/v6.css?v=eb48f6b610">
+<link rel="preload" href="assets/img/v3-hero-core.webp?v=e25aea2d73" as="image">
+<link rel="stylesheet" href="assets/style.css?v=e25aea2d73">
+<link rel="stylesheet" href="assets/v6.css?v=e25aea2d73">
 <script>document.documentElement.classList.add('js');</script>
-<script src="assets/site.js?v=eb48f6b610" defer></script>
+<script src="assets/site.js?v=e25aea2d73" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 </head>
 <body class="home" data-version="v2.0.2" data-release="2026-11-18">
@@ -146,70 +146,16 @@
       </div>
       <p class="v9-head-note">2.0「赛训简报」页的合成示例：比分、阵容、经济走势都会跟着换。</p>
     </header>
-    <div class="ov" data-demo>
-      <div class="ov-cover">
-        <div>
-          <p class="ov-kicker">赛训简报</p>
-          <h3 class="ov-team">示例战队</h3>
-          <p class="ov-range" data-ov-period>2026-11-14 → 2026-11-16 · 3 局</p>
-          <div class="ov-record">
-            <span><b data-ov-wins>2</b><small>胜</small></span>
-            <span><b data-ov-losses>1</b><small>负</small></span>
-            <span class="ov-games"><b data-ov-total>3</b><small>局</small></span>
-          </div>
-          <p class="ov-note" data-ov-note>3 局记录，3 局有可用的经济时间轴。</p>
-        </div>
-        <div class="ov-recent">
-          <div class="ov-range-switch" role="group" aria-label="统计范围">
-            <button type="button" data-ov-range="3" aria-pressed="true">近 3 局</button>
-            <button type="button" data-ov-range="all" aria-pressed="false">本月</button>
-          </div>
-          <div class="ov-chips" data-ov-chips></div>
-        </div>
+    <div class="v10-browser" role="group" aria-label="工作台界面演示，合成示例">
+      <div class="v10-browser-bar" aria-hidden="true">
+        <span class="v10-dots"><i></i><i></i><i></i></span>
+        <span class="v10-url">赛训台 / 赛训总览</span>
+        <span class="v10-badge">合成示例</span>
       </div>
-
-      <div class="ov-body">
-        <div class="ov-main">
-          <article class="ov-match">
-            <div class="ov-match-top"><span>最近对局</span><span class="mono" data-ov-meta></span></div>
-            <div class="ov-match-score">
-              <div class="ov-side"><small>本队</small><b>示例战队</b><span>蓝方</span></div>
-              <div class="ov-num"><b data-ov-score>9<span>:</span>9</b><small data-ov-result>胜利</small></div>
-              <div class="ov-side is-away"><small>对手</small><b>星轨战队</b><span>对方战队</span></div>
-            </div>
-            <div class="ov-lineup">
-              <span>本队阵容</span>
-              <div data-ov-lineup></div>
-            </div>
-          </article>
-
-          <div class="ov-chart">
-            <div class="ov-chart-head"><span>本队经济差</span><span>本队 − 对手</span></div>
-            <div class="ov-plot">
-              <svg viewBox="0 0 640 220" role="img" aria-label="经济走势，合成示例数据" data-ov-svg></svg>
-            </div>
-            <p class="ov-point-readout" data-ov-readout aria-live="polite">点图上的点，看那一分钟的经济差。</p>
-            <p class="ov-cap">每 30 秒一个采样点 · 本队减对手 · 合成示例数据</p>
-          </div>
-        </div>
-
-        <aside class="ov-side ov-side-col">
-          <div class="ov-stats">
-            <div><span>对局总数</span><b data-ov-stat-total>3<small>局</small></b><em>3 局时间轴完整</em></div>
-            <div><span>有胜负胜率</span><b data-ov-stat-wr>67<small>%</small></b><em>2 胜 / 3 局</em></div>
-            <div><span>平均时长</span><b data-ov-stat-dur>18:42</b><em>按有时长的对局</em></div>
-            <div><span>场均经济差</span><b data-ov-stat-gold>+0.3k</b><em>本队减对手</em></div>
-          </div>
-          <div class="ov-hero">
-            <span class="ov-hero-glyph" aria-hidden="true">廉</span>
-            <p>英雄观察 · 本队出场最多</p>
-            <b>廉颇</b>
-            <em>5 次出场 · 60% 胜率</em>
-          </div>
-        </aside>
-      </div>
+      <iframe class="v10-frame" src="workbench-demo.html" title="工作台界面演示（合成示例）"
+        loading="lazy" scrolling="yes"></iframe>
     </div>
-    <p class="v5-demo-note">合成示例数据，仅用于演示界面。真实战报只来自你自己的训练赛。</p>
+    <p class="v5-demo-note">点界面里的「胜 / 负」切换对局，点经济曲线上的圆点看那 30 秒的经济差。数据为合成示例，真实战报只来自你自己的训练赛。</p>
   </div>
 </section>
 
@@ -310,7 +256,7 @@
     </div>
     <div class="footer-gh">
       <div class="footer-gh-main">
-        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=eb48f6b610" alt="Rainfun 的头像" width="64" height="64">
+        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=e25aea2d73" alt="Rainfun 的头像" width="64" height="64">
         <div>
           <p class="footer-gh-kicker"><b>Rainfun</b> · 独立开发者</p>
           <p class="footer-gh-title"><a href="https://github.com/hccccc01333/kpl-scrim-lab-app">源码都在 GitHub 上</a></p>
@@ -345,7 +291,7 @@
     <div class="sponsor-ways">
       <div class="sponsor-way">
         <p class="sponsor-way-no">01 · 爱发电</p>
-        <img src="assets/img/sponsor-afdian.png?v=eb48f6b610" alt="爱发电赞助页二维码，扫码或点下方按钮都能到达" width="440" height="440">
+        <img src="assets/img/sponsor-afdian.png?v=e25aea2d73" alt="爱发电赞助页二维码，扫码或点下方按钮都能到达" width="440" height="440">
         <a class="btn btn--primary btn--block" href="https://afdian.com/a/kplscrim" target="_blank" rel="noopener">去爱发电支持</a>
         <p class="sponsor-way-note sponsor-way-note--qr">扫码或在手机上打开都行</p>
       </div>
