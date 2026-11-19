@@ -356,3 +356,112 @@ dialog::backdrop { background: rgba(17, 17, 17, 0.3); -webkit-backdrop-filter: b
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+
+/* ==========================================================================
+   V9 — 布局与排版系统
+   建立明确的字体层级 + 编辑式两栏网格，覆盖前面散落的规则。
+   ========================================================================== */
+
+/* ---- 字体层级：字号 / 字重 / 行高 / 字距 ---- */
+:root {
+  --fs-display: clamp(2.5rem, 1.8rem + 2.6vw, 3.5rem);   /* 主标题 40–56 */
+  --fs-h2: clamp(1.75rem, 1.3rem + 1.8vw, 2.375rem);     /* 章节 28–38 */
+  --fs-lead: 1.125rem;                                    /* 导语 18 */
+  --fs-body: 1rem;                                        /* 正文 16 */
+  --fs-small: 0.875rem;                                   /* 次级 14 */
+}
+
+body { font-size: var(--fs-body); line-height: 1.65; }
+
+h1, h2, h3, h4 { font-weight: 300; letter-spacing: -0.015em; line-height: 1.25; }
+h1 { font-size: var(--fs-display); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: 1.25rem; font-weight: 400; }
+
+/* 正文行宽限制：长文本不铺满整行 */
+.v5-sub, .page-lede, .v5-cta-inner p, .v9-faq-note { max-width: 34em; }
+
+/* ---- 首页 HERO：主栏 + 事实栏 ---- */
+.home .v5-hero { display: block; min-height: 0; padding-block: clamp(88px, 10vw, 148px) clamp(72px, 8vw, 112px); }
+.v9-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(48px, 7vw, 104px);
+  align-items: start;
+}
+.v9-hero-main { min-width: 0; }
+.v5-h1 { font-size: var(--fs-display); font-weight: 300; line-height: 1.24; letter-spacing: -0.02em; }
+.v5-sub { font-size: var(--fs-lead); line-height: 1.8; color: var(--ink-2); margin-top: 28px; }
+.v5-actions { margin-top: 40px; gap: 20px 26px; }
+.v5-meta, .v9-hero-meta { font-size: 0.75rem; color: var(--faint); }
+
+/* 右侧事实栏：细线分隔的要点列表 */
+.v9-hero-facts { border-top: 1px solid var(--line-2); padding-top: 4px; }
+.v9-fact {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 14px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.v9-fact-no { font-size: 0.75rem; color: var(--faint); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.v9-fact b { display: block; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+.v9-fact p { margin-top: 6px; font-size: var(--fs-small); line-height: 1.65; color: var(--muted); }
+.v9-hero-meta { margin-top: 24px; }
+
+/* ---- 章节头：标题 / 说明 左右分栏 ---- */
+.v9-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: end;
+  max-width: none;
+  padding-bottom: 0;
+  margin-bottom: clamp(36px, 4vw, 56px);
+  border-bottom: 0;
+}
+.v9-head h2 { margin-top: 12px; }
+.v9-head-note { max-width: 32em; font-size: var(--fs-small); line-height: 1.75; color: var(--muted); }
+
+/* ---- FAQ：左标题 / 右问答 ---- */
+.v9-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.v9-faq-intro { position: sticky; top: 104px; }
+.v9-faq-intro h2 { margin-top: 12px; }
+.v9-faq-note { margin-top: 16px; font-size: var(--fs-small); line-height: 1.75; color: var(--muted); }
+.v9-faq-body { min-width: 0; }
+.v5-qa { max-width: none; }
+
+/* ---- CTA：更紧凑的两栏 ---- */
+.v5-cta-inner h2 { font-size: var(--fs-h2); }
+
+/* ---- 内页标题层级 ---- */
+.page-title { font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.25rem); font-weight: 300; line-height: 1.24; }
+.page-lede { font-size: var(--fs-lead); line-height: 1.8; }
+.hero-kicker { font-size: 0.8125rem; }
+.sec-head h2 { font-weight: 300; }
+
+/* ---- 响应式 ---- */
+@media (max-width: 1000px) {
+  .v9-hero { grid-template-columns: 1fr; gap: 52px; }
+  .v9-faq { grid-template-columns: 1fr; gap: 36px; }
+  .v9-faq-intro { position: static; }
+  .v9-head { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width: 640px) {
+  .v5-h1 { font-size: clamp(2rem, 8.5vw, 2.75rem); }
+  .v9-fact { grid-template-columns: 26px minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v9-faq-intro { position: static; }
+}
+
+/* V9: CTA 在浅底上，主按钮保持墨色 */
+.v5-cta .btn--light { background: var(--ink); color: #fff; border-color: var(--ink); }
+.v5-cta .btn--light:hover { background: #000; }

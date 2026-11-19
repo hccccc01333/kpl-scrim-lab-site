@@ -36,11 +36,11 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111a16'/%3E%3Crect x='6' y='13' width='5' height='12' rx='1.5' fill='%239dc4b7'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='1.5' fill='%23c9553a'/%3E%3Crect x='21' y='16' width='5' height='9' rx='1.5' fill='%239dc4b7'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/noto-sans-sc-light.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/img/v3-hero-core.webp?v=1b21c7d099" as="image">
-<link rel="stylesheet" href="assets/style.css?v=1b21c7d099">
-<link rel="stylesheet" href="assets/v6.css?v=1b21c7d099">
+<link rel="preload" href="assets/img/v3-hero-core.webp?v=eb48f6b610" as="image">
+<link rel="stylesheet" href="assets/style.css?v=eb48f6b610">
+<link rel="stylesheet" href="assets/v6.css?v=eb48f6b610">
 <script>document.documentElement.classList.add('js');</script>
-<script src="assets/site.js?v=1b21c7d099" defer></script>
+<script src="assets/site.js?v=eb48f6b610" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 </head>
 <body class="home" data-version="v2.0.2" data-release="2026-11-18">
@@ -105,28 +105,46 @@
 
 <!-- ① 封面：一屏一句话，没有规格表、没有截图 -->
 <section class="v5-hero">
-  <div class="shell v5-hero-inner">
-    <p class="v5-kicker"><i aria-hidden="true"></i>王者荣耀　本机赛训数据</p>
-    <h1 class="v5-h1">训练赛数据工具。<br>从截图到复盘。</h1>
-    <p class="v5-sub">截图、录屏、表格、营地链接收进同一条本机链路。<br>每个数字都标明来源，数据不出这台电脑。</p>
-    <div class="v5-actions">
-      <a class="btn btn--primary" href="download.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-        下载 Windows 版
-      </a>
-      <a class="v5-textlink" href="#demo">试试工作台演示 <span aria-hidden="true">↓</span></a>
+  <div class="shell v9-hero">
+    <div class="v9-hero-main">
+      <p class="v5-kicker">王者荣耀　本机赛训数据</p>
+      <h1 class="v5-h1">训练赛数据工具。<br>从截图到复盘。</h1>
+      <p class="v5-sub">截图、录屏、表格、营地链接收进同一条本机链路。每个数字都标明来源，数据不出这台电脑。</p>
+      <div class="v5-actions">
+        <a class="btn btn--primary" href="download.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          下载 Windows 版
+        </a>
+        <a class="v5-textlink" href="#demo">试试工作台演示 <span aria-hidden="true">↓</span></a>
+      </div>
     </div>
-    <p class="v5-meta">v2.0.2　2026-11-18　Windows 10 / 11　内置运行时</p>
+    <aside class="v9-hero-facts" aria-label="产品要点">
+      <div class="v9-fact">
+        <span class="v9-fact-no">01</span>
+        <div><b>本机运行</b><p>识别、入库、分析都在你这台电脑上完成。</p></div>
+      </div>
+      <div class="v9-fact">
+        <span class="v9-fact-no">02</span>
+        <div><b>数据不出机器</b><p>没有云端服务，截图和录屏不上传。</p></div>
+      </div>
+      <div class="v9-fact">
+        <span class="v9-fact-no">03</span>
+        <div><b>每个数字有出处</b><p>胜率、经济差、时长都能点开看来源。</p></div>
+      </div>
+      <p class="v9-hero-meta">v2.0.2　2026-11-18　Windows 10 / 11　内置运行时</p>
+    </aside>
   </div>
 </section>
 
 <!-- ② 核心展示：可操作的工作台演示 -->
 <section class="v5-section v5-demo" id="demo" aria-labelledby="demo-title">
   <div class="shell">
-    <header class="v5-head">
-      <p class="v5-eyebrow">工作台演示</p>
-      <h2 id="demo-title">点一下，换一场比赛。</h2>
-      <p>2.0「赛训简报」页的合成示例：比分、阵容、经济走势都会跟着换。</p>
+    <header class="v5-head v9-head">
+      <div>
+        <p class="v5-eyebrow">工作台演示</p>
+        <h2 id="demo-title">点一下，换一场比赛。</h2>
+      </div>
+      <p class="v9-head-note">2.0「赛训简报」页的合成示例：比分、阵容、经济走势都会跟着换。</p>
     </header>
     <div class="ov" data-demo>
       <div class="ov-cover">
@@ -197,26 +215,29 @@
 
 <!-- ③ 常见问题：下载前的三个结论 -->
 <section class="v5-section v5-faq" id="questions" aria-labelledby="questions-title">
-  <div class="shell">
-    <header class="v5-head">
+  <div class="shell v9-faq">
+    <header class="v9-faq-intro">
       <p class="v5-eyebrow">在下载之前</p>
       <h2 id="questions-title">三个常被问起的问题。</h2>
+      <p class="v9-faq-note">下载之前，先把最常被问到的三件事说清楚。</p>
     </header>
-    <div class="v5-qa">
-      <details>
-        <summary>会把数据传到你们的服务器吗？<span aria-hidden="true">+</span></summary>
-        <p>不会。没有云端服务，识别、入库、分析都在本机跑；唯一的外部请求，是你自己发起的<span class="nb">营地同步</span>与更新检查。</p>
-      </details>
-      <details>
-        <summary>更新会不会覆盖比赛记录？<span aria-hidden="true">+</span></summary>
-        <p>不会。增量更新只替换程序文件，<code>data</code>、<code>.env</code> 与营地授权都不在更新范围内；失败自动回滚。</p>
-      </details>
-      <details>
-        <summary>需要先装 Python 吗？<span aria-hidden="true">+</span></summary>
-        <p>不用。安装包内置<span class="nb">运行时</span>与全部依赖，双击就能跑；只有源码运行才需要 Python 3.11 / 3.12。</p>
-      </details>
+    <div class="v9-faq-body">
+      <div class="v5-qa">
+        <details>
+          <summary>会把数据传到你们的服务器吗？<span aria-hidden="true">+</span></summary>
+          <p>不会。没有云端服务，识别、入库、分析都在本机跑；唯一的外部请求，是你自己发起的<span class="nb">营地同步</span>与更新检查。</p>
+        </details>
+        <details>
+          <summary>更新会不会覆盖比赛记录？<span aria-hidden="true">+</span></summary>
+          <p>不会。增量更新只替换程序文件，<code>data</code>、<code>.env</code> 与营地授权都不在更新范围内；失败自动回滚。</p>
+        </details>
+        <details>
+          <summary>需要先装 Python 吗？<span aria-hidden="true">+</span></summary>
+          <p>不用。安装包内置<span class="nb">运行时</span>与全部依赖，双击就能跑；只有源码运行才需要 Python 3.11 / 3.12。</p>
+        </details>
+      </div>
+      <p class="v5-more">更多问题见 <a href="guide.html#faq">安装说明</a></p>
     </div>
-    <p class="v5-more">更多问题见 <a href="guide.html#faq">安装说明 →</a></p>
   </div>
 </section>
 
@@ -224,6 +245,7 @@
 <section class="v5-cta" aria-labelledby="cta-title">
   <div class="shell v5-cta-inner">
     <div>
+      <p class="v5-eyebrow">开始使用</p>
       <h2 id="cta-title">把下一场，复盘得更清楚。</h2>
       <p>Windows 10 / 11，安装包内置运行时。数据只写本地 <code>data</code> 目录，增量更新不会覆盖比赛记录。</p>
     </div>
@@ -232,7 +254,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4.5-4.5M12 15 7.5 10.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
         下载 Windows 版
       </a>
-      <a class="v5-sponsor" href="https://afdian.com/a/kplscrim" target="_blank" rel="noopener">请作者喝咖啡 <span aria-hidden="true">↗</span></a>
+      <a class="v5-sponsor" href="https://afdian.com/a/kplscrim" target="_blank" rel="noopener">请作者喝咖啡</a>
       <p class="v5-fine">没有代码签名，Windows 可能提示「未知发布者」，点「更多信息 → 仍要运行」即可。</p>
     </div>
   </div>
@@ -288,7 +310,7 @@
     </div>
     <div class="footer-gh">
       <div class="footer-gh-main">
-        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=1b21c7d099" alt="Rainfun 的头像" width="64" height="64">
+        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=eb48f6b610" alt="Rainfun 的头像" width="64" height="64">
         <div>
           <p class="footer-gh-kicker"><b>Rainfun</b> · 独立开发者</p>
           <p class="footer-gh-title"><a href="https://github.com/hccccc01333/kpl-scrim-lab-app">源码都在 GitHub 上</a></p>
@@ -323,7 +345,7 @@
     <div class="sponsor-ways">
       <div class="sponsor-way">
         <p class="sponsor-way-no">01 · 爱发电</p>
-        <img src="assets/img/sponsor-afdian.png?v=1b21c7d099" alt="爱发电赞助页二维码，扫码或点下方按钮都能到达" width="440" height="440">
+        <img src="assets/img/sponsor-afdian.png?v=eb48f6b610" alt="爱发电赞助页二维码，扫码或点下方按钮都能到达" width="440" height="440">
         <a class="btn btn--primary btn--block" href="https://afdian.com/a/kplscrim" target="_blank" rel="noopener">去爱发电支持</a>
         <p class="sponsor-way-note sponsor-way-note--qr">扫码或在手机上打开都行</p>
       </div>
