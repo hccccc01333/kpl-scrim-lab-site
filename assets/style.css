@@ -29,6 +29,28 @@
 }
 
 @font-face {
+  font-family: "Noto Serif SC";
+  src: url("noto-serif-sc-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("noto-serif-sc-medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Serif SC";
+  src: url("noto-serif-sc-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+@font-face {
   font-family: Manrope;
   src: url("manrope.woff2") format("woff2");
   font-style: normal;
@@ -61,8 +83,8 @@
   --coral-deep: #b4472e;
   --coral-wash: #f4ded6;
 
-  --display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --serif: var(--display); /* 兼容旧调用；展示体统一为无衬线 */
+  --display: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --serif: var(--display);
   --sans: Manrope, "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
     system-ui, sans-serif;
   --mono: "Cascadia Mono", Consolas, "SF Mono", ui-monospace, monospace;
@@ -71,10 +93,10 @@
   --gutter: clamp(20px, 4vw, 40px);
   --section-y: clamp(64px, 7vw, 104px);
 
-  --r-s: 7px;
-  --r-m: 10px;
-  --r-l: 14px;
-  --r-xl: 20px;
+  --r-s: 4px;
+  --r-m: 6px;
+  --r-l: 10px;
+  --r-xl: 14px;
 
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --dur: 160ms;
@@ -181,15 +203,15 @@ h2,
 h3,
 blockquote {
   font-family: var(--display);
-  font-weight: 700;
+  font-weight: 500;
   color: var(--ink);
   text-wrap: balance;
 }
 
 h1 {
   font-size: clamp(2.5rem, 1.6rem + 3.2vw, 4.2rem);
-  line-height: 1.26;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 h2 {
@@ -316,14 +338,14 @@ dd {
 }
 
 .btn--primary {
-  background: var(--celadon);
-  border-color: var(--celadon);
-  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
 }
 
 .btn--primary:hover {
-  background: var(--celadon-deep);
-  border-color: var(--celadon-deep);
+  background: #000;
+  border-color: #000;
 }
 
 .btn--ghost {
@@ -674,9 +696,9 @@ dd {
 .hero-title {
   margin: clamp(26px, 3.6vw, 46px) 0 0;
   font-size: clamp(2.75rem, 1.5rem + 5vw, 6rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.045em;
+  font-weight: 500;
+  line-height: 1.14;
+  letter-spacing: -0.035em;
   color: var(--ink);
 }
 
@@ -789,7 +811,8 @@ dd {
 .frame img {
   width: 100%;
   height: auto;
-  border-bottom: 1px solid var(--line-soft);
+  -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
 }
 
 .frame-cap {
@@ -2360,7 +2383,8 @@ dd {
 .page-title {
   margin: clamp(26px, 3.6vw, 44px) 0 0;
   font-size: clamp(2.5rem, 1.5rem + 4.4vw, 5rem);
-  line-height: 1.08;
+  font-weight: 500;
+  line-height: 1.14;
   letter-spacing: -0.03em;
 }
 
@@ -5508,110 +5532,43 @@ dd {
   .mx-hero::after { display: none; }
 }
 
-/* ---------- 内页各自的记忆点：不再都是同一张纸 ---------- */
+/* ---------- 内页的克制差异：细线 / 底色，不用贴纸式水印 ---------- */
 
-/* 产品：页头右侧一条「采集→结论」的四段管线 */
-.pg-product .page-hero {
-  position: relative;
-  overflow: hidden;
-}
-.pg-product .page-hero::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: 14%;
-  width: 34%;
-  height: 1px;
-  background: linear-gradient(to right, var(--celadon), var(--celadon-light), var(--coral));
-}
-.pg-product .page-hero::before {
-  content: "截图 · 录屏 · 表格 · 营地链接";
-  position: absolute;
-  right: 0;
-  bottom: calc(14% + 12px);
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-  color: var(--faint);
-}
-
-/* 数据主权：把「本机」写成一个巨大的幽灵路径 */
-.pg-privacy .page-hero {
-  position: relative;
-  overflow: hidden;
-}
-.pg-privacy .page-hero::before {
-  content: "data/";
-  position: absolute;
-  right: -0.04em;
-  top: 18%;
-  font-family: var(--mono);
-  font-size: clamp(6rem, 14vw, 14rem);
-  line-height: 1;
-  letter-spacing: -0.06em;
-  color: var(--celadon-wash);
-  opacity: 0.55;
-  pointer-events: none;
-  user-select: none;
-}
-.pg-privacy .page-hero .shell { position: relative; z-index: 1; }
-
-/* 源码：页头变成终端色，配一条命令提示符 */
+/* 源码页保留终端深色页头：这是唯一合理的强差异 */
 .pg-source .page-hero {
   position: relative;
-  overflow: hidden;
   background: var(--ink);
   color: var(--surface);
-  margin-bottom: 0;
   padding-top: clamp(28px, 4vw, 52px);
   padding-bottom: clamp(32px, 5vw, 60px);
 }
-.pg-source .page-hero .shell { position: relative; z-index: 1; }
-.pg-source .page-hero::before {
-  content: "$";
-  position: absolute;
-  right: 6%;
-  top: 26%;
-  font-family: var(--mono);
-  font-size: clamp(8rem, 18vw, 18rem);
-  line-height: 1;
-  color: var(--celadon);
-  opacity: 0.16;
-  pointer-events: none;
-  user-select: none;
-}
 .pg-source .page-hero .hero-kicker,
-.pg-source .page-hero .hero-edition { color: rgba(252, 249, 242, 0.62); }
+.pg-source .page-hero .hero-edition { color: rgba(252, 249, 242, 0.58); }
 .pg-source .page-hero .page-title { color: var(--surface); }
-.pg-source .page-hero .page-lede { color: rgba(252, 249, 242, 0.74); }
+.pg-source .page-hero .page-lede { color: rgba(252, 249, 242, 0.72); }
 .pg-source .page-hero .hero-kicker i { background: var(--celadon-light); }
 
-/* 安装说明：页头加一条安装进度条 */
-.pg-guide .page-hero {
+/* 其余页只在页头底部留一道极细的强调线 */
+.pg-product .page-hero,
+.pg-privacy .page-hero,
+.pg-guide .page-hero,
+.pg-changelog .page-hero,
+.pg-metrics .page-hero {
   position: relative;
-  overflow: hidden;
 }
-.pg-guide .page-hero::after {
+.pg-product .page-hero::after,
+.pg-privacy .page-hero::after,
+.pg-guide .page-hero::after,
+.pg-changelog .page-hero::after,
+.pg-metrics .page-hero::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 3px;
-  width: 100%;
-  background: linear-gradient(to right, var(--celadon) 0 25%, var(--line) 25% 100%);
+  width: 44px;
+  height: 2px;
+  background: var(--coral);
 }
 
-/* 更新日志：版本号做成纵向时间轴的锚点 */
-.pg-changelog .page-hero {
-  position: relative;
-  border-left: 3px solid var(--celadon);
-  padding-left: clamp(16px, 2vw, 28px);
-  margin-left: clamp(-28px, -2vw, -16px);
-}
-
-@media (max-width: 700px) {
-  .pg-privacy .page-hero::before { font-size: 7rem; top: 8%; }
-  .pg-source .page-hero::before { font-size: 9rem; right: -2%; }
-  .pg-product .page-hero::before,
-  .pg-product .page-hero::after { display: none; }
-}
+/* 数据口径页原有的圆环保留但更淡 */
+.mx-hero::after { opacity: 0.28; }
