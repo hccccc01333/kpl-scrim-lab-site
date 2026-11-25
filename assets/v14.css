@@ -343,3 +343,70 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (max-width: 640px) {
   .v5-hero, .v5-section, .v5-cta, .page-hero { padding-inline: 1.25rem; }
 }
+
+/* ==========================================================================
+   V18 — 修正遗留的「低对比透明文字」
+   V8 曾把 .section--black/.dl-black/.terminal 等深色区块背景清空改成浅底，
+   但子组件里大量 rgba(252,249,242,α) / #b7d8cc / --celadon-light 仍是
+   为深底写的浅色字。它们留在浅底上对比度低到 1.0:1，几乎不可见。
+   这里按「实际底色」把它们归位：浅底用墨色，深底（board / mx-block）用纸色。
+   ========================================================================== */
+
+/* —— 浅底区块：把遗留浅色字改回墨色 —— */
+.privacy-copy > p,
+.checks li,
+.dl-black-body p,
+.dl-steps li,
+.support-line,
+.guide-fails p,
+.term-bar,
+.filetree li {
+  color: var(--ink-2) !important;
+}
+
+/* 浅底上的序号 / 标签：用强调色，达 AA */
+.checks .check-no,
+.local-pill,
+.dl-steps li b,
+.support-line b,
+.guide-fails b,
+.terminal .p {
+  color: var(--accent) !important;
+}
+
+/* 浅底上的代码 / 文件名：深青碧，达 AA */
+.checks code,
+.guide-fails code,
+.terminal code,
+.zero strong {
+  color: var(--accent-deep) !important;
+}
+
+.filetree em,
+.zero span,
+.data-foot,
+.brief-foot .mono {
+  color: var(--muted) !important;
+}
+
+/* 浅底上的复制按钮：文字与边框都要看得见 */
+.copy-btn,
+.copy-chip {
+  color: var(--accent) !important;
+  border-color: var(--accent-soft) !important;
+}
+
+/* —— 深底区块：被错误压成墨色 / 对比不足的字改回纸色系 —— */
+.mx-block,
+.mx-block p,
+.mx-block b {
+  color: var(--surface) !important;
+}
+/* v6 里 .mx-dark .mx-block h3 带 !important，需同 specificity 覆盖 */
+.mx-dark .mx-block h3 { color: var(--surface) !important; }
+
+/* 工作台深墨面板上的序号：提到 AA（0.45→0.62 透明度） */
+.section--deep .tab-no,
+.section--deep .board-meta span {
+  color: rgba(252, 249, 242, 0.7) !important;
+}
