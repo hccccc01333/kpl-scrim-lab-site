@@ -20,11 +20,12 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111a16'/%3E%3Crect x='6' y='13' width='5' height='12' rx='1.5' fill='%239dc4b7'/%3E%3Crect x='13.5' y='7' width='5' height='18' rx='1.5' fill='%23c9553a'/%3E%3Crect x='21' y='16' width='5' height='9' rx='1.5' fill='%239dc4b7'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/noto-serif-sc-medium.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=6141003474">
-<link rel="stylesheet" href="assets/v6.css?v=6141003474">
-<link rel="stylesheet" href="assets/v14.css?v=6141003474">
+<link rel="stylesheet" href="assets/style.css?v=3f2914a919">
+<link rel="stylesheet" href="assets/v6.css?v=3f2914a919">
+<link rel="stylesheet" href="assets/v14.css?v=3f2914a919">
+<link rel="stylesheet" href="assets/v21.css?v=3f2914a919">
 <script>document.documentElement.classList.add('js');</script>
-<script src="assets/site.js?v=6141003474" defer></script>
+<script src="assets/site.js?v=3f2914a919" defer></script>
 <link rel="alternate" type="application/rss+xml" title="雨乐王者赛训数据工具 · 更新日志" href="feed.xml">
 <script type="application/ld+json">
 {
@@ -108,7 +109,7 @@
     <div class="shell">
       <div class="hero-masthead">
         <p class="hero-kicker"><i aria-hidden="true"></i>更新日志</p>
-        <p class="hero-edition">最新 v3.2.0　2026-11-25</p>
+        <p class="hero-edition">最新 v3.3.0　2026-11-26</p>
       </div>
 
       <h1 class="page-title">每一版，<br>改了什么。</h1>
@@ -119,11 +120,38 @@
   <div class="shell doc-layout">
     <nav class="doc-toc" aria-label="版本系列">
       <p class="doc-toc-title">版本系列</p>
-      <a href="#series-3.2" data-spy="series-3.2">3.2</a><a href="#series-3.0" data-spy="series-3.0">3.0</a><a href="#series-2.0" data-spy="series-2.0">2.0</a><a href="#series-1.6" data-spy="series-1.6">1.6</a><a href="#series-1.5" data-spy="series-1.5">1.5</a><a href="#series-1.4" data-spy="series-1.4">1.4</a><a href="#series-1.3" data-spy="series-1.3">1.3</a><a href="#series-1.2" data-spy="series-1.2">1.2</a><a href="#series-1.1" data-spy="series-1.1">1.1</a><a href="#series-1.0" data-spy="series-1.0">1.0</a>
+      <a href="#series-3.3" data-spy="series-3.3">3.3</a><a href="#series-3.2" data-spy="series-3.2">3.2</a><a href="#series-3.0" data-spy="series-3.0">3.0</a><a href="#series-2.0" data-spy="series-2.0">2.0</a><a href="#series-1.6" data-spy="series-1.6">1.6</a><a href="#series-1.5" data-spy="series-1.5">1.5</a><a href="#series-1.4" data-spy="series-1.4">1.4</a><a href="#series-1.3" data-spy="series-1.3">1.3</a><a href="#series-1.2" data-spy="series-1.2">1.2</a><a href="#series-1.1" data-spy="series-1.1">1.1</a><a href="#series-1.0" data-spy="series-1.0">1.0</a>
     </nav>
     <div class="doc cl-doc">
+<h2 class="cl-series" id="series-3.3">3.3</h2>
+<section class='cl-version' id='v3.3.0'><div class='cl-head'><h2>v3.3.0</h2><span class='cl-date'>2026-11-26</span><span class='cl-tag'>3.3.0：联动修复、删队级联与升级缓存清理</span></div>
+<h3>覆盖安装真正更新后端</h3>
+<ul>
+<li><strong>安装包清理旧字节码</strong>：发布包刻意不带 <code>*.pyc</code>，但旧安装留下的缓存不会被文件覆盖删掉，Python 可能继续跑旧后端；安装器新增 <code>[InstallDelete]</code>，升级时先清 <code>__pycache__</code> 与 <code>.pyc</code>。</li>
+<li><strong>ZIP 增量更新同样清理</strong>：<code>updater.py</code> 应用补丁后清项目自身的字节码缓存（<code>runtime/</code> 第三方库不动），返回体带回 <code>clearedCaches</code> 供核对。</li>
+<li><strong>后端代码核对</strong>：3.2.0 包内的 <code>server.py</code> / <code>v3/serve.py</code> / <code>features.js</code> 与源码一致——此前的问题不是后端没打进包，而是数据残留与缓存失效缺口。</li>
+</ul>
+<h3>改名联动</h3>
+<ul>
+<li><strong>修掉改名直接报错</strong>：<code>_drop_team_alias</code> 读 <code>row[&#x27;aliases&#x27;]</code>，但 <code>_fetch_team</code> 只 SELECT <code>id,name</code>，改名事务直接 KeyError 中断；改用安全读取。</li>
+<li><strong>文本引用全局同步</strong>：<code>_sync_team_name_refs</code> 补上 <code>matches.body</code> 与 <code>scrim_plans.opponent</code>；批量改名提交后也真正调用它，不再只改主数据表。</li>
+<li><strong>缓存一次清干净</strong>：写端点统一走 <code>invalidate_workspace_cache()</code>，同时清 v3 选手看板与快照；对局页改名路径补清 <code>opponent_identity</code> 缓存，改名后其它页面立刻跟新。</li>
+</ul>
+<h3>删除战队级联</h3>
+<ul>
+<li><strong>同事务清关联数据</strong>：删队时一并清理覆盖层、匹配规则、昵称池、阵容、历史归属、战队关系与赛事引用，不再只把 <code>teams.status</code> 标成 archived。</li>
+<li><strong>解析层不再复活归档队</strong>：<code>load_workspace_teams</code> 默认排除 archived，旧战队不会从别名/覆盖层里冒出来。</li>
+<li><strong>老库一次性清理</strong>：启动时清掉历史归档战队遗留的覆盖层与孤儿规则。</li>
+</ul>
+<h3>匹配与保存</h3>
+<ul>
+<li><strong>选手 ID / 游戏名同源</strong>：规则保存同时写入 <code>player_nickname_pool</code>，选手档案页也认 <code>matching_rules</code>；只建规则不点归档也能显示已匹配。</li>
+<li><strong>保存对局不再丢人</strong>：<code>match_rosters</code> 主键改为 <code>(match_key, side, slot)</code>，同一选手的多个小号各占槽位；<code>teamId</code> 为空改用本队 ID 或待归队 ID，不再静默丢行。</li>
+<li><strong>昵称池去重</strong>：按 <code>(side, nickname)</code> 先删后插，避免 NULL account_id 下 UNIQUE 失效导致重复行污染多数票解析。</li>
+</ul>
+</section>
 <h2 class="cl-series" id="series-3.2">3.2</h2>
-<section class='cl-version' id='v3.2.0'><div class='cl-head'><h2>v3.2.0</h2><span class='cl-date'>2026-11-25</span><span class='cl-tag'>3.2.0：版面修正、进度恢复与头像正圆</span></div>
+<section class='cl-version' id='v3.2.0'><div class='cl-head'><h2>v3.2.0</h2><span class='cl-date'>2026-11-25</span></div>
 <h3>版面修正</h3>
 <ul>
 <li><strong>领先守成不再挤成竖排</strong>：PPT 版面规则把「领先守成」的竖排计数列表误当成卡片网格，强制两列后说明文字被挤到几十像素、逐字竖排；现已排除，计数行恢复单列铺满卡片。</li>
@@ -135,6 +163,26 @@
 <ul>
 <li><strong>刷新后接回后台同步</strong>：同步跑在服务端后台线程里，刷新页面只会重来前端、任务并不停。首屏发现 <code>running=true</code> 时自动恢复进度条并继续轮询，完成后刷新数据，不再报「同步失败：同步已在进行中」。</li>
 <li><strong>原生进度条</strong>：进度条改用原生 <code>&lt;progress&gt;</code> 元素，带 <code>max</code>/<code>value</code> 与 <code>aria-label</code>，读屏能播报进度。</li>
+</ul>
+<h3>界面图标点缀</h3>
+<ul>
+<li><strong>页内标题加图标</strong>：各页 H1 前置与侧栏同源的内联 SVG 图标，颜色跟随 <code>currentColor</code> 自动适配青绿工作台主题；异步挂载的标题也会在出现后补齐，切页往返不重复。</li>
+<li><strong>侧栏分组标记</strong>：五个导航分组前加统一菱形点缀；装饰全部 <code>aria-hidden</code>，不改变文字与盒模型。</li>
+<li><strong>装饰件资产补全</strong>：<code>ui-icons.js</code> 的装饰件白名单补齐为 41 项并逐一校验文件存在，供后续页面按需取用。</li>
+</ul>
+<h3>选手档案回归纯 ID 池</h3>
+<ul>
+<li><strong>移除卡内游戏名胶囊</strong>：选手 ID 卡片不再铺一排游戏名（改名前的历史昵称），那些名字与 ID 池展示无关且挤占版面；现在一张卡只有选手 ID、战队/位置、聚合数据和操作按钮。</li>
+<li><strong>状态改为数据口径</strong>：卡片副标题从「已匹配 N 个游戏名」改为「有对局数据 / 暂无数据」，只说明能不能看详情，不再暴露游戏名概念。游戏名与 ID 的挂接仍只在「匹配与编组」里维护。</li>
+<li><strong>卡片三段铺开</strong>：移走游戏名区块后没有弹性填充项，内容会全挤在左半边；卡片改为 <code>justify-content: space-between</code>，左 ID / 中数据 / 右操作沿整行分布，间距 22px。</li>
+<li><strong>中间指标横排</strong>：「局 / 胜率 / KDA / 表现分」从 2×2 网格改为一行横排，块内仍是数字在上、标签在下，读起来更顺。</li>
+</ul>
+<h3>跨页视觉一致性审计</h3>
+<ul>
+<li><strong>匹配页标题</strong>：局部规则把 H1 单独放大到 48px，改用与全站相同的 <code>--fs-5</code>（30px）。</li>
+<li><strong>首页区块标题</strong>：H2 17px/400、H3 15px/400 比别处轻一号，统一到 <code>var(--fs-3)</code>/<code>var(--fs-2)</code> 与 600 字重。</li>
+<li><strong>首页英雄头像被压扁</strong>：可点击容器被无障碍最小高度撑成 32×44，图片跟着变形；抵消最小高度并去掉 1px 边框，头像恢复 32×32 正方。</li>
+<li><strong>按钮文字</strong>：全站按钮统一 15px，无因文案变长而放大。</li>
 </ul>
 </section>
 <h2 class="cl-series" id="series-3.0">3.0</h2>
@@ -1947,7 +1995,7 @@
     </div>
     <div class="footer-gh">
       <div class="footer-gh-main">
-        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=6141003474" alt="Rainfun 的头像" width="64" height="64">
+        <img class="footer-gh-avatar" src="assets/img/avatar-rainfun.webp?v=3f2914a919" alt="Rainfun 的头像" width="64" height="64">
         <div>
           <p class="footer-gh-kicker"><b>Rainfun</b> · 独立开发者</p>
           <p class="footer-gh-title"><a href="https://github.com/hccccc01333/kpl-scrim-lab-app">源码都在 GitHub 上</a></p>

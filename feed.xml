@@ -5,7 +5,25 @@
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html</link>
     <description>每一版改了什么：新增、修复与已知问题。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 25 Nov 2026 11:56:48 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 17:12:55 +0000</lastBuildDate>
+  <item>
+    <title>v3.3.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.3.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.3.0</guid>
+    <pubDate>Thu, 26 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 安装包清理旧字节码：发布包刻意不带 *.pyc，但旧安装留下的缓存不会被文件覆盖删掉，Python 可能继续跑旧后端；安装器新增 [InstallDelete]，升级时先清 __pycache__ 与 .pyc。
+- ZIP 增量更新同样清理：updater.py 应用补丁后清项目自身的字节码缓存（runtime/ 第三方库不动），返回体带回 clearedCaches 供核对。
+- 后端代码核对：3.2.0 包内的 server.py / v3/serve.py / features.js 与源码一致——此前的问题不是后端没打进包，而是数据残留与缓存失效缺口。
+- 修掉改名直接报错：_drop_team_alias 读 row[&amp;#x27;aliases&amp;#x27;]，但 _fetch_team 只 SELECT id,name，改名事务直接 KeyError 中断；改用安全读取。
+- 文本引用全局同步：_sync_team_name_refs 补上 matches.body 与 scrim_plans.opponent；批量改名提交后也真正调用它，不再只改主数据表。
+- 缓存一次清干净：写端点统一走 invalidate_workspace_cache()，同时清 v3 选手看板与快照；对局页改名路径补清 opponent_identity 缓存，改名后其它页面立刻跟新。
+- 同事务清关联数据：删队时一并清理覆盖层、匹配规则、昵称池、阵容、历史归属、战队关系与赛事引用，不再只把 teams.status 标成 archived。
+- 解析层不再复活归档队：load_workspace_teams 默认排除 archived，旧战队不会从别名/覆盖层里冒出来。
+- 老库一次性清理：启动时清掉历史归档战队遗留的覆盖层与孤儿规则。
+- 选手 ID / 游戏名同源：规则保存同时写入 player_nickname_pool，选手档案页也认 matching_rules；只建规则不点归档也能显示已匹配。
+- 保存对局不再丢人：match_rosters 主键改为 (match_key, side, slot)，同一选手的多个小号各占槽位；teamId 为空改用本队 ID 或待归队 ID，不再静默丢行。
+- 昵称池去重：按 (side, nickname) 先删后插，避免 NULL account_id 下 UNIQUE 失效导致重复行污染多数票解析。</description>
+  </item>
   <item>
     <title>v3.2.0</title>
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.2.0</link>
@@ -16,7 +34,18 @@
 - 选手 ID 数字块恢复 2×2：PPT 网格规则把选手档案里「局 / 胜率 / KDA / 表现分」的四宫格压成一条竖线；现已排除，恢复原本的横竖混排。仅限这一处，不统一改竖。
 - 英雄头像不再被压扁：PPT 的 -chip/-badge 规则误匹配到头像的 is-chip 类，加上 5px 上下内边距把圆形图像挤成椭圆；现已排除 .portrait，头像恢复正圆。
 - 刷新后接回后台同步：同步跑在服务端后台线程里，刷新页面只会重来前端、任务并不停。首屏发现 running=true 时自动恢复进度条并继续轮询，完成后刷新数据，不再报「同步失败：同步已在进行中」。
-- 原生进度条：进度条改用原生 &amp;lt;progress&amp;gt; 元素，带 max/value 与 aria-label，读屏能播报进度。</description>
+- 原生进度条：进度条改用原生 &amp;lt;progress&amp;gt; 元素，带 max/value 与 aria-label，读屏能播报进度。
+- 页内标题加图标：各页 H1 前置与侧栏同源的内联 SVG 图标，颜色跟随 currentColor 自动适配青绿工作台主题；异步挂载的标题也会在出现后补齐，切页往返不重复。
+- 侧栏分组标记：五个导航分组前加统一菱形点缀；装饰全部 aria-hidden，不改变文字与盒模型。
+- 装饰件资产补全：ui-icons.js 的装饰件白名单补齐为 41 项并逐一校验文件存在，供后续页面按需取用。
+- 移除卡内游戏名胶囊：选手 ID 卡片不再铺一排游戏名（改名前的历史昵称），那些名字与 ID 池展示无关且挤占版面；现在一张卡只有选手 ID、战队/位置、聚合数据和操作按钮。
+- 状态改为数据口径：卡片副标题从「已匹配 N 个游戏名」改为「有对局数据 / 暂无数据」，只说明能不能看详情，不再暴露游戏名概念。游戏名与 ID 的挂接仍只在「匹配与编组」里维护。
+- 卡片三段铺开：移走游戏名区块后没有弹性填充项，内容会全挤在左半边；卡片改为 justify-content: space-between，左 ID / 中数据 / 右操作沿整行分布，间距 22px。
+- 中间指标横排：「局 / 胜率 / KDA / 表现分」从 2×2 网格改为一行横排，块内仍是数字在上、标签在下，读起来更顺。
+- 匹配页标题：局部规则把 H1 单独放大到 48px，改用与全站相同的 --fs-5（30px）。
+- 首页区块标题：H2 17px/400、H3 15px/400 比别处轻一号，统一到 var(--fs-3)/var(--fs-2) 与 600 字重。
+- 首页英雄头像被压扁：可点击容器被无障碍最小高度撑成 32×44，图片跟着变形；抵消最小高度并去掉 1px 边框，头像恢复 32×32 正方。
+- 按钮文字：全站按钮统一 15px，无因文案变长而放大。</description>
   </item>
   <item>
     <title>v3.0.2</title>
