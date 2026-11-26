@@ -5,7 +5,29 @@
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html</link>
     <description>每一版改了什么：新增、修复与已知问题。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 25 Nov 2026 17:12:55 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 14:08:24 +0000</lastBuildDate>
+  <item>
+    <title>v3.5.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.5.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.5.0</guid>
+    <pubDate>Thu, 26 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 26 号营地采集的对局不再丢失：首页能看到、但单局/大场/跨场分析里查不到的对局，是因为这些对局只存在采集文件里、没有赛事归属就被当前赛事过滤掉了；现在按赛事日期窗口也能识别归属，补采、编组后即可在三处分析里看到。
+- 同赛事直接编组不再报错：采集后立刻编组时，新系列赛自动带上当前赛事归属；已经编组的对局只要日期在当前赛事窗口内，不用拆开重编就能进入大场/跨场分析。
+- 赛事归属更严格：若所选对局分属不同赛事，编组会明确提示先统一归属，不再悄悄混进同一赛事。
+- 选 N 局就补完 N 局回放：营地同步与回放补拉改为每 40 局一批自动接着补，不再只拉前 40 局，剩余局数逐批补完并回报进度。
+- 分析结论给出具体数字：领先兑现、少人接团、发育路高死亡等折叠结论直接写出局数、胜率与百分点变化，不再只写「明显变好/变差」。
+- 对局热力窗口可调：单局深度分析的经济/事件时间窗支持 15/20/30/60 秒切换；对方战队页选手可点进档案，选手档案页不再拦截对手数据。</description>
+  </item>
+  <item>
+    <title>v3.4.0</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.4.0</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.4.0</guid>
+    <pubDate>Thu, 26 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 升级不再只靠覆盖：packaging/installer.iss 的 [InstallDelete] 在安装文件之前逐项清掉旧程序目录（v3 / runtime / tools / scripts / resources / docs / web / _internal）与根目录程序文件，改由新包完整重装。旧版独有的模块、前端资源与字节码缓存不会再残留，杜绝前后端混版。
+- 数据与本机配置零改动：data/（对局、授权、备份、档案、快照）与 .env 故意不进删除列表，只清 data/update 升级缓存；logs/ 保留以便升级失败时排查。升级前后沿用同一份数据目录。
+- 程序文件完整回归：被删的程序文件全部由 SourceDir 按当前源码重新装入，新包必须自带完整运行时与前端资源（构建冒烟测试继续校验 import server、v3 路由与同步模块签名）。
+- 3.3.0 之后的源码同步进本次发布：后端、前端、文档与测试恢复到当前工作树状态，包括数据源展示 / 快照中心 / PPT 版面审计等改动。</description>
+  </item>
   <item>
     <title>v3.3.0</title>
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.3.0</link>
