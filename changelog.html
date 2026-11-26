@@ -109,7 +109,7 @@
     <div class="shell">
       <div class="hero-masthead">
         <p class="hero-kicker"><i aria-hidden="true"></i>更新日志</p>
-        <p class="hero-edition">最新 v3.5.0　2026-11-26</p>
+        <p class="hero-edition">最新 v3.5.1　2026-11-26</p>
       </div>
 
       <h1 class="page-title">每一版，<br>改了什么。</h1>
@@ -124,7 +124,15 @@
     </nav>
     <div class="doc cl-doc">
 <h2 class="cl-series" id="series-3.5">3.5</h2>
-<section class='cl-version' id='v3.5.0'><div class='cl-head'><h2>v3.5.0</h2><span class='cl-date'>2026-11-26</span><span class='cl-tag'>3.5.0：修复营地采集对局在赛事分析中缺失</span></div>
+<section class='cl-version' id='v3.5.1'><div class='cl-head'><h2>v3.5.1</h2><span class='cl-date'>2026-11-26</span><span class='cl-tag'>3.5.1：赛事只填起始日时分析不再漏掉后续对局</span></div>
+<h3>更新摘要</h3>
+<ul>
+<li><strong>赛事只填起始日也能看到后续几天的对局</strong>：赛训组的赛事只填了训练起始时间、结束时间留空，原逻辑会把窗口当成只有起始那一天，导致第二天、第三天导入并编组的对局在单局/大场/跨场分析里全部看不到（首页不受影响）。现在结束时间留空即视为从起始日一直有效，后续对局与系列赛都能正常进入分析。</li>
+<li><strong>赛事归属不被串味</strong>：手动挂到其他赛事的对局不会被新窗口重新算进当前赛事。</li>
+<li><strong>匹配页归档结果刷新后不再退回</strong>：战队改名或规则变化后，已归档的十人匹配按保存时的记录原样恢复，不会退回「待匹配」。</li>
+</ul>
+</section>
+<section class='cl-version' id='v3.5.0'><div class='cl-head'><h2>v3.5.0</h2><span class='cl-date'>2026-11-26</span></div>
 <h3>更新摘要</h3>
 <ul>
 <li><strong>26 号营地采集的对局不再丢失</strong>：首页能看到、但单局/大场/跨场分析里查不到的对局，是因为这些对局只存在采集文件里、没有赛事归属就被当前赛事过滤掉了；现在按赛事日期窗口也能识别归属，补采、编组后即可在三处分析里看到。</li>

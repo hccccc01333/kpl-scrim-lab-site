@@ -5,7 +5,16 @@
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html</link>
     <description>每一版改了什么：新增、修复与已知问题。</description>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 26 Nov 2026 14:08:24 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Nov 2026 16:30:18 +0000</lastBuildDate>
+  <item>
+    <title>v3.5.1</title>
+    <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.5.1</link>
+    <guid isPermaLink="true">https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.5.1</guid>
+    <pubDate>Thu, 26 Nov 2026 00:00:00 +0800</pubDate>
+    <description>- 赛事只填起始日也能看到后续几天的对局：赛训组的赛事只填了训练起始时间、结束时间留空，原逻辑会把窗口当成只有起始那一天，导致第二天、第三天导入并编组的对局在单局/大场/跨场分析里全部看不到（首页不受影响）。现在结束时间留空即视为从起始日一直有效，后续对局与系列赛都能正常进入分析。
+- 赛事归属不被串味：手动挂到其他赛事的对局不会被新窗口重新算进当前赛事。
+- 匹配页归档结果刷新后不再退回：战队改名或规则变化后，已归档的十人匹配按保存时的记录原样恢复，不会退回「待匹配」。</description>
+  </item>
   <item>
     <title>v3.5.0</title>
     <link>https://hccccc01333.github.io/kpl-scrim-lab-site/changelog.html#v3.5.0</link>
